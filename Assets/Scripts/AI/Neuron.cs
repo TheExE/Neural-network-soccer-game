@@ -1,0 +1,30 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public class Neuron
+{
+    int inputCount;
+    List<double> neuronWeights = new List<double>();
+
+
+    public Neuron(int inputCount)
+    {
+        this.inputCount = inputCount;
+
+        //+1 because of bias 
+        for (int i = 0; i < inputCount+1; i++)
+        {
+            neuronWeights.Add(Random.value);
+        }
+    }
+
+    public int InputCount
+    {
+        get { return inputCount; }
+    }
+
+    public List<double> NeuronWeights
+    {
+        get { return neuronWeights; }
+    }
+}
