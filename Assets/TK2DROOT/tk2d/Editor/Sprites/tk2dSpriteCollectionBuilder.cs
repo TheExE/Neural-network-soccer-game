@@ -672,7 +672,7 @@ public class tk2dSpriteCollectionBuilder
 					data.fontPlatformGUIDs[i] = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(gen.platforms[i].spriteCollection.fonts[j].data));
 				}
 
-				EditorUtility.SetDirty(data);
+				tk2dUtil.SetDirty(data);
 			}
 
 			gen.spriteCollection.version = tk2dSpriteCollectionData.CURRENT_VERSION;
@@ -692,8 +692,8 @@ public class tk2dSpriteCollectionBuilder
 			gen.spriteCollection.spriteCollectionPlatformGUIDs = platformGUIDs.ToArray();
 			gen.spriteCollection.ResetPlatformData();
 
-			EditorUtility.SetDirty(gen);
-			EditorUtility.SetDirty(gen.spriteCollection);
+			tk2dUtil.SetDirty(gen);
+			tk2dUtil.SetDirty(gen.spriteCollection);
 
 			// Index this properly
 			tk2dEditorUtility.GetOrCreateIndex().AddSpriteCollectionData(gen.spriteCollection);
@@ -724,7 +724,7 @@ public class tk2dSpriteCollectionBuilder
 					f.hasPlatformData = false;
 					f.fontPlatforms = new string[0];
 					f.fontPlatformGUIDs = new string[0];
-					EditorUtility.SetDirty(f);
+					tk2dUtil.SetDirty(f);
 				}
 			}
 		}
@@ -1231,7 +1231,7 @@ public class tk2dSpriteCollectionBuilder
 			}
 			else {
 				gen.atlasMaterials[atlasIndex].mainTexture = tex;
-				EditorUtility.SetDirty(gen.atlasMaterials[atlasIndex]);
+				tk2dUtil.SetDirty(gen.atlasMaterials[atlasIndex]);
 			}
 			
 			// gen.altMaterials must either have length 0, or contain at least the material used in the game
@@ -1379,8 +1379,8 @@ public class tk2dSpriteCollectionBuilder
 			font.data.needMaterialInstance = (gen.managedSpriteCollection || gen.atlasFormat != tk2dSpriteCollection.AtlasFormat.UnityTexture);
 
 			// Mark to save
-			EditorUtility.SetDirty(font.editorData);
-			EditorUtility.SetDirty(font.data);
+			tk2dUtil.SetDirty(font.editorData);
+			tk2dUtil.SetDirty(font.data);
 
 			// Update font
 			tk2dEditorUtility.GetOrCreateIndex().AddOrUpdateFont(font.editorData);
@@ -1415,8 +1415,8 @@ public class tk2dSpriteCollectionBuilder
 		var index = tk2dEditorUtility.GetOrCreateIndex();
 		index.AddSpriteCollectionData(gen.spriteCollection);
 
-		EditorUtility.SetDirty(gen.spriteCollection);
-		EditorUtility.SetDirty(gen);
+		tk2dUtil.SetDirty(gen.spriteCollection);
+		tk2dUtil.SetDirty(gen);
 
 		sourceTextures = null; // need to clear, its static
 		currentBuild = null;
@@ -1528,7 +1528,7 @@ public class tk2dSpriteCollectionBuilder
 
 		if (textureDirty)
 		{
-			EditorUtility.SetDirty(importer);
+			tk2dUtil.SetDirty(importer);
 			AssetDatabase.ImportAsset(targetTexPath);
 		}
 	}

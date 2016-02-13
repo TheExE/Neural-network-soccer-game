@@ -426,7 +426,7 @@ public class tk2dSpriteCollectionEditorPopup : EditorWindow, IEditorHost
 			}
 		}
 		
-		if (GUILayout.Button("Revert", EditorStyles.toolbarButton) && spriteCollectionProxy != null)
+		if (GUILayout.Button("Revert", EditorStyles.toolbarButton) && spriteCollectionProxy != null && EditorUtility.DisplayDialog("Revert sprite collection", "Are you sure you want to revert changes made to this sprite collection?", "Yes", "Cancel"))
 		{
 			spriteCollectionProxy.CopyFromSource();
 			OnSpriteCollectionChanged(false);
@@ -660,7 +660,7 @@ public class tk2dSpriteCollectionEditorPopup : EditorWindow, IEditorHost
 			{
 				return true;
 			}
-#if (UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6)
+#if (UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7)
 			else if (type == typeof(UnityEngine.Object) && System.IO.Directory.Exists(DragAndDrop.paths[idx]))
 #else
 			else if (type == typeof(UnityEditor.DefaultAsset) && System.IO.Directory.Exists(DragAndDrop.paths[idx]))
@@ -799,7 +799,7 @@ public class tk2dSpriteCollectionEditorPopup : EditorWindow, IEditorHost
 					{
 						droppedObjectsList.Add(DragAndDrop.objectReferences[i]);
 					}
-#if (UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6)
+#if (UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_4_8 || UNITY_4_9)
 					else if (type == typeof(UnityEngine.Object) && System.IO.Directory.Exists(DragAndDrop.paths[i]))
 #else
 					else if (type == typeof(UnityEditor.DefaultAsset) && System.IO.Directory.Exists(DragAndDrop.paths[i]))

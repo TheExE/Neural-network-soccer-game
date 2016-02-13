@@ -66,7 +66,7 @@ public class tk2dUIMaskEditor : Editor {
 						t.position = newPosition;
 					}
 
-					EditorUtility.SetDirty(mask);
+					tk2dUtil.SetDirty(mask);
 				}
 			}
 		}

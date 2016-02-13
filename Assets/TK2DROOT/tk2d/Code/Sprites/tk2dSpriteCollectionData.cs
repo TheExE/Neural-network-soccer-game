@@ -679,7 +679,7 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 									if (importer != null && (importer.alphaIsTransparency || importer.grayscaleToAlpha) ) {
 										importer.alphaIsTransparency = false;
 										importer.grayscaleToAlpha = false;
-										UnityEditor.EditorUtility.SetDirty(importer);
+										tk2dUtil.SetDirty(importer);
 										UnityEditor.AssetDatabase.ImportAsset(path);
 									}
 								}

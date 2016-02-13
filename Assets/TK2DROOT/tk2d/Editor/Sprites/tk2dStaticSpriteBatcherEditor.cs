@@ -164,7 +164,7 @@ class tk2dStaticSpriteBatcherEditor : Editor
 			Vector3 inverseScale = new Vector3(1.0f / batcher.scale.x, 1.0f / batcher.scale.y, 1.0f / batcher.scale.z);
 			batcher.transform.localScale = Vector3.Scale( batcher.transform.localScale, inverseScale );
 			batcher.Build();
-			EditorUtility.SetDirty(target);
+			tk2dUtil.SetDirty(target);
 		}
 	}
 
@@ -393,7 +393,7 @@ class tk2dStaticSpriteBatcherEditor : Editor
 			
 			batcher.batchedSprites = null;
 			batcher.Build();
-			EditorUtility.SetDirty(target);
+			tk2dUtil.SetDirty(target);
 
 			batcher.transform.position = batcherPos;
 			batcher.transform.rotation = batcherRotation;

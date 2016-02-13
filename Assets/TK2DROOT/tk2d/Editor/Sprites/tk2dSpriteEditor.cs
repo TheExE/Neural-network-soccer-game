@@ -47,7 +47,7 @@ class tk2dSpriteEditor : Editor
 				tk2dUndo.RecordObjects(new Object[] {t, spr}, "Resize");
 				spr.ReshapeBounds(new Vector3(resizeRect.xMin, resizeRect.yMin) - new Vector3(localRect.xMin, localRect.yMin),
 					new Vector3(resizeRect.xMax, resizeRect.yMax) - new Vector3(localRect.xMax, localRect.yMax));
-				EditorUtility.SetDirty(spr);
+				tk2dUtil.SetDirty(spr);
 			}
 		}
 		// Rotate handles
@@ -70,7 +70,7 @@ class tk2dSpriteEditor : Editor
     	tk2dSceneHelper.HandleMoveSprites(t, localRect);
 
     	if (GUI.changed) {
-    		EditorUtility.SetDirty(target);
+    		tk2dUtil.SetDirty(target);
     	}
 	}
 
@@ -116,7 +116,7 @@ class tk2dSpriteEditor : Editor
 		foreach (tk2dBaseSprite s in targetSprites) {
 			s.SetSprite(spriteCollection, spriteId);
 			s.EditMode__CreateCollider();
-			EditorUtility.SetDirty(s);
+			tk2dUtil.SetDirty(s);
 		}
 	}
 	tk2dSpriteGuiUtility.SpriteChangedCallback _spriteChangedCallbackInstance = null;
@@ -292,7 +292,7 @@ class tk2dSpriteEditor : Editor
 			foreach (tk2dBaseSprite sprite in targetSprites) {
 			if (PrefabUtility.GetPrefabType(sprite) == PrefabType.Prefab)
 				needUpdatePrefabs = true;
-				EditorUtility.SetDirty(sprite);
+				tk2dUtil.SetDirty(sprite);
 			}
 		}
 		

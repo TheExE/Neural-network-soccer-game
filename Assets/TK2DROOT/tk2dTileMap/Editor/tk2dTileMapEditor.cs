@@ -128,12 +128,12 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 		
 		if (editorData)
 		{
-			EditorUtility.SetDirty(editorData);
+			tk2dUtil.SetDirty(editorData);
 		}
 		
 		if (tileMap && tileMap.data)
 		{
-			EditorUtility.SetDirty(tileMap.data);
+			tk2dUtil.SetDirty(tileMap.data);
 		}
 	}
 	
@@ -494,7 +494,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 			newSpriteCollection.InitMaterialIds();
 			LoadTileMapData();
 			
-			EditorUtility.SetDirty(tileMap);
+			tk2dUtil.SetDirty(tileMap);
 			
 			if (Ready)
 			{
@@ -542,7 +542,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 					tk2dTileMapData tileMapData = ScriptableObject.CreateInstance<tk2dTileMapData>();
 					AssetDatabase.CreateAsset(tileMapData, assetPath);
 					tileMap.data = tileMapData;
-					EditorUtility.SetDirty(tileMap);
+					tk2dUtil.SetDirty(tileMap);
 					
 					Init(tileMapData);
 					LoadTileMapData();
@@ -563,7 +563,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 			if (assetPath.Length > 0)
 			{
 				tileMap.editorDataGUID = AssetDatabase.AssetPathToGUID(assetPath);
-				EditorUtility.SetDirty(tileMap);
+				tk2dUtil.SetDirty(tileMap);
 				LoadTileMapData();
 			}
 		}
@@ -586,7 +586,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 					tk2dTileMapEditorData tileMapEditorData = ScriptableObject.CreateInstance<tk2dTileMapEditorData>();
 					AssetDatabase.CreateAsset(tileMapEditorData, assetPath);
 					tileMap.editorDataGUID = AssetDatabase.AssetPathToGUID(assetPath);
-					EditorUtility.SetDirty(tileMap);
+					tk2dUtil.SetDirty(tileMap);
 					LoadTileMapData();
 				}
 			}
@@ -1211,7 +1211,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 			tk2dTileMapEditorData.EditMode newEditMode = (tk2dTileMapEditorData.EditMode)GUILayout.Toolbar((int)editorData.editMode, toolBarButtonNames );
 			if (newEditMode != editorData.editMode) {
 				// Force updating the scene view when mode changes
-				EditorUtility.SetDirty(target);
+				tk2dUtil.SetDirty(target);
 				editorData.editMode = newEditMode;
 			}
 			switch (editorData.editMode)

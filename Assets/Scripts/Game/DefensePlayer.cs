@@ -65,11 +65,12 @@ public class DefensePlayer : AttackPlayer
                 bestDistToOponentAttacker = curDistanceToOponentAttacker;
                 fitness++;
             }
-        }
 
-        if(HaveBall && passBall)
-        {
-            ballScript.Pass(this, attackerPlayer);
+            if (HaveBall && passBall)
+            {
+                ballScript.Pass(this, attackerPlayer);
+                fitness++;
+            }
         }
 	}
 

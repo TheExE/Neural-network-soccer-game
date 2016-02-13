@@ -141,7 +141,7 @@ public class tk2dUIScrollableArea : MonoBehaviour
                 backgroundUIItem.sendMessageTarget = value;
             
                 #if UNITY_EDITOR
-                    UnityEditor.EditorUtility.SetDirty(backgroundUIItem);
+                    tk2dUtil.SetDirty(backgroundUIItem);
                 #endif
             }
         }

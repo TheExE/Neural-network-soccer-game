@@ -47,7 +47,7 @@ class tk2dClippedSpriteEditor : tk2dSpriteEditor
 
 		if (GUI.changed) {
 			foreach (tk2dClippedSprite spr in targetClippedSprites) {
-				EditorUtility.SetDirty(spr);
+				tk2dUtil.SetDirty(spr);
 			}
 		}
     }
@@ -91,7 +91,7 @@ class tk2dClippedSpriteEditor : tk2dSpriteEditor
 					tk2dUndo.RecordObjects (new Object[] {t, spr}, "Resize");
 					spr.ReshapeBounds(new Vector3(resizeRect.xMin, resizeRect.yMin) - new Vector3(localRect.xMin, localRect.yMin),
 						new Vector3(resizeRect.xMax, resizeRect.yMax) - new Vector3(localRect.xMax, localRect.yMax));
-					EditorUtility.SetDirty(spr);
+					tk2dUtil.SetDirty(spr);
 				}
 			}
 			// Rotate handles
@@ -118,7 +118,7 @@ class tk2dClippedSpriteEditor : tk2dSpriteEditor
 				if (newSprClipRect != spr.ClipRect) {
 					tk2dUndo.RecordObject (spr, "Resize");
 					spr.ClipRect = newSprClipRect;
-					EditorUtility.SetDirty(spr);
+					tk2dUtil.SetDirty(spr);
 				}
 			}
 		}
@@ -131,7 +131,7 @@ class tk2dClippedSpriteEditor : tk2dSpriteEditor
 		tk2dSceneHelper.HandleMoveSprites(t, localRect);
 
     	if (GUI.changed) {
-    		EditorUtility.SetDirty(target);
+    		tk2dUtil.SetDirty(target);
     	}
 	}
 

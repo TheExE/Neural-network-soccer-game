@@ -80,7 +80,7 @@ namespace tk2dEditor.SpriteCollectionEditor
 					if (SpriteCollection.platforms.Count > 1)
 					{
 						SpriteCollection.platforms[0].spriteCollection.altMaterials = SpriteCollection.altMaterials;
-						EditorUtility.SetDirty(SpriteCollection.platforms[0].spriteCollection);
+						tk2dUtil.SetDirty(SpriteCollection.platforms[0].spriteCollection);
 
 						for (int j = 1; j < SpriteCollection.platforms.Count; ++j)
 						{
@@ -88,7 +88,7 @@ namespace tk2dEditor.SpriteCollectionEditor
 							tk2dSpriteCollection data = SpriteCollection.platforms[j].spriteCollection;
 							System.Array.Resize(ref data.altMaterials, SpriteCollection.altMaterials.Length);
 							data.altMaterials[i] = DuplicateMaterial(data.altMaterials[sourceIndex]);
-							EditorUtility.SetDirty(data);
+							tk2dUtil.SetDirty(data);
 						}
 					}
 
@@ -191,7 +191,7 @@ namespace tk2dEditor.SpriteCollectionEditor
 									}
 								}
 								
-								EditorUtility.SetDirty(data);
+								tk2dUtil.SetDirty(data);
 							}
 							
 							host.Commit();

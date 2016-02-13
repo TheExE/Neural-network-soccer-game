@@ -121,7 +121,7 @@ public class tk2dUITextInput : MonoBehaviour
                 selectionBtn.sendMessageTarget = value;
             
                 #if UNITY_EDITOR
-                    UnityEditor.EditorUtility.SetDirty(selectionBtn);
+                    tk2dUtil.SetDirty(selectionBtn);
                 #endif
             }
         }
@@ -252,11 +252,14 @@ public class tk2dUITextInput : MonoBehaviour
         inputLabel.text = modifiedText;
         inputLabel.Commit();
 
-        while (inputLabel.GetComponent<Renderer>().bounds.extents.x * 2 > fieldLength)
+		float actualLabelWidth = inputLabel.GetComponent<Renderer>().bounds.size.x / inputLabel.transform.lossyScale.x;
+        while (actualLabelWidth > fieldLength)
         {
             modifiedText=modifiedText.Substring(1, modifiedText.Length - 1);
             inputLabel.text = modifiedText;
             inputLabel.Commit();
+
+			actualLabelWidth = inputLabel.GetComponent<Renderer>().bounds.size.x / inputLabel.transform.lossyScale.x;
         }
 
         if (modifiedText.Length==0 && !listenForKeyboardText)
@@ -434,7 +437,9 @@ public class tk2dUITextInput : MonoBehaviour
 
             cursorOffset += chr.advance * inputLabel.scale.x/2;
         }
-        cursor.transform.localPosition = new Vector3(inputLabel.transform.localPosition.x + (inputLabel.GetComponent<Renderer>().bounds.extents.x + cursorOffset) * multiplier, cursor.transform.localPosition.y, cursor.transform.localPosition.z);
+
+		float renderBoundsRight = inputLabel.GetComponent<Renderer>().bounds.extents.x / gameObject.transform.lossyScale.x;
+		cursor.transform.localPosition = new Vector3(inputLabel.transform.localPosition.x + (renderBoundsRight + cursorOffset) * multiplier, cursor.transform.localPosition.y, cursor.transform.localPosition.z);
     }
 
     private void ShowDisplayText()

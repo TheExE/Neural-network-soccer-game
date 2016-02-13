@@ -14,8 +14,8 @@ public class NeuralNetworkConst
 
     public static int ATTACKER_INPUT_COUNT = 7;
     public static int ATTACKER_OUTPUT_COUNT = 3;
-    public static int ATTACKER_HID_LAYER_COUNT = 1;
-    public static int ATTACKER_NEURONS_PER_HID_LAY = 6;
+    public static int ATTACKER_HID_LAYER_COUNT = 2;
+    public static int ATTACKER_NEURONS_PER_HID_LAY = 7;
 
     public static int GOLY_INPUT_COUNT = 4;
     public static int GOLY_OUTPUT_COUNT = 3;
@@ -24,7 +24,7 @@ public class NeuralNetworkConst
 
     public static int DEFENSE_INPUT_COUNT = 7;
     public static int DEFENSE_OUTPUT_COUNT = 3;
-    public static int DEFENSE_HID_LAYER_COUNT = 1;
+    public static int DEFENSE_HID_LAYER_COUNT = 2;
     public static int DEFENSE_NEURONS_PER_HID_LAY = 6;
 
 

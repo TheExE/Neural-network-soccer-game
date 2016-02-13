@@ -7,7 +7,7 @@ using System.IO;
 public static class tk2dEditorUtility
 {
 	public static double version = 2.5;
-	public static int releaseId = 4; // < -10001 = alpha 1, other negative = beta release, 0 = final, positive = final hotfix
+	public static int releaseId = 6; // < -10001 = alpha 1, other negative = beta release, 0 = final, positive = final hotfix
 
 	static tk2dEditorUtility() {
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2
@@ -170,7 +170,7 @@ public static class tk2dEditorUtility
 	{
 		if (index)
 		{
-			EditorUtility.SetDirty(index);
+			tk2dUtil.SetDirty(index);
 			tk2dSpriteGuiUtility.ResetCache();
 		}
 	}

@@ -156,7 +156,7 @@ public class tk2dSpriteAnimatorEditor : Editor
 			if (GUI.changed)
 			{
 				foreach (tk2dSpriteAnimator spr in targetAnimators) {
-					EditorUtility.SetDirty(spr);
+					tk2dUtil.SetDirty(spr);
 				}
 			}
 		}

@@ -78,7 +78,7 @@ class tk2dTiledSpriteEditor : tk2dSpriteEditor
 		{
 			foreach (tk2dTiledSprite spr in targetTiledSprites) {
 				spr.Build();
-				EditorUtility.SetDirty(spr);
+				tk2dUtil.SetDirty(spr);
 			}
 		}
 
@@ -119,7 +119,7 @@ class tk2dTiledSpriteEditor : tk2dSpriteEditor
 					tk2dUndo.RecordObjects (new Object[] {t, spr}, "Resize");
 					spr.ReshapeBounds(new Vector3(resizeRect.xMin, resizeRect.yMin) - new Vector3(rect0.xMin, rect0.yMin),
 						new Vector3(resizeRect.xMax, resizeRect.yMax) - new Vector3(rect0.xMax, rect0.yMax));
-					EditorUtility.SetDirty(spr);
+					tk2dUtil.SetDirty(spr);
 				}
 			}
 
@@ -146,7 +146,7 @@ class tk2dTiledSpriteEditor : tk2dSpriteEditor
 		}
 
     	if (GUI.changed) {
-    		EditorUtility.SetDirty(target);
+    		tk2dUtil.SetDirty(target);
     	}
 	}
 

@@ -596,7 +596,7 @@ public class tk2dTileMap : MonoBehaviour, tk2dRuntime.ISpriteCollectionForceBuil
 	public void TouchMesh(Mesh mesh)
 	{
 #if UNITY_EDITOR
-		UnityEditor.EditorUtility.SetDirty(mesh);
+		tk2dUtil.SetDirty(mesh);
 #endif
 	}
 	

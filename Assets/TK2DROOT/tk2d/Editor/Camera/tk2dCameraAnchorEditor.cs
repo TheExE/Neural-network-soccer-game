@@ -48,7 +48,7 @@ public class tk2dCameraAnchorEditor : Editor
 				&& _target.gameObject.name == GetAnchorPointName(prevAnchorPoint)) {
 				UpdateAnchorName( _target );
 			}
-			EditorUtility.SetDirty(_target);
+			tk2dUtil.SetDirty(_target);
 		}
 	}
 

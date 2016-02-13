@@ -46,6 +46,7 @@ public class GoallyPlayer : AttackPlayer
         {
             ballScript.Pass(this, teamDefense[chosenDefensePlayer]);
             shouldPassBall = false;
+            fitness++;
         }
     }
 

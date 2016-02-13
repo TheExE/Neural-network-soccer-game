@@ -110,17 +110,17 @@ public class tk2dFontEditor : Editor
 				if (gen.material.shader != s)
 				{
 					gen.material.shader = s;
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 				if (gen.material.mainTexture != gen.texture)
 				{
 					gen.material.mainTexture = gen.texture;
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 				if (gen.gradientTexture != null && gen.gradientTexture != gen.material.GetTexture("_GradientTex"))
 				{
 					gen.material.SetTexture("_GradientTex", gen.gradientTexture);
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 			}
 			
@@ -141,8 +141,8 @@ public class tk2dFontEditor : Editor
                 spr.Init(true);
             }
 			
-			EditorUtility.SetDirty(gen);
-			EditorUtility.SetDirty(gen.data);
+			tk2dUtil.SetDirty(gen);
+			tk2dUtil.SetDirty(gen.data);
 
 			// update index
 			tk2dEditorUtility.GetOrCreateIndex().AddOrUpdateFont(gen);

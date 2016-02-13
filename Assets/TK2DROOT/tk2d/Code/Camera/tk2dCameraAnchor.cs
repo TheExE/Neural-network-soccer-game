@@ -31,7 +31,7 @@ public class tk2dCameraAnchor : MonoBehaviour
 				else _anchorPoint = (tk2dBaseSprite.Anchor)( anchor );
 				anchor = -1;
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(this);
+				tk2dUtil.SetDirty(this);
 #endif
 			}
 			return _anchorPoint;
@@ -93,7 +93,7 @@ public class tk2dCameraAnchor : MonoBehaviour
 				_anchorCamera = tk2dCamera.GetComponent<Camera>();
 				tk2dCamera = null;
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(this);
+				tk2dUtil.SetDirty(this);
 #endif
 			}
 			return _anchorCamera;

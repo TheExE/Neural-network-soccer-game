@@ -176,7 +176,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 				renderLayer = value; // for awake
 				CachedRenderer.sortingOrder = value;
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(CachedRenderer);
+				tk2dUtil.SetDirty(CachedRenderer);
 #endif
 			}
 #endif

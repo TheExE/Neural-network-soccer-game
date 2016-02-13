@@ -62,6 +62,7 @@ public class BallScript : MonoBehaviour
             rgBody.AddForce((transform.position - curPlayer.transform.position) * 10);
             curPlayer.HaveBall = false;
             isTakenControlOf = false;
+            curPlayer.Fitness++;
             curPlayer = null;
         }
     }

@@ -28,7 +28,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 167458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.24211633, y: -0.18309708, z: 0}
+  m_LocalPosition: {x: -0.235, y: -0.132, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,7 +96,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: -0.0009272445, y: 0}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.16313711
 --- !u!114 &11407822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collection: {fileID: 11431476, guid: 2d116e2b37085724692add9407f06f75, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
-  _scale: {x: 0.13006166, y: 0.12713595, z: 1}
+  _scale: {x: 0.15, y: 0.15, z: 1}
   _spriteId: 0
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []

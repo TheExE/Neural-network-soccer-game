@@ -363,7 +363,7 @@ public class tk2dTextMesh : MonoBehaviour, tk2dRuntime.ISpriteCollectionForceBui
 				data.renderLayer = value; // for awake
 				CachedRenderer.sortingOrder = value;
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(CachedRenderer);
+				tk2dUtil.SetDirty(CachedRenderer);
 #endif
 			}
 #endif

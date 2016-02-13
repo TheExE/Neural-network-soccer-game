@@ -160,11 +160,11 @@ public class tk2dCameraEditor : Editor
 		if (GUI.changed)
 		{
 			_target.UpdateCameraMatrix();
-			EditorUtility.SetDirty(target);
+			tk2dUtil.SetDirty(target);
 			tk2dCameraAnchor[] allAlignmentObjects = GameObject.FindObjectsOfType(typeof(tk2dCameraAnchor)) as tk2dCameraAnchor[];
 			foreach (var v in allAlignmentObjects)
 			{
-				EditorUtility.SetDirty(v);
+				tk2dUtil.SetDirty(v);
 			}
 		}
 		
@@ -380,8 +380,8 @@ public class tk2dCameraEditor : Editor
 		if (transparencySortMode != inheritedSettings.transparencySortMode) {
 			inheritedSettings.transparencySortMode = transparencySortMode;
 			target.GetComponent<Camera>().transparencySortMode = transparencySortMode; // Change immediately in the editor
-			EditorUtility.SetDirty(target);
-			EditorUtility.SetDirty(target.GetComponent<Camera>());
+			tk2dUtil.SetDirty(target);
+			tk2dUtil.SetDirty(target.GetComponent<Camera>());
 		}
 	}
 

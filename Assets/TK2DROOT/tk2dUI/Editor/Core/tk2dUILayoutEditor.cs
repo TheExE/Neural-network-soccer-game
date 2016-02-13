@@ -61,7 +61,7 @@ public class tk2dUILayoutEditor : Editor {
 			tk2dUndo.RecordObjects(deps, "Resize");
 			My.Reshape(dMin, dMax, updateChildren);
 			foreach (var dep in deps)
-				EditorUtility.SetDirty(dep);
+				tk2dUtil.SetDirty(dep);
 		}
 
 		Event ev = Event.current;
@@ -211,7 +211,7 @@ public class tk2dUILayoutEditor : Editor {
 					box.center -= My.transform.worldToLocalMatrix.MultiplyVector(My.transform.position - lastPos);
 
 				foreach (var dep in deps)
-					EditorUtility.SetDirty(dep);
+					tk2dUtil.SetDirty(dep);
 			}
 		}
 		GUILayout.EndHorizontal();
@@ -269,7 +269,7 @@ public class tk2dUILayoutEditor : Editor {
 		GUILayout.EndVertical();
 
 		if (GUI.changed) {
-			EditorUtility.SetDirty(target);
+			tk2dUtil.SetDirty(target);
 		}
 	}
 

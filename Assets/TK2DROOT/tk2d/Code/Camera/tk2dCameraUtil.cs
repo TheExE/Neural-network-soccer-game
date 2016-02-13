@@ -144,8 +144,10 @@ public class tk2dCameraResolutionOverride {
 			case MatchByType.Resolution:
 				return (pixelWidth == width && pixelHeight == height);
 			case MatchByType.AspectRatio:
-				float aspectTest = (float)(pixelWidth * aspectRatioDenominator) / (float)aspectRatioNumerator;
-				return Mathf.Approximately(aspectTest, pixelHeight);
+				float resolutionAspect = (float)pixelHeight / pixelWidth;
+				float foundAspectDenominator  = resolutionAspect * aspectRatioNumerator;
+				float difference = Mathf.Abs(foundAspectDenominator - aspectRatioDenominator);
+				return difference < 0.05f;
 		}
 
 		return false;

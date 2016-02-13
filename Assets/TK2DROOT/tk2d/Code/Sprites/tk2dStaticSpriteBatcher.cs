@@ -252,7 +252,7 @@ public class tk2dStaticSpriteBatcher : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		version = CURRENT_VERSION;
 
 #if UNITY_EDITOR
-		UnityEditor.EditorUtility.SetDirty(this);
+		tk2dUtil.SetDirty(this);
 #endif
 		
 		return true;

@@ -45,39 +45,36 @@ public class AttackPlayer : MonoBehaviour
 
     void Update()
     {
-        if(!colided)
+       curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
+       curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+       curDistanceBallToGoal = (oponentGoal.transform.position - 
+               ballScript.transform.position).sqrMagnitude;
+
+
+        if(HaveBall)
         {
-            curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
-            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-            curDistanceBallToGoal = (oponentGoal.transform.position - 
-                ballScript.transform.position).sqrMagnitude;
-
-            /* Distance to goal and ball */
-            if (haveBall)
+            if (curDistanceBallToGoal < bestDistanceToGoal)
             {
-                if (curDistanceBallToGoal < bestDistanceToGoal && curDistanceToBall < bestDistanceToBall)
-                {
-                    bestDistanceToGoal = curDistanceBallToGoal;
-                    bestDistanceToBall = curDistanceToBall;
-                    fitness++;
-                }
-
-                /* Distance to oponent */
-                if (curDistaceToOpenent > bestDistanceToOponent)
-                {
-                    bestDistanceToOponent = curDistaceToOpenent;
-                    fitness++;
-                }
+                bestDistanceToGoal = curDistanceBallToGoal;
+                fitness++;
             }
-            else
+
+            /* Distance to oponent */
+            if (curDistaceToOpenent > bestDistanceToOponent)
             {
-                if (curDistanceToBall < bestDistanceToBall)
-                {
-                    bestDistanceToBall = curDistanceToBall;
-                    fitness++;
-                }
+                bestDistanceToOponent = curDistaceToOpenent;
+                fitness++;
             }
         }
+        else
+        {
+            if (curDistanceToBall < bestDistanceToBall)
+            {
+                bestDistanceToBall = curDistanceToBall;
+                fitness++;
+            }
+        }
+        
         HandlePlayerRotation();
     }
 
@@ -112,11 +109,6 @@ public class AttackPlayer : MonoBehaviour
         Vector2 playerToBall = (ballScript.transform.position - transform.position);
         inputs.Add(playerToBall.x);
         inputs.Add(playerToBall.y);
-
-        /*//add goal location
-        Vector2 playerToOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
-        inputs.Add(playerToOponentGoal.x);
-        inputs.Add(playerToOponentGoal.y);*/
 
         //add distance to cosest oponent defense
         Vector2 playerToClosesOponent = (GetClosestOponentPosition() - transform.position);

@@ -701,7 +701,7 @@ public class tk2dSpriteCollection : MonoBehaviour
 		version = CURRENT_VERSION;
 
 #if UNITY_EDITOR
-		UnityEditor.EditorUtility.SetDirty(this);
+		tk2dUtil.SetDirty(this);
 #endif
 	}
 }

@@ -64,7 +64,7 @@ namespace tk2dEditor.SpriteCollectionBuilder
 				if (thisErrors.Length == 0) {
 					proxy.CopyToTarget(link.spriteCollection);
 					link.spriteCollection.linkParent = data;
-					EditorUtility.SetDirty(link.spriteCollection);
+					tk2dUtil.SetDirty(link.spriteCollection);
 
 					tk2dSpriteCollectionBuilder.Rebuild(link.spriteCollection);
 				}

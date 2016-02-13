@@ -178,7 +178,7 @@ class tk2dTextMeshEditor : Editor
 							textMesh.wordWrapWidth = newWrapWidth;
 						}
 						textMesh.Commit ();
-						EditorUtility.SetDirty(textMesh);
+						tk2dUtil.SetDirty(textMesh);
 					}
 				}
 			}
@@ -203,7 +203,7 @@ class tk2dTextMeshEditor : Editor
 		}
 
     	if (GUI.changed) {
-    		EditorUtility.SetDirty(target);
+    		tk2dUtil.SetDirty(target);
     	}
 	}
 
@@ -375,7 +375,7 @@ class tk2dTextMeshEditor : Editor
 	            	tk2dUndo.RecordObjects(renderers, "Sorting Layer");
 	            	foreach (Renderer r in renderers) {
 	            		r.sortingLayerName = sortingLayerName;
-	            		EditorUtility.SetDirty(r);
+	            		tk2dUtil.SetDirty(r);
 	            	}
 	            }
 
@@ -503,7 +503,7 @@ class tk2dTextMeshEditor : Editor
 			{
 				foreach (tk2dTextMesh tm in targetTextMeshes) {
 					tm.ForceBuild();
-					EditorUtility.SetDirty(tm);
+					tk2dUtil.SetDirty(tm);
 				}
 			}
 		}

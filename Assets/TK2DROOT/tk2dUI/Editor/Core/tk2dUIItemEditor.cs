@@ -65,10 +65,11 @@ public class tk2dUIItemEditor : Editor
         serializedObject.ApplyModifiedProperties();
         if (GUI.changed || changeOccurred)
         {
-            EditorUtility.SetDirty(btn);
+            tk2dUtil.SetDirty(btn);
+
         }
     }
-
+		
     public static void ArrayProperty(string name, SerializedProperty prop) {
         SerializedProperty localProp = prop.Copy();
         tk2dGuiUtility.LookLikeInspector();

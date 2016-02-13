@@ -17,7 +17,7 @@ namespace tk2dEditor.SpriteCollectionBuilder
 				{
 					plat.spriteCollection = tk2dSpriteCollectionEditor.CreateSpriteCollection(root, gen.name + "@" + plat.name);
 					plat.spriteCollection.managedSpriteCollection = true;
-					EditorUtility.SetDirty(gen.spriteCollection);
+					tk2dUtil.SetDirty(gen.spriteCollection);
 				}
 			}
 		}
@@ -263,7 +263,7 @@ namespace tk2dEditor.SpriteCollectionBuilder
 					font.editorData.bmFont = font.bmFont;
 					font.editorData.texture = font.texture;
 					font.editorData.data = font.data;
-					EditorUtility.SetDirty(font.editorData);
+					tk2dUtil.SetDirty(font.editorData);
 				}
 			}
 
