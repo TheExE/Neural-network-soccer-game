@@ -99,24 +99,21 @@ public class AttackPlayer : MonoBehaviour
         //this will store all the inputs for the NN
         List<double> inputs = new List<double>();
 
-        //ball distance to opponnents goal
-        Vector2 ballToOponentGoal = (ballScript.transform.position - 
-            oponentGoal.transform.position);
-        inputs.Add(ballToOponentGoal.x);
-        inputs.Add(ballToOponentGoal.y);
 
         //add ball locations
-        Vector2 playerToBall = (ballScript.transform.position - transform.position);
-        inputs.Add(playerToBall.x);
-        inputs.Add(playerToBall.y);
+        inputs.Add(ballScript.transform.position.normalized.x);
+        inputs.Add(ballScript.transform.position.normalized.y);
 
-        //add distance to cosest oponent defense
-        Vector2 playerToClosesOponent = (GetClosestOponentPosition() - transform.position);
-        inputs.Add(playerToClosesOponent.x);
-        inputs.Add(playerToClosesOponent.y);
+        //oponents goal
+        inputs.Add(oponentGoal.transform.position.normalized.x);
+        inputs.Add(oponentGoal.transform.position.normalized.y);
 
-        //add info about having a ball or not
-        inputs.Add(haveBall ? 1 : 0);
+
+        //add defense player position
+        Vector2 position = GetClosestOponentPosition();
+        position = position.normalized;
+        inputs.Add(position.x);
+        inputs.Add(position.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
@@ -124,9 +121,8 @@ public class AttackPlayer : MonoBehaviour
             transform.position.y + (float)output[1] * Time.deltaTime);
     
        
-        if (output[2] > 0)
+        if (HaveBall)
         {
-            //try to shoot or the goal
             ballScript.Shoot(this);
         }
         ClipPlayerToField();

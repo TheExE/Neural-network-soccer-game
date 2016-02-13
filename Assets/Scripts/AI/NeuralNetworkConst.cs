@@ -12,10 +12,10 @@ public class NeuralNetworkConst
     public static double MUTATION_RATE = 0.1;
 
 
-    public static int ATTACKER_INPUT_COUNT = 7;
-    public static int ATTACKER_OUTPUT_COUNT = 3;
-    public static int ATTACKER_HID_LAYER_COUNT = 2;
-    public static int ATTACKER_NEURONS_PER_HID_LAY = 7;
+    public static int ATTACKER_INPUT_COUNT = 6;
+    public static int ATTACKER_OUTPUT_COUNT = 2;
+    public static int ATTACKER_HID_LAYER_COUNT = 5;
+    public static int ATTACKER_NEURONS_PER_HID_LAY = 6;
 
     public static int GOLY_INPUT_COUNT = 4;
     public static int GOLY_OUTPUT_COUNT = 3;
