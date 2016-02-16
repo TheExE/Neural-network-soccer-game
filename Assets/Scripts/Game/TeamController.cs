@@ -12,6 +12,7 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgAttackPlayers;
     private GeneticAlgorithm genAlgDefensePlayers;
     private GeneticAlgorithm genAlgGoaly;
+	private bool shouldSpeedUp = true;
 
     private int generationCounter;
     private int curTicks = 0;
@@ -67,13 +68,23 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+		
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            for (int i = 0; i < 100; i++ )
+			shouldSpeedUp = true;
+        }
+		else if(Input.GetKeyDown(KeyCode.F))
+		{
+			shouldSpeedUp = false;
+		}
+		
+		if(shouldSpeedUp)
+		{
+			for (int i = 0; i < 200; i++ )
             {
                 UpdateTeam();
             }
-        }
+		}
        
         UpdateTeam();
     }

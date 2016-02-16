@@ -34,44 +34,35 @@ public class DefensePlayer : AttackPlayer
         curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
 
-        if(!HaveBall)
-        {
-            /* DISTANCE TO BALL */
-            if (curDistanceToBall < bestDistanceToBall)
-            {
-                bestDistanceToBall = curDistanceToBall;
-                fitness++;
-            }
 
-            /* DISTANCE TO OPPONENT */
-            if (curDistanceToOponentAttacker < bestDistToOponentAttacker)
-            {
-                bestDistToOponentAttacker = curDistanceToOponentAttacker;
-                fitness++;
-            }
+		/* DISTANCE TO BALL */
+		if (curDistanceToBall < bestDistanceToBall)
+		{
+			bestDistanceToBall = curDistanceToBall;
+			fitness += 0.5f;
+		}
 
-            /*DISTANCE TO HOME GOAL*/
-            if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
-            {
-                bestDistanceToHomeGoal = curDistanceToHomeGoal;
-                fitness++;
-            }
-        }
-        else
-        {
-            /* WHEN WE HAVE BALL WE DONT WANT TO RUN TO ENEMIES */
-            if (curDistanceToOponentAttacker > bestDistToOponentAttacker)
-            {
-                bestDistToOponentAttacker = curDistanceToOponentAttacker;
-                fitness++;
-            }
+		/* DISTANCE TO OPPONENT */
+		if (curDistanceToOponentAttacker < bestDistToOponentAttacker)
+		{
+			bestDistToOponentAttacker = curDistanceToOponentAttacker;
+			fitness += 0.7f;
+		}
 
-            if (HaveBall && passBall)
-            {
-                ballScript.Pass(this, attackerPlayer);
-                fitness++;
-            }
-        }
+		/*DISTANCE TO HOME GOAL*/
+		if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
+		{
+			bestDistanceToHomeGoal = curDistanceToHomeGoal;
+			fitness++;
+		}
+   
+	   
+		if (HaveBall)
+		{
+			ballScript.Pass(this, attackerPlayer);
+			fitness++;
+		}
+        
 	}
 
     public override void InitPlayer()
@@ -95,28 +86,21 @@ public class DefensePlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.x - transform.position.x);
-        inputs.Add(ballScript.transform.position.y - transform.position.y);
+        inputs.Add(ballScript.transform.position.x);
+        inputs.Add(ballScript.transform.position.y);
 
         //add oponent Attacker
-        inputs.Add(oponentAttacker.transform.position.x - transform.position.x);
-        inputs.Add(oponentAttacker.transform.position.y - transform.position.y);
+        inputs.Add(oponentAttacker.transform.position.x);
+        inputs.Add(oponentAttacker.transform.position.y);
 
         //add distance to home goal
-        inputs.Add(homeGoal.transform.position.x - transform.position.x);
-        inputs.Add(homeGoal.transform.position.y - transform.position.y);
-
-        //add does have ball
-        inputs.Add(HaveBall ? 0 : 1);
+        inputs.Add(homeGoal.transform.position.x);
+        inputs.Add(homeGoal.transform.position.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         transform.position = new Vector2(transform.position.x + (float)output[0] * 2* Time.deltaTime,
             transform.position.y + (float)output[1] * 2 * Time.deltaTime);
-        if(output[2] > 0)
-        {
-            passBall = true;
-        }
 
 
         ClipPlayerToField();

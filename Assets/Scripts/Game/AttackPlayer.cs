@@ -15,14 +15,14 @@ public class AttackPlayer : MonoBehaviour
     protected double fitness;
     protected DefensePlayer[] oponentDefense;
     protected bool colided = false;
-
-    private float kickStrenght = 60f;
+	protected float curDistanceToBall;
+	protected float bestDistanceToBall = float.MaxValue;
+    
+	private float kickStrenght = 60f;
     private float speed = 0.02f;
     private float curDistanceBallToGoal;
-    protected float curDistanceToBall;
     private float curDistaceToOpenent;
     private float bestDistanceToGoal = float.MaxValue;
-    protected float bestDistanceToBall = float.MaxValue;
     private float bestDistanceToOponent = 0;
     private bool haveBall = false;
     private float lastPositionX;
@@ -45,35 +45,30 @@ public class AttackPlayer : MonoBehaviour
 
     void Update()
     {
-       curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
-       curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-       curDistanceBallToGoal = (oponentGoal.transform.position - 
+		curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
+		curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+		curDistanceBallToGoal = (oponentGoal.transform.position - 
                ballScript.transform.position).sqrMagnitude;
 
 
-        if(HaveBall)
-        {
-            if (curDistanceBallToGoal < bestDistanceToGoal)
-            {
-                bestDistanceToGoal = curDistanceBallToGoal;
-                fitness++;
-            }
+		if (curDistanceBallToGoal < bestDistanceToGoal)
+		{
+			bestDistanceToGoal = curDistanceBallToGoal;
+			fitness += 0.5;
+		}
 
-            /* Distance to oponent */
-            if (curDistaceToOpenent > bestDistanceToOponent)
-            {
-                bestDistanceToOponent = curDistaceToOpenent;
-                fitness++;
-            }
-        }
-        else
+		/* Distance to oponent */
+		if (curDistaceToOpenent > bestDistanceToOponent)
+		{
+			bestDistanceToOponent = curDistaceToOpenent;
+			fitness += 0.2f;
+		}
+		if (curDistanceToBall < bestDistanceToBall)
         {
-            if (curDistanceToBall < bestDistanceToBall)
-            {
                 bestDistanceToBall = curDistanceToBall;
                 fitness++;
-            }
         }
+        
         
         HandlePlayerRotation();
     }
@@ -101,17 +96,16 @@ public class AttackPlayer : MonoBehaviour
 
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.normalized.x);
-        inputs.Add(ballScript.transform.position.normalized.y);
+        inputs.Add(ballScript.transform.position.x);
+        inputs.Add(ballScript.transform.position.y);
 
         //oponents goal
-        inputs.Add(oponentGoal.transform.position.normalized.x);
-        inputs.Add(oponentGoal.transform.position.normalized.y);
+        inputs.Add(oponentGoal.transform.position.x);
+        inputs.Add(oponentGoal.transform.position.y);
 
 
         //add defense player position
         Vector2 position = GetClosestOponentPosition();
-        position = position.normalized;
         inputs.Add(position.x);
         inputs.Add(position.y);
 
@@ -209,26 +203,35 @@ public class AttackPlayer : MonoBehaviour
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
             colided = true;
+			fitness -= 0.1f;
         }
         else if (transform.position.x < GameConsts.GAME_FIELD_LEFT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_LEFT, transform.position.y);
             colided = true;
+			fitness -= 0.1f;
         }
         else if (transform.position.y > GameConsts.GAME_FIELD_UP)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
             colided = true;
+			fitness -= 0.1f;
         }
         else if (transform.position.y < GameConsts.GAME_FIELD_DOWN)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
             colided = true;
+			fitness -= 0.1f;
         }
         else
         {
             colided = false;
         }
+		
+		if(fitness < 0)
+		{
+			fitness = 0;
+		}
     }
 
     public Rigidbody2D PhysicsBody

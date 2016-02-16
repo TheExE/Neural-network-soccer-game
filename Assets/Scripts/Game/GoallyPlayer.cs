@@ -39,13 +39,12 @@ public class GoallyPlayer : AttackPlayer
         if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
         {
             bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-            fitness++;
+            fitness += 0.5f;
         }
 
-        if(HaveBall && shouldPassBall)
+        if(HaveBall)
         {
             ballScript.Pass(this, teamDefense[chosenDefensePlayer]);
-            shouldPassBall = false;
             fitness++;
         }
     }
@@ -73,35 +72,19 @@ public class GoallyPlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.y - transform.position.y);
+        inputs.Add(ballScript.transform.position.y);
 
         //add y distance from goal middle
-        inputs.Add(goalToSave.transform.position.y - transform.position.y);
-
-        //add info about having a ball
-        inputs.Add(HaveBall ? 1 : 0);
+        inputs.Add(goalToSave.transform.position.y);
 
         //add info about closes defense player
-        inputs.Add(GetDistanceToClosesDefensePlayer());
+       // inputs.Add(GetDistanceToClosesDefensePlayer());
 
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
-        transform.position = new Vector2(transform.position.x, transform.position.y + (float)output[0] * 2 * Time.deltaTime);
-
-        if (output[1] > 0)
-        {
-            shouldPassBall = true;
-        }
-
-        if (output[2] > 0)
-        {
-            chosenDefensePlayer = 1;
-        }
-        else
-        {
-            chosenDefensePlayer = 0;
-        }
+        transform.position = new Vector2(transform.position.x, transform.position.y + 
+		(float)output[0] * 2 * Time.deltaTime);
 
 
         ClipPlayerToField();

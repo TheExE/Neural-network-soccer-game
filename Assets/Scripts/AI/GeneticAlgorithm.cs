@@ -8,7 +8,6 @@ public class GeneticAlgorithm
     private int chromosomeLenght;
     private double totalFitness;
     private double bestFitness;
-    private double averageFitness;
     private double worstFitness;
     private int fittestGenome;
     private double mutationRate;
@@ -28,7 +27,7 @@ public class GeneticAlgorithm
         this.fittestGenome = 0;
         this.bestFitness = 0;
         this.worstFitness = int.MaxValue;
-        this.averageFitness = 0;
+       
 
 
         /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
@@ -165,8 +164,6 @@ public class GeneticAlgorithm
 
             totalFitness += population[i].Fitness;
         }
-
-        averageFitness = totalFitness / populationSize;
     }
 
     private void Reset()
@@ -174,7 +171,6 @@ public class GeneticAlgorithm
         totalFitness = 0;
         bestFitness = 0;
         worstFitness = double.MaxValue;
-        averageFitness = 0;
     }
 
     public List<Genome> Epoch(List<Genome> old_population)
@@ -243,11 +239,6 @@ public class GeneticAlgorithm
     {
         get { return population; }
         set { population = value; }
-    }
-
-    public double AverageFitness
-    {
-        get { return totalFitness / populationSize; }
     }
 
     public double BestFitness
