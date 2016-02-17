@@ -102,8 +102,8 @@ public class DefensePlayer : AttackPlayer
         transform.position = new Vector2(transform.position.x + (float)output[0] * 2* Time.deltaTime,
             transform.position.y + (float)output[1] * 2 * Time.deltaTime);
 
-
         ClipPlayerToField();
+		GivePenaltieToCampers();
     }
 
     new public void Reset()

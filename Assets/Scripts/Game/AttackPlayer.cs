@@ -26,7 +26,10 @@ public class AttackPlayer : MonoBehaviour
     private float bestDistanceToOponent = 0;
     private bool haveBall = false;
     private float lastPositionX;
-    protected bool isInited = false;
+	private float campTimer = 0;
+    private Vector2 lastPosition = Vector2.zero;
+	protected bool isInited = false;
+	
 
 
     void Start()
@@ -120,8 +123,36 @@ public class AttackPlayer : MonoBehaviour
             ballScript.Shoot(this);
         }
         ClipPlayerToField();
+		GivePenaltieToCampers();
     }
 
+	protected void GivePenaltieToCampers()
+	{
+		campTimer += Time.deltaTime;
+		bool isPositionChanged = true;
+		if(transform.position.x <= lastPosition.x + 0.1f && transform.position.x >= lastPosition.x - 0.1f &&
+			transform.position.y <= lastPosition.y + 0.1f &&
+			transform.position.y >= lastPosition.y - 0.1f)
+		{
+			isPositionChanged = false;
+		}
+		
+		if(campTimer > 3 && !isPositionChanged)
+		{
+			campTimer = 0;
+			fitness -= 0.1f;
+			if(fitness < 0)
+			{
+				fitness = 0;
+			}
+		}
+		else if(isPositionChanged)
+		{
+			campTimer = 0;
+		}
+		
+		lastPosition = new Vector2(transform.position.x, transform.position.y);
+	}
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ball")
