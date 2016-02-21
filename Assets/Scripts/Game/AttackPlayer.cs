@@ -54,18 +54,18 @@ public class AttackPlayer : MonoBehaviour
                ballScript.transform.position).sqrMagnitude;
 
 
-		if (curDistanceBallToGoal < bestDistanceToGoal)
+		/*if (curDistanceBallToGoal < bestDistanceToGoal)
 		{
 			bestDistanceToGoal = curDistanceBallToGoal;
 			fitness += 0.5;
-		}
+		}*/
 
 		/* Distance to oponent */
-		if (curDistaceToOpenent > bestDistanceToOponent)
+		/*if (curDistaceToOpenent > bestDistanceToOponent)
 		{
 			bestDistanceToOponent = curDistaceToOpenent;
 			fitness += 0.2f;
-		}
+		}*/
 		if (curDistanceToBall < bestDistanceToBall)
         {
                 bestDistanceToBall = curDistanceToBall;
@@ -99,18 +99,18 @@ public class AttackPlayer : MonoBehaviour
 
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.x);
-        inputs.Add(ballScript.transform.position.y);
+        inputs.Add(transform.position.x - ballScript.transform.position.x);
+        inputs.Add(transform.position.y - ballScript.transform.position.y);
 
-        //oponents goal
-        inputs.Add(oponentGoal.transform.position.x);
-        inputs.Add(oponentGoal.transform.position.y);
+       /* //oponents goal
+        inputs.Add(transform.position.x - oponentGoal.transform.position.x);
+        inputs.Add(transform.position.y - oponentGoal.transform.position.y);*/
 
 
-        //add defense player position
+        /*//add defense player position
         Vector2 position = GetClosestOponentPosition();
-        inputs.Add(position.x);
-        inputs.Add(position.y);
+        inputs.Add(transform.position.y - position.x);
+        inputs.Add(transform.position.y - position.y);*/
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);

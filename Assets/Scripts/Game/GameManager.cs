@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () 
     {
+        Application.runInBackground = true;
         redTeamTxt = redTeamScoreObj.GetComponent<tk2dTextMesh>();
         blueTeamTxt = blueTeamScoreObj.GetComponent<tk2dTextMesh>();
         ball = GameObject.FindObjectOfType<BallScript>();

@@ -42,19 +42,19 @@ public class DefensePlayer : AttackPlayer
 			fitness += 0.5f;
 		}
 
-		/* DISTANCE TO OPPONENT */
+		/* DISTANCE TO OPPONENT *//*
 		if (curDistanceToOponentAttacker < bestDistToOponentAttacker)
 		{
 			bestDistToOponentAttacker = curDistanceToOponentAttacker;
 			fitness += 0.7f;
-		}
+		}*/
 
 		/*DISTANCE TO HOME GOAL*/
-		if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
+		/*if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
 		{
 			bestDistanceToHomeGoal = curDistanceToHomeGoal;
 			fitness++;
-		}
+		}*/
    
 	   
 		if (HaveBall)
@@ -86,16 +86,16 @@ public class DefensePlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.x);
-        inputs.Add(ballScript.transform.position.y);
+        inputs.Add(transform.position.x - ballScript.transform.position.x);
+        inputs.Add(transform.position.y - ballScript.transform.position.y);
 
         //add oponent Attacker
-        inputs.Add(oponentAttacker.transform.position.x);
-        inputs.Add(oponentAttacker.transform.position.y);
+        /*inputs.Add(transform.position.x - oponentAttacker.transform.position.x);
+        inputs.Add(transform.position.y - oponentAttacker.transform.position.y);*/
 
-        //add distance to home goal
-        inputs.Add(homeGoal.transform.position.x);
-        inputs.Add(homeGoal.transform.position.y);
+        /*//add distance to home goal
+        inputs.Add(transform.position.x - homeGoal.transform.position.x);
+        inputs.Add(transform.position.y - homeGoal.transform.position.y);*/
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);

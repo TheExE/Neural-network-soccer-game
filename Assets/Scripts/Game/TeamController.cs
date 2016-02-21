@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class TeamController : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgAttackPlayers;
     private GeneticAlgorithm genAlgDefensePlayers;
     private GeneticAlgorithm genAlgGoaly;
-	private bool shouldSpeedUp = true;
+	private bool shouldSpeedUp = false;
 
     private int generationCounter;
     private int curTicks = 0;
@@ -91,7 +92,8 @@ public class TeamController : MonoBehaviour
 
     private void UpdateTeam()
     {
-        statText.text = "Cur gen: " + generationCounter + " BestFitness Def:" + genAlgDefensePlayers.BestFitness;
+        statText.text = "Cur gen: " + generationCounter + 
+            " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
         curTicks++;
 
         if (curTicks < NeuralNetworkConst.MAX_TICKS)
