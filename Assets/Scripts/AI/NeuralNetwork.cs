@@ -129,14 +129,15 @@ public class NeuralNetwork
 			    int	numInputs = nnLayers[i].LayerNeurons[j].InputCount;
 			
 			    //sum all weights * inputs	
-			    for (int k = 0; k < numInputs - 1; k++)
+			    for (int k = 0; k < numInputs; k++)
 			    {
 				    netinput += nnLayers[i].LayerNeurons[j].NeuronWeights[k] * 
-                        inputs[weightIdx++];
+                        inputs[weightIdx];
+                    weightIdx++;
 			    }
 
 			    //last weight is bias
-			    netinput += nnLayers[i].LayerNeurons[j].NeuronWeights[numInputs-1] * 
+			    netinput += nnLayers[i].LayerNeurons[j].NeuronWeights[numInputs] * 
                       NeuralNetworkConst.BIAS;
 
                 //get cur neuron output and store it 
@@ -159,6 +160,8 @@ public class NeuralNetwork
         {
             result -= 0.5;
         }
+
+        result *= 2;
 
         return result;
     }

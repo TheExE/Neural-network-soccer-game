@@ -13,7 +13,6 @@ public class GeneticAlgorithm
     private double mutationRate;
     private double crossOverRate;
     private int generationCounter;
-    private bool isGoalyAlg;
 
 
     public GeneticAlgorithm(int populationSize, double mutationRate, double crossOverRate, int weightCount)
@@ -116,25 +115,16 @@ public class GeneticAlgorithm
 
     private void GrabNBest(int bestCount, int copyCount, List<Genome> pop)
     {
-        //add the required amount of copies of the n most fittest 
-        //to the supplied vector
-        if (bestCount > population.Count)
+        //Add n best players to the list
+        while (bestCount > 0)
         {
-            pop.AddRange(population);
-        }
-        else
-        {
-            while (bestCount > 0)
+            for (int i = 0; i < copyCount; i++)
             {
-                for (int i = 0; i < copyCount; i++)
-                {
-                    pop.Add(population[populationSize - bestCount]);
-                }
-
-                bestCount--;
+                pop.Add(population[populationSize - bestCount]);
             }
+
+            bestCount--;
         }
-       
     }
 
     private void CalculateBestWorstAverageTotal()
@@ -173,11 +163,8 @@ public class GeneticAlgorithm
         worstFitness = double.MaxValue;
     }
 
-    public List<Genome> Epoch(List<Genome> old_population)
+    public void Epoch()
     {
-        //assign the given population to the classes population
-        population = old_population;
-
         //reset the appropriate variables
         Reset();
 
@@ -188,7 +175,7 @@ public class GeneticAlgorithm
         CalculateBestWorstAverageTotal();
 
         //create a temporary vector to store new chromosones
-        List<Genome> newPopulation = new List<Genome>(); ;
+        List<Genome> newPopulation = new List<Genome>();
 
         //Now to add a little elitism we shall add in some copies of the
         //fittest genomes. Make sure we add an EVEN number or the roulette
@@ -200,7 +187,6 @@ public class GeneticAlgorithm
 
 
         //now we enter the GA loop
-
         //repeat until a new population is generated
         while (newPopulation.Count < populationSize)
         {
@@ -223,16 +209,8 @@ public class GeneticAlgorithm
             newPopulation.Add(new Genome(baby2, 0));
         }
 
-        //remove the second best
-        if (newPopulation.Count > 1 || isGoalyAlg)
-        {
-            newPopulation.RemoveAt(0);
-        }
-
         //finished so assign new pop back into m_vecPop
         population = newPopulation;
-
-        return population;
     }
 
     public List<Genome> Population

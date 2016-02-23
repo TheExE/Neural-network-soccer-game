@@ -72,10 +72,12 @@ public class GoallyPlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         //add ball locations
-        inputs.Add(ballScript.transform.position.y);
+        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
+        inputs.Add(toBall.y);
 
         //add y distance from goal middle
-        inputs.Add(goalToSave.transform.position.y);
+        Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
+        inputs.Add(toGoalCenter.y);
 
         //add info about closes defense player
        // inputs.Add(GetDistanceToClosesDefensePlayer());
@@ -84,7 +86,7 @@ public class GoallyPlayer : AttackPlayer
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         transform.position = new Vector2(transform.position.x, transform.position.y + 
-		(float)output[0] * 2 * Time.deltaTime);
+		(float)output[0] * Time.deltaTime);
 
 
         ClipPlayerToField();

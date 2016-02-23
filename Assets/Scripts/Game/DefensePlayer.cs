@@ -86,8 +86,9 @@ public class DefensePlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         //add ball locations
-        inputs.Add(transform.position.x - ballScript.transform.position.x);
-        inputs.Add(transform.position.y - ballScript.transform.position.y);
+        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
+        inputs.Add(toBall.x);
+        inputs.Add(toBall.y);
 
         //add oponent Attacker
         /*inputs.Add(transform.position.x - oponentAttacker.transform.position.x);
@@ -99,8 +100,8 @@ public class DefensePlayer : AttackPlayer
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
-        transform.position = new Vector2(transform.position.x + (float)output[0] * 2* Time.deltaTime,
-            transform.position.y + (float)output[1] * 2 * Time.deltaTime);
+        transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
+            transform.position.y + (float)output[1] * Time.deltaTime);
 
         ClipPlayerToField();
 		GivePenaltieToCampers();

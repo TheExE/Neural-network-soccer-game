@@ -99,8 +99,9 @@ public class AttackPlayer : MonoBehaviour
 
 
         //add ball locations
-        inputs.Add(transform.position.x - ballScript.transform.position.x);
-        inputs.Add(transform.position.y - ballScript.transform.position.y);
+        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
+        inputs.Add(toBall.x);
+        inputs.Add(toBall.y);
 
        /* //oponents goal
         inputs.Add(transform.position.x - oponentGoal.transform.position.x);
@@ -230,6 +231,7 @@ public class AttackPlayer : MonoBehaviour
 
     protected void ClipPlayerToField()
     {
+        colided = false;
         if (transform.position.x > GameConsts.GAME_FIELD_RIGHT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
@@ -242,7 +244,8 @@ public class AttackPlayer : MonoBehaviour
             colided = true;
 			fitness -= 0.1f;
         }
-        else if (transform.position.y > GameConsts.GAME_FIELD_UP)
+
+        if (transform.position.y > GameConsts.GAME_FIELD_UP)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
             colided = true;
@@ -253,10 +256,6 @@ public class AttackPlayer : MonoBehaviour
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
             colided = true;
 			fitness -= 0.1f;
-        }
-        else
-        {
-            colided = false;
         }
 		
 		if(fitness < 0)

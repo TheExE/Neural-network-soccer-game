@@ -64,11 +64,6 @@ public class GameManager : MonoBehaviour {
 
     private void IncreaseTeamsFitness(TeamController teamCont)
     {
-        for(int i = 0; i < teamCont.DefensePlayers.Count; i++)
-        {
-            teamCont.DefensePlayers[i].Fitness++;
-            teamCont.Attacker.Fitness++;
-        }
-
+        teamCont.IncreaseTeamsFitness(NeuralNetworkConst.FITNESS_FOR_GOAL);
     }
 }
