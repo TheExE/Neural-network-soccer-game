@@ -9,6 +9,7 @@ public class GeneticAlgorithm
     private double totalFitness;
     private double bestFitness;
     private double worstFitness;
+
     private int fittestGenome;
     private double mutationRate;
     private double crossOverRate;

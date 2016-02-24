@@ -228,6 +228,7 @@ public class TeamController : MonoBehaviour
             defPlayer.oponentTeam = defensePlayers[0].oponentTeam;
             defPlayer.oponentGoal = defensePlayers[0].oponentGoal;
             defPlayer.homeGoal = defensePlayers[0].homeGoal;
+            defPlayer.attackerPlayer = defensePlayers[0].attackerPlayer;
             defPlayer.InitPlayer();
             defensePlayers.Add(defPlayer);
         }

@@ -55,11 +55,12 @@ public class BallScript : MonoBehaviour
         }
     }
 
-    public void Shoot(AttackPlayer player)
+    public void Shoot(AttackPlayer player, Goal goal)
     {
-        if (curPlayer != null && player.PlayerID == curPlayer.PlayerID)
+        if (curPlayer != null)
         {
-            rgBody.AddForce((transform.position - curPlayer.transform.position) * 10);
+            Vector2 toGoal = (goal.transform.position - transform.position).normalized;
+            rgBody.AddForce(toGoal*2);
             curPlayer.HaveBall = false;
             isTakenControlOf = false;
             curPlayer.Fitness++;
@@ -70,7 +71,7 @@ public class BallScript : MonoBehaviour
     public void Pass(AttackPlayer from, AttackPlayer to)
     {
         Vector2 toAttacker = to.transform.position - from.transform.position;
-        rgBody.AddForce(toAttacker.normalized * toAttacker.magnitude);
+        rgBody.AddForce(toAttacker.normalized * 10); ;
     }
 
     public void TakeControl(AttackPlayer player)
@@ -91,7 +92,7 @@ public class BallScript : MonoBehaviour
         get { return isTakenControlOf; }
     }
 
-    public bool TryToTake(AttackPlayer player)
+    /*public bool TryToTake(AttackPlayer player)
     {
         bool succeeded = false;
         float chance = Random.Range(0, 1);
@@ -104,6 +105,6 @@ public class BallScript : MonoBehaviour
         }
 
         return succeeded;
-    }
+    }*/
 
 }

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 public class DefensePlayer : AttackPlayer 
 {
     public GameObject homeGoal;
+    public AttackPlayer attackerPlayer;
     private float curDistanceToHomeGoal;
     private float curDistanceToOponentAttacker;
     private float bestDistanceToHomeGoal = float.MaxValue;
     private float bestDistToOponentAttacker = float.MaxValue;
     private AttackPlayer oponentAttacker;
-    private AttackPlayer attackerPlayer;
     private bool passBall = false;
 
     public DefensePlayer()
@@ -50,11 +50,11 @@ public class DefensePlayer : AttackPlayer
 		}*/
 
 		/*DISTANCE TO HOME GOAL*/
-		/*if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
+		if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
 		{
 			bestDistanceToHomeGoal = curDistanceToHomeGoal;
-			fitness++;
-		}*/
+			fitness += 0.8f;
+		}
    
 	   
 		if (HaveBall)
@@ -70,7 +70,6 @@ public class DefensePlayer : AttackPlayer
         if(!isInited)
         {
             id++;
-            attackerPlayer = transform.parent.gameObject.GetComponentInChildren<AttackPlayer>();
             oponentAttacker = oponentTeam.GetComponentInChildren<AttackPlayer>();
             rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
@@ -94,9 +93,10 @@ public class DefensePlayer : AttackPlayer
         /*inputs.Add(transform.position.x - oponentAttacker.transform.position.x);
         inputs.Add(transform.position.y - oponentAttacker.transform.position.y);*/
 
-        /*//add distance to home goal
-        inputs.Add(transform.position.x - homeGoal.transform.position.x);
-        inputs.Add(transform.position.y - homeGoal.transform.position.y);*/
+        //add distance to home goal
+        Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
+        inputs.Add(toHomeGoal.x);
+        inputs.Add(toHomeGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);

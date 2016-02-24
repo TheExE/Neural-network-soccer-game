@@ -18,8 +18,6 @@ public class AttackPlayer : MonoBehaviour
 	protected float curDistanceToBall;
 	protected float bestDistanceToBall = float.MaxValue;
     
-	private float kickStrenght = 60f;
-    private float speed = 0.02f;
     private float curDistanceBallToGoal;
     private float curDistaceToOpenent;
     private float bestDistanceToGoal = float.MaxValue;
@@ -53,12 +51,23 @@ public class AttackPlayer : MonoBehaviour
 		curDistanceBallToGoal = (oponentGoal.transform.position - 
                ballScript.transform.position).sqrMagnitude;
 
-
-		/*if (curDistanceBallToGoal < bestDistanceToGoal)
-		{
-			bestDistanceToGoal = curDistanceBallToGoal;
-			fitness += 0.5;
-		}*/
+        if(HaveBall)
+        {
+            if (curDistanceBallToGoal < bestDistanceToGoal)
+            {
+                bestDistanceToGoal = curDistanceBallToGoal;
+                fitness += 0.5;
+            }
+        }
+        else
+        {
+            if (curDistanceToBall < bestDistanceToBall)
+            {
+                bestDistanceToBall = curDistanceToBall;
+                fitness += 0.8f;
+            }
+        }
+	    
 
 		/* Distance to oponent */
 		/*if (curDistaceToOpenent > bestDistanceToOponent)
@@ -66,11 +75,6 @@ public class AttackPlayer : MonoBehaviour
 			bestDistanceToOponent = curDistaceToOpenent;
 			fitness += 0.2f;
 		}*/
-		if (curDistanceToBall < bestDistanceToBall)
-        {
-                bestDistanceToBall = curDistanceToBall;
-                fitness++;
-        }
         
         
         HandlePlayerRotation();
@@ -103,9 +107,10 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toBall.x);
         inputs.Add(toBall.y);
 
-       /* //oponents goal
-        inputs.Add(transform.position.x - oponentGoal.transform.position.x);
-        inputs.Add(transform.position.y - oponentGoal.transform.position.y);*/
+        //oponents goal
+        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
 
         /*//add defense player position
@@ -121,7 +126,7 @@ public class AttackPlayer : MonoBehaviour
        
         if (HaveBall)
         {
-            ballScript.Shoot(this);
+            ballScript.Shoot(this, oponentGoal);
         }
         ClipPlayerToField();
 		GivePenaltieToCampers();
@@ -164,14 +169,6 @@ public class AttackPlayer : MonoBehaviour
                 ballScript.TakeControl(this);
                 fitness++;
             }
-            else
-            {
-                if (ballScript.TryToTake(this))
-                {
-                    fitness++;
-                }
-            }
-            
         }
     }
 
@@ -189,12 +186,6 @@ public class AttackPlayer : MonoBehaviour
 
 
         lastPositionX = transform.position.x;
-    }
-
-    public float KickStrenght
-    {
-        get { return kickStrenght; }
-        set { kickStrenght = value; }
     }
 
     public double Fitness

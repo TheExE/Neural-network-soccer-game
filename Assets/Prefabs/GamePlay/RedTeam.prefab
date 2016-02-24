@@ -584,6 +584,7 @@ MonoBehaviour:
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
   homeGoal: {fileID: 0}
+  attackerPlayer: {fileID: 0}
 --- !u!114 &11439886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -621,6 +622,7 @@ MonoBehaviour:
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
   homeGoal: {fileID: 0}
+  attackerPlayer: {fileID: 0}
 --- !u!114 &11456098
 MonoBehaviour:
   m_ObjectHideFlags: 1
