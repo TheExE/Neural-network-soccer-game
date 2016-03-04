@@ -20,7 +20,7 @@ public class TeamController : MonoBehaviour
 	private bool shouldSpeedUp = false;
 
    
-    private int generationCounter;
+    private int generationCounter = 0;
     private int curTicks = 0;
     private tk2dTextMesh statText;
     private List<Vector2> startPosition = new List<Vector2>();
@@ -75,10 +75,14 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
-        if(statText != null)
+        if(statText != null && genAlgDefensePlayers != null)
         {
             statText.text = "Cur gen: " + generationCounter +
        " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
+        }
+        if(genAlgDefensePlayers == null)
+        {
+            Debug.Log("Suprise: Magic!");
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

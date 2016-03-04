@@ -29,7 +29,7 @@ public class NeuralNetwork
 		    /* FIRST HIDDEN LAYER */
 	        nnLayers.Add(new NeuronLayer(neuronsPerHiddenLayer, networkInputCount));
     
-            for (int i=0; i < hiddenLayerCount-1; i++)
+            for (int i = 0; i < hiddenLayerCount-1; i++)
             {
 
 			   nnLayers.Add(new NeuronLayer(neuronsPerHiddenLayer, neuronsPerHiddenLayer));
@@ -53,9 +53,9 @@ public class NeuralNetwork
 
 	    List<double> weights = new List<double>();
 
-	    for (int i=0; i < hiddenLayerCount + 1; i++)
+	    for (int i = 0; i < hiddenLayerCount + 1; i++)
 	    {
-		    for (int j=0; j < nnLayers[i].NeuronCount; j++)
+		    for (int j = 0; j < nnLayers[i].NeuronCount; j++)
 		    {
                 for (int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
 			    {
@@ -80,14 +80,14 @@ public class NeuralNetwork
         int index = 0;
 	
 	    /* +1 Because we also want to incoporate output layer*/
-	    for (int i=0; i < hiddenLayerCount + 1; i++)
+	    for (int i = 0; i < hiddenLayerCount + 1; i++)
 	    {
 
 		    //for each neuron
-		    for (int j=0; j < nnLayers[i].NeuronCount; j++)
+		    for (int j = 0; j < nnLayers[i].NeuronCount; j++)
 		    {
 			    //for each weight
-			    for (int k=0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
+			    for (int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
 			    {
 				    nnLayers[i].LayerNeurons[j].NeuronWeights[k] = weights[index];
                     index++;

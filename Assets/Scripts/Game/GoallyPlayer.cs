@@ -41,12 +41,6 @@ public class GoallyPlayer : AttackPlayer
             bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
             fitness += 0.5f;
         }
-
-        if(HaveBall)
-        {
-            ballScript.Pass(this, teamDefense[chosenDefensePlayer]);
-            fitness++;
-        }
     }
 
     public override void InitPlayer()
@@ -68,27 +62,26 @@ public class GoallyPlayer : AttackPlayer
 
     public override void UpdatePlayerBrains()
     {
-        //this will store all the inputs for the NN
         List<double> inputs = new List<double>();
 
-        //add ball locations
+        /* Add ball locations */
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.y);
 
-        //add y distance from goal middle
+        /* Add y distance from goal middle */
         Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
         inputs.Add(toGoalCenter.y);
 
-        //add info about closes defense player
-       // inputs.Add(GetDistanceToClosesDefensePlayer());
-
+        /* Add ball hit direction */
+        Vector2 toDefensePlayer = (teamDefense[Random.Range(0,1)].transform.position - ballScript.transform.position);
+        inputs.Add(toDefensePlayer.x);
+        inputs.Add(toDefensePlayer.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         transform.position = new Vector2(transform.position.x, transform.position.y + 
 		(float)output[0] * Time.deltaTime);
-
-
+        directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
         ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()

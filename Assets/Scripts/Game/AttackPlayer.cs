@@ -14,19 +14,20 @@ public class AttackPlayer : MonoBehaviour
     protected static int id = 0;
     protected double fitness;
     protected DefensePlayer[] oponentDefense;
+
     protected bool colided = false;
-	protected float curDistanceToBall;
+    protected float curDistanceToBall;
 	protected float bestDistanceToBall = float.MaxValue;
-    
     private float curDistanceBallToGoal;
     private float curDistaceToOpenent;
     private float bestDistanceToGoal = float.MaxValue;
     private float bestDistanceToOponent = 0;
-    private bool haveBall = false;
+ 
     private float lastPositionX;
 	private float campTimer = 0;
     private Vector2 lastPosition = Vector2.zero;
 	protected bool isInited = false;
+    protected Vector2 directionOfHitBall = Vector2.zero;
 	
 
 
@@ -51,31 +52,18 @@ public class AttackPlayer : MonoBehaviour
 		curDistanceBallToGoal = (oponentGoal.transform.position - 
                ballScript.transform.position).sqrMagnitude;
 
-        if(HaveBall)
+        /* Balls distance to oponents goal */
+        if (curDistanceBallToGoal < bestDistanceToGoal)
         {
-            if (curDistanceBallToGoal < bestDistanceToGoal)
-            {
-                bestDistanceToGoal = curDistanceBallToGoal;
-                fitness += 0.5;
-            }
+            bestDistanceToGoal = curDistanceBallToGoal;
+            fitness += 0.5;
         }
-        else
-        {
-            if (curDistanceToBall < bestDistanceToBall)
-            {
-                bestDistanceToBall = curDistanceToBall;
-                fitness += 0.8f;
-            }
-        }
-	    
 
-		/* Distance to oponent */
-		/*if (curDistaceToOpenent > bestDistanceToOponent)
-		{
-			bestDistanceToOponent = curDistaceToOpenent;
-			fitness += 0.2f;
-		}*/
-        
+        if (curDistanceToBall < bestDistanceToBall)
+        {
+            bestDistanceToBall = curDistanceToBall;
+            fitness += 0.8f;
+        }
         
         HandlePlayerRotation();
     }
@@ -98,36 +86,30 @@ public class AttackPlayer : MonoBehaviour
 
     public virtual void UpdatePlayerBrains()
     {
-        //this will store all the inputs for the NN
         List<double> inputs = new List<double>();
 
-
-        //add ball locations
+        /* Add ball locations */
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.x);
         inputs.Add(toBall.y);
 
-        //oponents goal
+        /* Oponents goal */
         Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
-
-        /*//add defense player position
-        Vector2 position = GetClosestOponentPosition();
-        inputs.Add(transform.position.y - position.x);
-        inputs.Add(transform.position.y - position.y);*/
+        /* Ball hit direction */
+        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position);
+        inputs.Add(ballToGoal.x);
+        inputs.Add(ballToGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
             transform.position.y + (float)output[1] * Time.deltaTime);
-    
-       
-        if (HaveBall)
-        {
-            ballScript.Shoot(this, oponentGoal);
-        }
+
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+
         ClipPlayerToField();
 		GivePenaltieToCampers();
     }
@@ -163,12 +145,8 @@ public class AttackPlayer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            
-            if (!ballScript.IsControlled)
-            {
-                ballScript.TakeControl(this);
-                fitness++;
-            }
+            ballScript.Shoot(directionOfHitBall);
+            fitness += 0.8f;
         }
     }
 
@@ -212,13 +190,6 @@ public class AttackPlayer : MonoBehaviour
         curDistanceToBall = 0;
         curDistanceBallToGoal = 0;
     }
-
-    public bool HaveBall
-    {
-        get { return haveBall; }
-        set { haveBall = value; }
-    }
-
 
     protected void ClipPlayerToField()
     {

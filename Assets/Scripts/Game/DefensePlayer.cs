@@ -39,15 +39,8 @@ public class DefensePlayer : AttackPlayer
 		if (curDistanceToBall < bestDistanceToBall)
 		{
 			bestDistanceToBall = curDistanceToBall;
-			fitness += 0.5f;
+			fitness += 0.2f;
 		}
-
-		/* DISTANCE TO OPPONENT *//*
-		if (curDistanceToOponentAttacker < bestDistToOponentAttacker)
-		{
-			bestDistToOponentAttacker = curDistanceToOponentAttacker;
-			fitness += 0.7f;
-		}*/
 
 		/*DISTANCE TO HOME GOAL*/
 		if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
@@ -55,14 +48,6 @@ public class DefensePlayer : AttackPlayer
 			bestDistanceToHomeGoal = curDistanceToHomeGoal;
 			fitness += 0.8f;
 		}
-   
-	   
-		if (HaveBall)
-		{
-			ballScript.Pass(this, attackerPlayer);
-			fitness++;
-		}
-        
 	}
 
     public override void InitPlayer()
@@ -78,35 +63,35 @@ public class DefensePlayer : AttackPlayer
             isInited = true;
         }
     }
-
     public override void UpdatePlayerBrains()
     {
-        //this will store all the inputs for the NN
         List<double> inputs = new List<double>();
 
-        //add ball locations
+        /* Add move to ball */
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.x);
         inputs.Add(toBall.y);
 
-        //add oponent Attacker
-        /*inputs.Add(transform.position.x - oponentAttacker.transform.position.x);
-        inputs.Add(transform.position.y - oponentAttacker.transform.position.y);*/
-
-        //add distance to home goal
+        /* Add move to home goal */
         Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
         inputs.Add(toHomeGoal.x);
         inputs.Add(toHomeGoal.y);
 
-        //update the brain and get feedback
+        /* Add ball hit direction */
+        Vector2 toAttacker = (attackerPlayer.transform.position - ballScript.transform.position);
+        inputs.Add(toAttacker.x);
+        inputs.Add(toAttacker.y);
+
+        /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
         transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
             transform.position.y + (float)output[1] * Time.deltaTime);
 
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+
         ClipPlayerToField();
 		GivePenaltieToCampers();
     }
-
     new public void Reset()
     {
         base.Reset();

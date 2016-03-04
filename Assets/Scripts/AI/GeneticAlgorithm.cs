@@ -7,7 +7,7 @@ public class GeneticAlgorithm
     private int populationSize;
     private int chromosomeLenght;
     private double totalFitness;
-    private double bestFitness;
+    private double bestFitness = 0;
     private double worstFitness;
 
     private int fittestGenome;
