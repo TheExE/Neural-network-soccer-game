@@ -99,14 +99,14 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toOponentGoal.y);
 
         /* Ball hit direction */
-        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position);
+        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
         inputs.Add(ballToGoal.x);
         inputs.Add(ballToGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
-        transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
-            transform.position.y + (float)output[1] * Time.deltaTime);
+        transform.position = new Vector2(transform.position.x + (float)output[1] * Time.deltaTime,
+            transform.position.y + (float)output[0] * Time.deltaTime);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
 
@@ -257,4 +257,10 @@ public class AttackPlayer : MonoBehaviour
     {
         get { return nameType; }
     }
+
+    public List<int> SplitPoints
+    {
+        get { return brain.CauculateSplitPoints(); }
+    }
+
 }

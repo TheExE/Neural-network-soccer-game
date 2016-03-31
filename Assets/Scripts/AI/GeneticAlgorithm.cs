@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GeneticAlgorithm
 {
     private List<Genome> population = new List<Genome>();
+    private List<int> splitPoints = new List<int>();
     private int populationSize;
     private int chromosomeLenght;
     private double totalFitness;
@@ -16,7 +17,7 @@ public class GeneticAlgorithm
     private int generationCounter;
 
 
-    public GeneticAlgorithm(int populationSize, double mutationRate, double crossOverRate, int weightCount)
+    public GeneticAlgorithm(int populationSize, double mutationRate, double crossOverRate, int weightCount, List<int> splitPoints)
     {
         this.populationSize = populationSize;
         this.mutationRate = mutationRate;
@@ -27,7 +28,8 @@ public class GeneticAlgorithm
         this.fittestGenome = 0;
         this.bestFitness = 0;
         this.worstFitness = int.MaxValue;
-       
+        this.splitPoints.AddRange(splitPoints);
+
 
 
         /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
@@ -37,37 +39,44 @@ public class GeneticAlgorithm
 
             for (int j = 0; j < chromosomeLenght; j++)
             {
-                population[i].Weights.Add(Random.value);
+                population[i].Weights.Add(Random.Range(-1f, 1f));
             }
         }
     }
 
-    private void CrossOver(List<double> mum, List<double> dad, List<double> baby1, List<double> baby2)
+    private void CrossoverAtSplitPoints(List<double> mum, List<double> dad, List<double> baby1, List<double> baby2)
     {
-        //just return parents as offspring dependent on the rate
-        //or if parents are the same
-        if ((Random.value > crossOverRate) || (mum == dad))
+        if ((Random.value) > NeuralNetworkConst.CROSSOVER_RATE || mum == dad)
         {
             baby1.AddRange(mum);
             baby2.AddRange(dad);
-
-            return;
         }
-
-        //determine a crossover point
-        int crossOverPoint = Random.Range(0, chromosomeLenght - 1);
-
-        //create the offspring
-        for (int i = 0; i < crossOverPoint; i++)
+        else
         {
-            baby1.Add(mum[i]);
-            baby2.Add(dad[i]);
-        }
 
-        for (int i = crossOverPoint; i < mum.Count; i++)
-        {
-            baby1.Add(dad[i]);
-            baby2.Add(mum[i]);
+            /* Determine two crossover points */
+            int index1 = Random.Range(0, splitPoints.Count - 2);
+            int index2 = Random.Range(index1 + 1, splitPoints.Count - 1);
+
+            int crossPoint1 = splitPoints[index1];
+            int crossPoint2 = splitPoints[index2];
+
+            /* Create the offspring */
+            for (int i = 0; i < mum.Count; i++)
+            {
+                if (i < crossPoint1 || i >= crossPoint2)
+                {
+                    /* Keep the same genes if outside of crossover points */
+                    baby1.Add(mum[i]);
+                    baby2.Add(dad[i]);
+                }
+                else
+                {
+                    /* CROSSOVER */
+                    baby1.Add(dad[i]);
+                    baby2.Add(mum[i]);
+                }
+            }
         }
     }
 
@@ -81,7 +90,7 @@ public class GeneticAlgorithm
             if (Random.value < mutationRate)
             {
                 //add or subtract a small value to the weight
-                chromo[i] += (Random.value * NeuralNetworkConst.MAX_PERTURBATION);
+                chromo[i] += (Random.Range(-1f, 1f) * NeuralNetworkConst.MAX_PERTURBATION);
             }
         }
     }
@@ -199,7 +208,7 @@ public class GeneticAlgorithm
             List<double> baby1 = new List<double>();
             List<double> baby2 = new List<double>();
 
-            CrossOver(mum.Weights, dad.Weights, baby1, baby2);
+            CrossoverAtSplitPoints(mum.Weights, dad.Weights, baby1, baby2);
 
             //now we mutate
             Mutate(baby1);

@@ -95,7 +95,28 @@ public class NeuralNetwork
 		    }
 	    }
     }
-	
+
+    public List<int> CauculateSplitPoints()
+    {
+        List<int> splitPoint = new List<int>();
+        int weightCounter = 0;
+
+        for (int i = 0; i < hiddenLayerCount+1; i++)
+        {
+            for(int j = 0; j < nnLayers[i].NeuronCount; j++)
+            {
+                for(int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
+                {
+                    weightCounter++;
+                }
+
+                splitPoint.Add(weightCounter);
+            }
+        }
+        return splitPoint;
+    }
+
+
     public List<double> Update(List<double> inputs)
     {
         /* Cauculate the output from a set of inputs */

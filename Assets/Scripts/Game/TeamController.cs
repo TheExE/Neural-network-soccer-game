@@ -38,14 +38,15 @@ public class TeamController : MonoBehaviour
     {
         /* INIT GENETIC ALGORITHM */
         genAlgAttackPlayers = new GeneticAlgorithm(GameConsts.ATTACK_PLAYER_COUNT, NeuralNetworkConst.MUTATION_RATE,
-           NeuralNetworkConst.CROSSOVER_RATE, attackPlayers[0].NumberOfWeights);
+           NeuralNetworkConst.CROSSOVER_RATE, attackPlayers[0].NumberOfWeights, attackPlayers[0].SplitPoints);
         genAlgGoaly = new GeneticAlgorithm(GameConsts.GOALLY_PLAYER_COUNT, NeuralNetworkConst.MUTATION_RATE,
-            NeuralNetworkConst.CROSSOVER_RATE, goalyPlayers[0].NumberOfWeights);
+            NeuralNetworkConst.CROSSOVER_RATE, goalyPlayers[0].NumberOfWeights, goalyPlayers[0].SplitPoints);
         genAlgDefensePlayers = new GeneticAlgorithm(GameConsts.DEFENSE_PLAYER_COUNT, NeuralNetworkConst.MUTATION_RATE,
-            NeuralNetworkConst.CROSSOVER_RATE, defensePlayers[0].NumberOfWeights);
+            NeuralNetworkConst.CROSSOVER_RATE, defensePlayers[0].NumberOfWeights, defensePlayers[0].SplitPoints);
 
         for (int i = 0; i < defensePlayers.Count; i++)
         {
+           
             defensePlayers[i].PutWeights(genAlgDefensePlayers.Population[i].Weights);
         }
         for(int i = 0; i < attackPlayers.Count; i++)
@@ -144,6 +145,9 @@ public class TeamController : MonoBehaviour
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
             {
+                var weightCount = defensePlayers[i].NumberOfWeights;
+                var weightNumber = genAlgDefensePlayers.Population[i].Weights.Count;
+
                 defensePlayers[i].PutWeights(genAlgDefensePlayers.Population[i].Weights);
                 defensePlayers[i].Reset();
             }

@@ -73,7 +73,7 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toGoalCenter.y);
 
         /* Add ball hit direction */
-        Vector2 toDefensePlayer = (teamDefense[Random.Range(0,1)].transform.position - ballScript.transform.position);
+        Vector2 toDefensePlayer = (teamDefense[Random.Range(0,1)].transform.position - ballScript.transform.position).normalized;
         inputs.Add(toDefensePlayer.x);
         inputs.Add(toDefensePlayer.y);
 

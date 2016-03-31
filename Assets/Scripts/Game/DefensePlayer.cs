@@ -78,7 +78,7 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toHomeGoal.y);
 
         /* Add ball hit direction */
-        Vector2 toAttacker = (attackerPlayer.transform.position - ballScript.transform.position);
+        Vector2 toAttacker = (attackerPlayer.transform.position - ballScript.transform.position).normalized;
         inputs.Add(toAttacker.x);
         inputs.Add(toAttacker.y);
 

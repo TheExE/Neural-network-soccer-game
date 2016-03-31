@@ -51,7 +51,7 @@ public class BallScript : MonoBehaviour
     {
         if(!ballIsFlying)
         {
-            rgBody.AddForce(direction * 10);
+            rgBody.AddForce(direction * -10);
             ballIsFlying = true;
         }
     }
