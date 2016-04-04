@@ -57,7 +57,7 @@ public class NeuralNetwork
 	    {
 		    for (int j = 0; j < nnLayers[i].NeuronCount; j++)
 		    {
-                for (int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
+                for (int k = 0; k < nnLayers[i].LayerNeurons[j].NeuronWeights.Count; k++)
 			    {
 				    weights.Add(nnLayers[i].LayerNeurons[j].NeuronWeights[k]);
 			    }
@@ -87,7 +87,7 @@ public class NeuralNetwork
 		    for (int j = 0; j < nnLayers[i].NeuronCount; j++)
 		    {
 			    //for each weight
-			    for (int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
+			    for (int k = 0; k < nnLayers[i].LayerNeurons[j].NeuronWeights.Count; k++)
 			    {
 				    nnLayers[i].LayerNeurons[j].NeuronWeights[k] = weights[index];
                     index++;
@@ -105,7 +105,7 @@ public class NeuralNetwork
         {
             for(int j = 0; j < nnLayers[i].NeuronCount; j++)
             {
-                for(int k = 0; k < nnLayers[i].LayerNeurons[j].InputCount; k++)
+                for(int k = 0; k < nnLayers[i].LayerNeurons[j].NeuronWeights.Count; k++)
                 {
                     weightCounter++;
                 }
@@ -147,7 +147,7 @@ public class NeuralNetwork
 		    {
 			    double netinput = 0;
 
-			    int	numInputs = nnLayers[i].LayerNeurons[j].InputCount;
+			    int	numInputs = nnLayers[i].LayerNeurons[j].NeuronWeights.Count-1;
 			
 			    //sum all weights * inputs	
 			    for (int k = 0; k < numInputs; k++)

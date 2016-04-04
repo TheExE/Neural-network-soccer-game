@@ -5,7 +5,7 @@ public class BallScript : MonoBehaviour
 {
     private Rigidbody2D rgBody;
     private Vector2 startPosition;
-    private float cullDown = 1.5f;
+    private float cullDown = 0.2f;
     private float curCullDown = 0f;
     private bool ballIsFlying = false;
 
@@ -51,7 +51,7 @@ public class BallScript : MonoBehaviour
     {
         if(!ballIsFlying)
         {
-            rgBody.AddForce(direction * -10);
+            rgBody.AddForce(direction * 10);
             ballIsFlying = true;
         }
     }

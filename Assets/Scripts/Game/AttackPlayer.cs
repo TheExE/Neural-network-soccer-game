@@ -22,6 +22,9 @@ public class AttackPlayer : MonoBehaviour
     private float curDistaceToOpenent;
     private float bestDistanceToGoal = float.MaxValue;
     private float bestDistanceToOponent = 0;
+
+    protected float curBallHitDirectionError = 0;
+    protected float bestBallHitDirectionError = float.MaxValue;
  
     private float lastPositionX;
 	private float campTimer = 0;
@@ -62,6 +65,13 @@ public class AttackPlayer : MonoBehaviour
         if (curDistanceToBall < bestDistanceToBall)
         {
             bestDistanceToBall = curDistanceToBall;
+            fitness += 0.8f;
+        }
+
+        /* REWARD FOR LESSER ERROR IN DIRECTION */
+        if(curBallHitDirectionError < bestBallHitDirectionError)
+        {
+            bestBallHitDirectionError = curBallHitDirectionError;
             fitness += 0.8f;
         }
         
@@ -109,6 +119,9 @@ public class AttackPlayer : MonoBehaviour
             transform.position.y + (float)output[0] * Time.deltaTime);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+
+        /* RECORD MISTAKE IN DIRECTION */
+        curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
 
         ClipPlayerToField();
 		GivePenaltieToCampers();

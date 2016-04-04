@@ -48,7 +48,15 @@ public class DefensePlayer : AttackPlayer
 			bestDistanceToHomeGoal = curDistanceToHomeGoal;
 			fitness += 0.8f;
 		}
-	}
+
+
+        /* REWARD FOR LESSER ERROR IN DIRECTION */
+        if (curBallHitDirectionError < bestBallHitDirectionError)
+        {
+            bestBallHitDirectionError = curBallHitDirectionError;
+            fitness += 0.8f;
+        }
+    }
 
     public override void InitPlayer()
     {
@@ -88,6 +96,8 @@ public class DefensePlayer : AttackPlayer
             transform.position.y + (float)output[1] * Time.deltaTime);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        /* RECORD MISTAKE IN DIRECTION */
+        curBallHitDirectionError = (toAttacker - directionOfHitBall).sqrMagnitude;
 
         ClipPlayerToField();
 		GivePenaltieToCampers();

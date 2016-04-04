@@ -145,9 +145,6 @@ public class TeamController : MonoBehaviour
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
             {
-                var weightCount = defensePlayers[i].NumberOfWeights;
-                var weightNumber = genAlgDefensePlayers.Population[i].Weights.Count;
-
                 defensePlayers[i].PutWeights(genAlgDefensePlayers.Population[i].Weights);
                 defensePlayers[i].Reset();
             }

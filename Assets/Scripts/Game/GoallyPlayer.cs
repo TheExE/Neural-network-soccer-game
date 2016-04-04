@@ -41,6 +41,13 @@ public class GoallyPlayer : AttackPlayer
             bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
             fitness += 0.5f;
         }
+
+        /* REWARD FOR LESSER ERROR IN DIRECTION */
+        if (curBallHitDirectionError < bestBallHitDirectionError)
+        {
+            bestBallHitDirectionError = curBallHitDirectionError;
+            fitness += 0.8f;
+        }
     }
 
     public override void InitPlayer()
@@ -82,6 +89,10 @@ public class GoallyPlayer : AttackPlayer
         transform.position = new Vector2(transform.position.x, transform.position.y + 
 		(float)output[0] * Time.deltaTime);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
+
+        /* RECORD MISTAKE IN DIRECTION */
+        curBallHitDirectionError = (toDefensePlayer - directionOfHitBall).sqrMagnitude;
+
         ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
