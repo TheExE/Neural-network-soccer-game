@@ -6,6 +6,7 @@ public class GameConsts
     public const int ATTACK_PLAYER_COUNT = 10;
     public const int DEFENSE_PLAYER_COUNT = 16;
     public const int GOALLY_PLAYER_COUNT = 10;
+    public const float BALL_HIT_STRENGHT_SCALE = 20f;
 
     public const float GAME_FIELD_LEFT = -3.05f;
     public const float GAME_FIELD_RIGHT = 3.05f;

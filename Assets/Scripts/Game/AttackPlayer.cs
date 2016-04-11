@@ -18,19 +18,19 @@ public class AttackPlayer : MonoBehaviour
     protected bool colided = false;
     protected float curDistanceToBall;
 	protected float bestDistanceToBall = float.MaxValue;
-    private float curDistanceBallToGoal;
-    private float curDistaceToOpenent;
-    private float bestDistanceToGoal = float.MaxValue;
-    private float bestDistanceToOponent = 0;
-
+    protected float lastPositionX;
     protected float curBallHitDirectionError = 0;
     protected float bestBallHitDirectionError = float.MaxValue;
- 
-    private float lastPositionX;
-	private float campTimer = 0;
-    private Vector2 lastPosition = Vector2.zero;
 	protected bool isInited = false;
     protected Vector2 directionOfHitBall = Vector2.zero;
+    protected float ballHitStrenght = 1;
+
+
+ 
+    private float bestDistanceToOponentGoal = float.MaxValue;
+    private float curDistanceToOponentGoal;
+	private float campTimer = 0;
+    private Vector2 lastPosition = Vector2.zero;
 	
 
 
@@ -40,32 +40,25 @@ public class AttackPlayer : MonoBehaviour
         {
             InitPlayer();
         }
-        curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
-        curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-        curDistanceBallToGoal = (oponentGoal.transform.position - ballScript.transform.position).sqrMagnitude;
-        bestDistanceToBall = curDistanceToBall;
-        bestDistanceToGoal = curDistanceBallToGoal;
         lastPositionX = transform.position.x;
     }
 
     void Update()
     {
-		curDistaceToOpenent = (GetClosestOponentPosition() - transform.position).sqrMagnitude;
 		curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-		curDistanceBallToGoal = (oponentGoal.transform.position - 
-               ballScript.transform.position).sqrMagnitude;
+        curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
 
         /* Balls distance to oponents goal */
-        if (curDistanceBallToGoal < bestDistanceToGoal)
+        if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
         {
-            bestDistanceToGoal = curDistanceBallToGoal;
-            fitness += 0.5;
+            bestDistanceToOponentGoal = curDistanceToOponentGoal;
+            fitness += 0.4;
         }
 
         if (curDistanceToBall < bestDistanceToBall)
         {
             bestDistanceToBall = curDistanceToBall;
-            fitness += 0.8f;
+            fitness += 0.9f;
         }
 
         /* REWARD FOR LESSER ERROR IN DIRECTION */
@@ -92,8 +85,6 @@ public class AttackPlayer : MonoBehaviour
             isInited = true;
         }
     }
-
-
     public virtual void UpdatePlayerBrains()
     {
         List<double> inputs = new List<double>();
@@ -109,7 +100,8 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toOponentGoal.y);
 
         /* Ball hit direction */
-        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        Vector2 ballToGoal = (oponentGoal.transform.parent.transform.position
+            - ballScript.transform.position).normalized;
         inputs.Add(ballToGoal.x);
         inputs.Add(ballToGoal.y);
 
@@ -119,6 +111,7 @@ public class AttackPlayer : MonoBehaviour
             transform.position.y + (float)output[0] * Time.deltaTime);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        ballHitStrenght = (float)output[4];
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
@@ -158,12 +151,12 @@ public class AttackPlayer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            ballScript.Shoot(directionOfHitBall);
+            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
             fitness += 0.8f;
         }
     }
 
-    private void HandlePlayerRotation()
+    protected void HandlePlayerRotation()
     {
         /* Switching player orientation */
         if (transform.position.x > lastPositionX + 0.1)
@@ -199,9 +192,9 @@ public class AttackPlayer : MonoBehaviour
     {
         fitness = 0;
         bestDistanceToBall = float.MaxValue;
-        bestDistanceToGoal = float.MaxValue;
-        curDistanceToBall = 0;
-        curDistanceBallToGoal = 0;
+        curDistanceToBall = float.MaxValue;
+        bestBallHitDirectionError = float.MaxValue;
+        curBallHitDirectionError = float.MaxValue;
     }
 
     protected void ClipPlayerToField()

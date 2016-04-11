@@ -8,6 +8,8 @@ public class BallScript : MonoBehaviour
     private float cullDown = 0.2f;
     private float curCullDown = 0f;
     private bool ballIsFlying = false;
+    private float ballFieldUp = GameConsts.GAME_FIELD_UP - 0.08f;
+    private float ballFieldDown = GameConsts.GAME_FIELD_DOWN + 0.08f;
 
     void Start()
     {
@@ -29,13 +31,13 @@ public class BallScript : MonoBehaviour
             transform.position = new Vector2(GameConsts.GAME_FIELD_LEFT, transform.position.y);
         }
 
-        if (transform.position.y > GameConsts.GAME_FIELD_UP)
+        if (transform.position.y > ballFieldUp)
         {
-            transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
+            transform.position = new Vector2(transform.position.x, ballFieldUp);
         }
-        else if (transform.position.y < GameConsts.GAME_FIELD_DOWN)
+        else if (transform.position.y < ballFieldDown)
         {
-            transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
+            transform.position = new Vector2(transform.position.x, ballFieldDown);
         }
 
         if(ballIsFlying)
@@ -44,14 +46,29 @@ public class BallScript : MonoBehaviour
             if(curCullDown > cullDown)
             {
                 ballIsFlying = false;
+                curCullDown = 0;
             }
         }
     }
-    public void Shoot(Vector2 direction)
+    public void Shoot(Vector2 direction, float hitStrenght)
     {
-        if(!ballIsFlying)
+        float resultingStrenght = 0f;
+
+        if(hitStrenght < 0)
         {
-            rgBody.AddForce(direction * 10);
+            hitStrenght *= -1f;
+            hitStrenght = 1 - hitStrenght;
+        }
+        else
+        {
+            resultingStrenght = (GameConsts.BALL_HIT_STRENGHT_SCALE / 2f);
+        }
+
+        resultingStrenght += (GameConsts.BALL_HIT_STRENGHT_SCALE / 2f) * hitStrenght;
+
+        if (!ballIsFlying)
+        {
+            rgBody.AddForce(direction * resultingStrenght);
             ballIsFlying = true;
         }
     }

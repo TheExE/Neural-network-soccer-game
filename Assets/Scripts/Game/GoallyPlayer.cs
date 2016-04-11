@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GoallyPlayer : AttackPlayer
 {
     public GameObject goalToSave;
+
     private float curYDiffWithBall = 0;
     private float bestYDiffWithBall = float.MaxValue;
     private float curYDiffWithGoalCenter = 0;
@@ -39,7 +40,7 @@ public class GoallyPlayer : AttackPlayer
         if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
         {
             bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-            fitness += 0.5f;
+            fitness += 0.6f;
         }
 
         /* REWARD FOR LESSER ERROR IN DIRECTION */
@@ -80,18 +81,20 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toGoalCenter.y);
 
         /* Add ball hit direction */
-        Vector2 toDefensePlayer = (teamDefense[Random.Range(0,1)].transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toDefensePlayer.x);
-        inputs.Add(toDefensePlayer.y);
+        Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
+
         transform.position = new Vector2(transform.position.x, transform.position.y + 
 		(float)output[0] * Time.deltaTime);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
 
         /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (toDefensePlayer - directionOfHitBall).sqrMagnitude;
+        curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
+        ballHitStrenght = (float)output[3];
 
         ClipPlayerToField();
     }
@@ -113,7 +116,18 @@ public class GoallyPlayer : AttackPlayer
     new public void Reset()
     {
         base.Reset();
-        curYDiffWithBall = 0;
+        curYDiffWithBall = float.MaxValue;
         bestYDiffWithBall = float.MaxValue;
+        curYDiffWithGoalCenter = float.MaxValue;
+        bestYDiffWithGoalCenter = float.MaxValue;
+    }
+
+    new public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ball")
+        {
+            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
+            fitness += 0.8f;
+        }
     }
 }

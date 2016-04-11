@@ -103,7 +103,10 @@ public class TeamController : MonoBehaviour
             }
 		}
        
-        UpdateTeam();
+        if(generationCounter < 2000)
+        {
+            UpdateTeam();
+        }
     }
     private void UpdateTeam()
     {

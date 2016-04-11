@@ -14,7 +14,6 @@ public class GeneticAlgorithm
     private int fittestGenome;
     private double mutationRate;
     private double crossOverRate;
-    private int generationCounter;
 
 
     public GeneticAlgorithm(int populationSize, double mutationRate, double crossOverRate, int weightCount, List<int> splitPoints)
@@ -24,7 +23,6 @@ public class GeneticAlgorithm
         this.crossOverRate = crossOverRate;
         this.chromosomeLenght = weightCount;
         this.totalFitness = 0;
-        this.generationCounter = 0;
         this.fittestGenome = 0;
         this.bestFitness = 0;
         this.worstFitness = int.MaxValue;
@@ -93,34 +91,6 @@ public class GeneticAlgorithm
                 chromo[i] += (Random.Range(-1f, 1f) * NeuralNetworkConst.MAX_PERTURBATION);
             }
         }
-    }
-
-    private Genome GetChromoRoulette()
-    {
-        //generate a random number between 0 & total fitness
-        double magicNumb = (double)Random.Range(0, (float)totalFitness);
-
-        //this will be set to the chosen chromosome
-        Genome theChosenOne = null;
-
-        //go through the chromosones adding up the fitness so far
-        double fitnessSofar = 0;
-
-        for (int i = 0; i < populationSize; i++)
-        {
-            fitnessSofar += population[i].Fitness;
-
-            //if the fitness so far > random number return the chromo at 
-            //this point
-            if (fitnessSofar >= magicNumb)
-            {
-                theChosenOne = population[i];
-                break;
-            }
-
-        }
-
-        return theChosenOne;
     }
 
     private void GrabNBest(int bestCount, int copyCount, List<Genome> pop)
@@ -201,8 +171,8 @@ public class GeneticAlgorithm
         while (newPopulation.Count < populationSize)
         {
             //grab two chromosones
-            Genome mum = GetChromoRoulette();
-            Genome dad = GetChromoRoulette();
+            Genome mum = TournamentSelection(NeuralNetworkConst.TOURNAMENT_COMPETITIORS);
+            Genome dad = TournamentSelection(NeuralNetworkConst.TOURNAMENT_COMPETITIORS);
 
             //create some offspring via crossover
             List<double> baby1 = new List<double>();
@@ -222,6 +192,30 @@ public class GeneticAlgorithm
         //finished so assign new pop back into m_vecPop
         population = newPopulation;
     }
+
+    Genome TournamentSelection(int n)
+    {
+        double bestFitnessSoFar = -999999;
+
+        int chosenOne = 0;
+
+        //Select N members from the population at random testing against 
+        //the best found so far
+        for (int i = 0; i < n; i++)
+        {
+            int thisTry = Random.Range(0, populationSize-1);
+
+            if (population[thisTry].Fitness > bestFitnessSoFar)
+            {
+                chosenOne = thisTry;
+                bestFitnessSoFar = population[thisTry].Fitness;
+            }
+        }
+
+        //return the champion
+        return population[chosenOne];
+    }
+
 
     public List<Genome> Population
     {

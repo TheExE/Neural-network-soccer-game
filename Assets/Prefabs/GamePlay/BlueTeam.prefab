@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106588}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: -0.00000016292068}
-  m_LocalPosition: {x: -0.991, y: -0.14, z: 0}
+  m_LocalPosition: {x: -0.76, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 496690}
@@ -224,7 +224,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
 --- !u!23 &2329284
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -250,7 +250,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
 --- !u!23 &2344470
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -276,7 +276,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
 --- !u!23 &2390104
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -302,7 +302,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
 --- !u!23 &2392672
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -328,7 +328,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
 --- !u!33 &3301080
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -502,7 +502,7 @@ MonoBehaviour:
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
   homeGoal: {fileID: 0}
-  attackerPlayer: {fileID: 0}
+  attackerPlayer: {fileID: 11456192}
 --- !u!114 &11410200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,7 +550,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 2
+  renderLayer: 3
 --- !u!114 &11447150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,7 +608,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 2
+  renderLayer: 3
 --- !u!114 &11471106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,7 +631,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 2
+  renderLayer: 3
 --- !u!114 &11471616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -646,7 +646,7 @@ MonoBehaviour:
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
   homeGoal: {fileID: 0}
-  attackerPlayer: {fileID: 0}
+  attackerPlayer: {fileID: 11456192}
 --- !u!114 &11472828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -694,7 +694,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
-  renderLayer: 2
+  renderLayer: 3
 --- !u!114 &11497072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -730,7 +730,7 @@ MonoBehaviour:
     useGradient: 0
     textureGradient: 0
     anchor: 4
-    renderLayer: 2
+    renderLayer: 5
     scale: {x: 2.911734, y: 2.27441, z: 0}
     kerning: 0
     maxChars: 50

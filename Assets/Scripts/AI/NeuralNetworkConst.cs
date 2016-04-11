@@ -14,22 +14,22 @@ public class NeuralNetworkConst
 
 
     public static int ATTACKER_INPUT_COUNT = 6;
-    public static int ATTACKER_OUTPUT_COUNT = 4;
-    public static int ATTACKER_HID_LAYER_COUNT = 3;
-    public static int ATTACKER_NEURONS_PER_HID_LAY = 5;
+    public static int ATTACKER_OUTPUT_COUNT = 5;
+    public static int ATTACKER_HID_LAYER_COUNT = 4;
+    public static int ATTACKER_NEURONS_PER_HID_LAY = 8;
 
 
     public static int GOLY_INPUT_COUNT = 4;
-    public static int GOLY_OUTPUT_COUNT = 3;
-    public static int GOLY_HID_LAYER_COUNT = 2;
-    public static int GOLY_NEURONS_PER_HID_LAY = 5;
+    public static int GOLY_OUTPUT_COUNT = 4;
+    public static int GOLY_HID_LAYER_COUNT = 1;
+    public static int GOLY_NEURONS_PER_HID_LAY = 16;
 
     public static int DEFENSE_INPUT_COUNT = 6;
-    public static int DEFENSE_OUTPUT_COUNT = 4;
-    public static int DEFENSE_HID_LAYER_COUNT = 3;
-    public static int DEFENSE_NEURONS_PER_HID_LAY = 5;
+    public static int DEFENSE_OUTPUT_COUNT = 5;
+    public static int DEFENSE_HID_LAYER_COUNT = 4;
+    public static int DEFENSE_NEURONS_PER_HID_LAY = 8;
 
-
+    public static int TOURNAMENT_COMPETITIORS = 5;
     public static int MAX_TICKS = 1500;
     	
 }

@@ -697,16 +697,28 @@ MonoBehaviour:
     spriteCollectionDataGUID: 2d116e2b37085724692add9407f06f75
     spriteNames:
     - Ball
-    - playerBlue
-    - playerRed
+    - playerBlue_A
+    - playerBlue_D
+    - playerBlue_G
+    - playerRed_A
+    - playerRed_D
+    - playerRed_G
     spriteTextureGUIDs:
     - 46ffc1d631d7be949a091ff1dff5ee99
-    - 55e543f9ec80d84458b329d98e37e1a4
-    - f13853b3139cb1047a4e146f6d8caccb
+    - bfda2a7f3fdd5b647b6d6085616c8c6a
+    - 48be838de4fd7c3449a883241aad6ad1
+    - a76bd02f6d105294981d8641f683bb9c
+    - eb2b5f581b8880445ab4e5c54b3849ac
+    - 95986786802b9a3479cc853f114526cd
+    - 82f98bda0d7718940aae3daa98fd5351
     spriteTextureTimeStamps:
-    - 1450694850
-    - 1450785672
-    - 1450785516
+    - 1455369600.4237
+    - 1460026898.26393
+    - 1460026923.34414
+    - 1460026938.55094
+    - 1460026992.73399
+    - 1460027015.31444
+    - 1460027033.84896
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
