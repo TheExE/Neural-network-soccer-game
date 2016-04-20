@@ -24,12 +24,13 @@ public class AttackPlayer : MonoBehaviour
 	protected bool isInited = false;
     protected Vector2 directionOfHitBall = Vector2.zero;
     protected float ballHitStrenght = 1;
+    protected float scale = 1;
+    protected float curTime = 0;
+    protected int ballHitTimes = 0;
+    protected bool isColided = false;
 
-
- 
     private float bestDistanceToOponentGoal = float.MaxValue;
     private float curDistanceToOponentGoal;
-	private float campTimer = 0;
     private Vector2 lastPosition = Vector2.zero;
 	
 
@@ -45,28 +46,36 @@ public class AttackPlayer : MonoBehaviour
 
     void Update()
     {
-		curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-        curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
-
-        /* Balls distance to oponents goal */
-        if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
+        curTime += Time.deltaTime;
+        if(curTime > 2 && !isColided)
         {
-            bestDistanceToOponentGoal = curDistanceToOponentGoal;
-            fitness += 0.4;
-        }
+            curTime = 0;
 
-        if (curDistanceToBall < bestDistanceToBall)
-        {
-            bestDistanceToBall = curDistanceToBall;
-            fitness += 0.9f;
-        }
+            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+            curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
 
-        /* REWARD FOR LESSER ERROR IN DIRECTION */
-        if(curBallHitDirectionError < bestBallHitDirectionError)
-        {
-            bestBallHitDirectionError = curBallHitDirectionError;
-            fitness += 0.8f;
+            /* Balls distance to oponents goal */
+            if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
+            {
+                bestDistanceToOponentGoal = curDistanceToOponentGoal;
+                fitness ++;
+            }
+
+            if (curDistanceToBall < bestDistanceToBall)
+            {
+                bestDistanceToBall = curDistanceToBall;
+                fitness ++;
+            }
+
+            /* REWARD FOR LESSER ERROR IN DIRECTION */
+            if (curBallHitDirectionError < bestBallHitDirectionError)
+            {
+                bestBallHitDirectionError = curBallHitDirectionError;
+                fitness ++;
+            }
         }
+        isColided = false;
+		
         
         HandlePlayerRotation();
     }
@@ -95,65 +104,36 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toBall.y);
 
         /* Oponents goal */
-        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+       Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
-        /* Ball hit direction */
-        Vector2 ballToGoal = (oponentGoal.transform.parent.transform.position
-            - ballScript.transform.position).normalized;
-        inputs.Add(ballToGoal.x);
-        inputs.Add(ballToGoal.y);
-
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
-        transform.position = new Vector2(transform.position.x + (float)output[1] * Time.deltaTime,
-            transform.position.y + (float)output[0] * Time.deltaTime);
+        rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
-        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        directionOfHitBall = new Vector2((float)output[2]*Time.deltaTime, (float)output[3]*Time.deltaTime);
         ballHitStrenght = (float)output[4];
 
         /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
+        curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
 
-        ClipPlayerToField();
-		GivePenaltieToCampers();
+        //ClipPlayerToField();
     }
 
-	protected void GivePenaltieToCampers()
-	{
-		campTimer += Time.deltaTime;
-		bool isPositionChanged = true;
-		if(transform.position.x <= lastPosition.x + 0.1f && transform.position.x >= lastPosition.x - 0.1f &&
-			transform.position.y <= lastPosition.y + 0.1f &&
-			transform.position.y >= lastPosition.y - 0.1f)
-		{
-			isPositionChanged = false;
-		}
-		
-		if(campTimer > 3 && !isPositionChanged)
-		{
-			campTimer = 0;
-			fitness -= 0.1f;
-			if(fitness < 0)
-			{
-				fitness = 0;
-			}
-		}
-		else if(isPositionChanged)
-		{
-			campTimer = 0;
-		}
-		
-		lastPosition = new Vector2(transform.position.x, transform.position.y);
-	}
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ball")
         {
             ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            fitness += 0.8f;
+            if(ballHitTimes < 10)
+            {
+                fitness ++;
+                ballHitTimes++;
+            }
         }
+
+        isColided = true;
     }
 
     protected void HandlePlayerRotation()
@@ -191,10 +171,11 @@ public class AttackPlayer : MonoBehaviour
     public void Reset()
     {
         fitness = 0;
-        bestDistanceToBall = float.MaxValue;
-        curDistanceToBall = float.MaxValue;
-        bestBallHitDirectionError = float.MaxValue;
-        curBallHitDirectionError = float.MaxValue;
+
+        /* RESET FORCE */
+        rgBody.velocity = Vector2.zero;
+        rgBody.angularVelocity = 0f;
+        rgBody.angularDrag = 0f;
     }
 
     protected void ClipPlayerToField()

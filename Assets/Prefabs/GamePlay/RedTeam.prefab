@@ -16,7 +16,7 @@ GameObject:
   - 58: {fileID: 5803298}
   - 114: {fileID: 11444850}
   m_Layer: 0
-  m_Name: PlayerRed (2)
+  m_Name: RedDefense2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ GameObject:
   - 114: {fileID: 11401266}
   - 58: {fileID: 5861924}
   m_Layer: 0
-  m_Name: PlayerRed
+  m_Name: RedGoaly
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ GameObject:
   - 114: {fileID: 11411196}
   - 58: {fileID: 5851016}
   m_Layer: 0
-  m_Name: PlayerRed (3)
+  m_Name: RedAttack
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 422804}
-  - 114: {fileID: 11477926}
+  - 114: {fileID: 11468748}
   m_Layer: 0
   m_Name: RedTeam
   m_TagString: Untagged
@@ -116,7 +116,7 @@ GameObject:
   - 58: {fileID: 5833720}
   - 114: {fileID: 11438802}
   m_Layer: 0
-  m_Name: PlayerRed (1)
+  m_Name: RedDefense1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.66, y: -0.06, z: 0}
+  m_LocalPosition: {x: 2.929, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 422804}
@@ -538,7 +538,7 @@ MonoBehaviour:
   collection: {fileID: 11431476, guid: 2d116e2b37085724692add9407f06f75, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 2
+  _spriteId: 4
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []
@@ -561,7 +561,7 @@ MonoBehaviour:
   collection: {fileID: 11431476, guid: 2d116e2b37085724692add9407f06f75, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 2
+  _spriteId: 5
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []
@@ -599,7 +599,7 @@ MonoBehaviour:
   collection: {fileID: 11431476, guid: 2d116e2b37085724692add9407f06f75, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 2
+  _spriteId: 5
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []
@@ -681,7 +681,7 @@ MonoBehaviour:
   collection: {fileID: 11431476, guid: 2d116e2b37085724692add9407f06f75, type: 2}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 2
+  _spriteId: 6
   boxCollider2D: {fileID: 0}
   polygonCollider2D: []
   edgeCollider2D: []
@@ -690,6 +690,20 @@ MonoBehaviour:
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
   renderLayer: 3
+--- !u!114 &11468748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba96d5b744970344d84ec8bf484c89ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dummyAttacker: {fileID: 198990, guid: 928072188211f674fbef8816f9d97a13, type: 2}
+  dummyDefensePlayer: {fileID: 153758, guid: 6ae4724e06454ea46a4818cbc10da45b, type: 2}
+  dummyGoaly: {fileID: 190770, guid: 29a387a5fe709814cba5fe0f287c63ef, type: 2}
 --- !u!114 &11470468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -714,20 +728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
---- !u!114 &11477926
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4ea788f60c9d64599400f1703e5c87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dummyAttacker: {fileID: 198990, guid: 928072188211f674fbef8816f9d97a13, type: 2}
-  dummyDefensePlayer: {fileID: 153758, guid: 6ae4724e06454ea46a4818cbc10da45b, type: 2}
-  dummyGoaly: {fileID: 190770, guid: 29a387a5fe709814cba5fe0f287c63ef, type: 2}
 --- !u!114 &11490708
 MonoBehaviour:
   m_ObjectHideFlags: 1

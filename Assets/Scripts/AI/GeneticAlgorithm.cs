@@ -30,6 +30,7 @@ public class GeneticAlgorithm
 
 
 
+
         /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
         for (int i = 0; i < populationSize; i++)
         {
@@ -42,12 +43,12 @@ public class GeneticAlgorithm
         }
     }
 
-    private void CrossoverAtSplitPoints(List<double> mum, List<double> dad, List<double> baby1, List<double> baby2)
+    private void CrossoverAtSplitPoints(List<double> individ1, List<double> individ2, List<double> offspr1, List<double> offspr2)
     {
-        if ((Random.value) > NeuralNetworkConst.CROSSOVER_RATE || mum == dad)
+        if ((Random.value) > crossOverRate || individ1 == individ2)
         {
-            baby1.AddRange(mum);
-            baby2.AddRange(dad);
+            offspr1.AddRange(individ1);
+            offspr2.AddRange(individ2);
         }
         else
         {
@@ -60,19 +61,19 @@ public class GeneticAlgorithm
             int crossPoint2 = splitPoints[index2];
 
             /* Create the offspring */
-            for (int i = 0; i < mum.Count; i++)
+            for (int i = 0; i < chromosomeLenght; i++)
             {
                 if (i < crossPoint1 || i >= crossPoint2)
                 {
                     /* Keep the same genes if outside of crossover points */
-                    baby1.Add(mum[i]);
-                    baby2.Add(dad[i]);
+                    offspr1.Add(individ1[i]);
+                    offspr2.Add(individ2[i]);
                 }
                 else
                 {
                     /* CROSSOVER */
-                    baby1.Add(dad[i]);
-                    baby2.Add(mum[i]);
+                    offspr1.Add(individ2[i]);
+                    offspr2.Add(individ1[i]);
                 }
             }
         }
@@ -80,14 +81,14 @@ public class GeneticAlgorithm
 
     private void Mutate(List<double> chromo)
     {
-        //traverse the chromosome and mutate each weight dependent
-        //on the mutation rate
-        for (int i = 0; i < chromo.Count; i++)
+        /* Traverse the chromosome and mutate each weight dependent
+           on the mutation rate */
+        for (int i = 0; i < chromosomeLenght; i++)
         {
-            //do we perturb this weight?
+            /* Does this weight gets changed */
             if (Random.value < mutationRate)
             {
-                //add or subtract a small value to the weight
+                /* Add or subtract a small value to the weight */
                 chromo[i] += (Random.Range(-1f, 1f) * NeuralNetworkConst.MAX_PERTURBATION);
             }
         }

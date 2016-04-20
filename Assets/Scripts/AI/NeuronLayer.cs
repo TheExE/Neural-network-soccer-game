@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class NeuronLayer
 {
-    int neuronCount;
-    List<Neuron> layerOfNeurons = new List<Neuron>();
+    private int neuronCount;
+    private List<Neuron> layerOfNeurons = new List<Neuron>();
 
 
     public NeuronLayer(int neuronCount, int neuronInputCount)
@@ -16,6 +16,7 @@ public class NeuronLayer
             layerOfNeurons.Add(new Neuron(neuronInputCount));
         }
     }
+
 
     public int NeuronCount
     {

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 public class Neuron
 {
-    int inputCount;
-    List<double> neuronWeights = new List<double>();
-
+    private int inputCount;
+    private List<double> neuronWeights = new List<double>();
 
     public Neuron(int inputCount)
     {

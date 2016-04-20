@@ -17,8 +17,6 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgAttackPlayers;
     private GeneticAlgorithm genAlgDefensePlayers;
     private GeneticAlgorithm genAlgGoaly;
-	private bool shouldSpeedUp = false;
-
    
     private int generationCounter = 0;
     private int curTicks = 0;
@@ -76,34 +74,19 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
-        if(statText != null && genAlgDefensePlayers != null)
-        {
-            statText.text = "Cur gen: " + generationCounter +
-       " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
-        }
-        if(genAlgDefensePlayers == null)
-        {
-            Debug.Log("Suprise: Magic!");
-        }
+        statText.text = "Cur gen: " + generationCounter + 
+            " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-			shouldSpeedUp = true;
+            Application.targetFrameRate = -1;
         }
 		else if(Input.GetKeyDown(KeyCode.F))
 		{
-			shouldSpeedUp = false;
-		}
-		
-		if(shouldSpeedUp)
-		{
-			for (int i = 0; i < 200; i++ )
-            {
-                UpdateTeam();
-            }
-		}
-       
-        if(generationCounter < 2000)
+            Application.targetFrameRate = 60;
+        }
+
+        if (generationCounter < GameConsts.MAX_GENERATIONS)
         {
             UpdateTeam();
         }
@@ -111,28 +94,30 @@ public class TeamController : MonoBehaviour
     private void UpdateTeam()
     {
         curTicks++;
-
         if (curTicks < NeuralNetworkConst.MAX_TICKS)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
             {
                 defensePlayers[i].UpdatePlayerBrains();
-                genAlgDefensePlayers.Population[i].Fitness = defensePlayers[i].Fitness;
+                genAlgDefensePlayers.
+                    Population[i].Fitness = defensePlayers[i].Fitness;
             }
 
             /* ATTACK PLAYERS */
             for (int i = 0; i < attackPlayers.Count; i++)
             {
                 attackPlayers[i].UpdatePlayerBrains();
-                genAlgAttackPlayers.Population[i].Fitness = attackPlayers[i].Fitness;
+                genAlgAttackPlayers.
+                    Population[i].Fitness = attackPlayers[i].Fitness;
             }
 
             /* GOALY PLAYERS */
             for (int i = 0; i < goalyPlayers.Count; i++)
             {
                 goalyPlayers[i].UpdatePlayerBrains();
-                genAlgGoaly.Population[i].Fitness = goalyPlayers[i].Fitness;
+                genAlgGoaly.
+                    Population[i].Fitness = goalyPlayers[i].Fitness;
             }
         }
         //Generation passed create new population
@@ -148,21 +133,27 @@ public class TeamController : MonoBehaviour
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
             {
-                defensePlayers[i].PutWeights(genAlgDefensePlayers.Population[i].Weights);
+                defensePlayers[i].
+                    PutWeights(genAlgDefensePlayers.
+                    Population[i].Weights);
                 defensePlayers[i].Reset();
             }
 
             /* ATTACK PLAYER */
             for (int i = 0; i < attackPlayers.Count; i++)
             {
-                attackPlayers[i].PutWeights(genAlgAttackPlayers.Population[i].Weights);
+                attackPlayers[i].
+                    PutWeights(genAlgAttackPlayers.
+                    Population[i].Weights);
                 attackPlayers[i].Reset();
             }
           
             /* GOALY PLAYERS */
             for (int i = 0; i < goalyPlayers.Count; i++)
             {
-                goalyPlayers[i].PutWeights(genAlgGoaly.Population[i].Weights);
+                goalyPlayers[i].
+                    PutWeights(genAlgGoaly.
+                    Population[i].Weights);
                 goalyPlayers[i].Reset();
             }
 

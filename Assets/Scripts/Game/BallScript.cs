@@ -20,8 +20,21 @@ public class BallScript : MonoBehaviour
 
     void Update()
     {
+        if(ballIsFlying)
+        {
+            curCullDown += Time.deltaTime;
+            if(curCullDown > cullDown)
+            {
+                ballIsFlying = false;
+                curCullDown = 0;
+            }
+        }
+    }
+    
+    public void KeepBallInField()
+    {
         if (transform.position.x > GameConsts.GAME_FIELD_RIGHT && (transform.position.y < GameConsts.GOAL_DOWN
-            || transform.position.y > GameConsts.GOAL_UP))
+           || transform.position.y > GameConsts.GOAL_UP))
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
         }
@@ -39,17 +52,8 @@ public class BallScript : MonoBehaviour
         {
             transform.position = new Vector2(transform.position.x, ballFieldDown);
         }
-
-        if(ballIsFlying)
-        {
-            curCullDown += Time.deltaTime;
-            if(curCullDown > cullDown)
-            {
-                ballIsFlying = false;
-                curCullDown = 0;
-            }
-        }
     }
+
     public void Shoot(Vector2 direction, float hitStrenght)
     {
         float resultingStrenght = 0f;

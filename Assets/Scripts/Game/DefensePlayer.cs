@@ -33,57 +33,64 @@ public class DefensePlayer : AttackPlayer
 
 	void Update ()
     {
-        curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
-        curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-        curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
-        curDistToGoaly = (teamGoally.transform.position - transform.position).sqrMagnitude;
-        curDistanceToAttacker = (attackerPlayer.transform.position - transform.position).sqrMagnitude;
-
-
-        /* DISTANCE TO GOALY PLAYER */
-        if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
+        curTime += Time.deltaTime;
+        if (curTime > 2 && !isColided)
         {
-            bestDistToGoly = curDistToGoaly;
-            fitness += 0.75f;            
+            curTime = 0;
+
+            curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
+            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+            curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
+            curDistToGoaly = (teamGoally.transform.position - transform.position).sqrMagnitude;
+            curDistanceToAttacker = (attackerPlayer.transform.position - transform.position).sqrMagnitude;
+
+
+            /* DISTANCE TO GOALY PLAYER */
+            if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
+            {
+                bestDistToGoly = curDistToGoaly;
+                fitness ++;
+            }
+
+
+            /* DISTANCE TO BALL */
+            if (curDistanceToBall < bestDistanceToBall)
+            {
+                bestDistanceToBall = curDistanceToBall;
+                fitness ++;
+            }
+
+            /* DISTANCE TO HOME GOAL */
+            if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
+            {
+                bestDistanceToHomeGoal = curDistanceToHomeGoal;
+                fitness ++;
+            }
+
+
+            /* REWARD FOR LESSER ERROR IN DIRECTION */
+            if (curBallHitDirectionError < bestBallHitDirectionError)
+            {
+                bestBallHitDirectionError = curBallHitDirectionError;
+                fitness ++;
+            }
+
+            /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
+            if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
+            {
+                bestDistanceToOponentAttacker = curDistToOponentAttacker;
+                fitness ++;
+            }
+
+            /* REWARD FOR NOT BEING IN THE WAY OF ATTACKER */
+            if (curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
+            {
+                bestDistanceToAttacker = curDistanceToAttacker;
+                fitness ++;
+            }
         }
 
-
-		/* DISTANCE TO BALL */
-		if (curDistanceToBall < bestDistanceToBall)
-		{
-			bestDistanceToBall = curDistanceToBall;
-			fitness += 0.45f;
-		}
-
-		/* DISTANCE TO HOME GOAL */
-		if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
-		{
-			bestDistanceToHomeGoal = curDistanceToHomeGoal;
-			fitness += 0.6f;
-		}
-
-
-        /* REWARD FOR LESSER ERROR IN DIRECTION */
-        if (curBallHitDirectionError < bestBallHitDirectionError)
-        {
-            bestBallHitDirectionError = curBallHitDirectionError;
-            fitness += 0.9f;
-        }
-
-        /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-        if(curDistToOponentAttacker < bestDistanceToOponentAttacker)
-        {
-            bestDistanceToOponentAttacker = curDistToOponentAttacker;
-            fitness += 0.8f;
-        }
-
-        /* REWARD FOR NOT BEING IN THE WAY OF ATTACKER */
-        if(curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
-        {
-            bestDistanceToAttacker = curDistanceToAttacker;
-            fitness += 0.7f;
-        }
-
+        isColided = false;
         HandlePlayerRotation();
     }
 
@@ -105,10 +112,10 @@ public class DefensePlayer : AttackPlayer
     {
         List<double> inputs = new List<double>();
 
-        /* Add move to ball */
-        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
-        inputs.Add(toBall.x);
-        inputs.Add(toBall.y);
+        /* Add move to oponent Attacker */
+        Vector2 toOponentAttacker = (oponentAttacker.transform.position - transform.position).normalized;
+        inputs.Add(toOponentAttacker.x);
+        inputs.Add(toOponentAttacker.y);
 
         /* Add move to home goal */
         Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
@@ -122,17 +129,17 @@ public class DefensePlayer : AttackPlayer
 
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
-        transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
-            transform.position.y + (float)output[1] * Time.deltaTime);
+        /*transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
+            transform.position.y + (float)output[1] * Time.deltaTime);*/
 
+        rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])),ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
        
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[4];
 
-        ClipPlayerToField();
-		GivePenaltieToCampers();
+       // ClipPlayerToField();
     }
 
     new void OnTriggerEnter2D(Collider2D collision)
@@ -140,18 +147,14 @@ public class DefensePlayer : AttackPlayer
         if (collision.gameObject.tag == "Ball")
         {
             ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            fitness += 0.8f;
-        }
-    }
 
-    new public void Reset()
-    {
-        base.Reset();
-        curDistanceToHomeGoal = 0;
-        bestDistanceToHomeGoal = float.MaxValue;
-        curDistToGoaly = 0;
-        bestDistToGoly = 0;
-        curDistanceToAttacker = 0;
-        bestDistanceToAttacker = 0;
+            if(ballHitTimes < 10)
+            {
+                fitness ++;
+                ballHitTimes++;
+            }
+        }
+
+        isColided = true;
     }
 }

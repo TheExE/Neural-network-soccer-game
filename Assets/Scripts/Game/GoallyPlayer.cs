@@ -9,7 +9,6 @@ public class GoallyPlayer : AttackPlayer
     private float bestYDiffWithBall = float.MaxValue;
     private float curYDiffWithGoalCenter = 0;
     private float bestYDiffWithGoalCenter = float.MaxValue;
-    private bool shouldPassBall = false;
     private int chosenDefensePlayer = 0;
     private DefensePlayer[] teamDefense;
 
@@ -28,27 +27,34 @@ public class GoallyPlayer : AttackPlayer
 
     void Update()
     {
-        curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
-        curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
-
-        if(curYDiffWithBall < bestYDiffWithBall)
+        curTime += Time.deltaTime;
+        if(curTime > 2f && !isColided)
         {
-            bestYDiffWithBall = curYDiffWithBall;
-            fitness++;
+            curTime = 0;
+            curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
+            curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
+
+            if (curYDiffWithBall < bestYDiffWithBall)
+            {
+                bestYDiffWithBall = curYDiffWithBall;
+                fitness++;
+            }
+
+            if (curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
+            {
+                bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
+                fitness++;
+            }
+
+            /* REWARD FOR LESSER ERROR IN DIRECTION */
+            if (curBallHitDirectionError < bestBallHitDirectionError)
+            {
+                bestBallHitDirectionError = curBallHitDirectionError;
+                fitness++;
+            }
         }
 
-        if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
-        {
-            bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-            fitness += 0.6f;
-        }
-
-        /* REWARD FOR LESSER ERROR IN DIRECTION */
-        if (curBallHitDirectionError < bestBallHitDirectionError)
-        {
-            bestBallHitDirectionError = curBallHitDirectionError;
-            fitness += 0.8f;
-        }
+        isColided = false;
     }
 
     public override void InitPlayer()
@@ -77,8 +83,9 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toBall.y);
 
         /* Add y distance from goal middle */
-        Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
-        inputs.Add(toGoalCenter.y);
+         Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
+         inputs.Add(toGoalCenter.y);
+
 
         /* Add ball hit direction */
         Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
@@ -88,15 +95,14 @@ public class GoallyPlayer : AttackPlayer
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
 
-        transform.position = new Vector2(transform.position.x, transform.position.y + 
-		(float)output[0] * Time.deltaTime);
+        rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[3];
 
-        ClipPlayerToField();
+      //  ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
     {
@@ -113,21 +119,18 @@ public class GoallyPlayer : AttackPlayer
         return bestDistance;
     }
 
-    new public void Reset()
-    {
-        base.Reset();
-        curYDiffWithBall = float.MaxValue;
-        bestYDiffWithBall = float.MaxValue;
-        curYDiffWithGoalCenter = float.MaxValue;
-        bestYDiffWithGoalCenter = float.MaxValue;
-    }
-
     new public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ball")
         {
             ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            fitness += 0.8f;
+
+            if(ballHitTimes < 10)
+            {
+                fitness += 1f;
+                ballHitTimes++;
+            }
         }
+        isColided = true;
     }
 }
