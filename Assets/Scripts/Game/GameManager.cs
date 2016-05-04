@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
         if (shouldSpeedUp)
         {
-            for (int i = 0; i < NeuralNetworkConst.MAX_TICKS; i++)
+            for (int i = 0; i < 5; i++)
             {
                 teamControllers[0].UpdateTeam();
                 teamControllers[1].UpdateTeam();

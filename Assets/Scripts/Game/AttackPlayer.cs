@@ -48,38 +48,16 @@ public class AttackPlayer : MonoBehaviour
         if(curTime > 2 && !isColided)
         {
             curTime = 0;
-            curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
+            curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).magnitude;
 
-            /* Balls distance to oponents goal */
-            if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
+            if(curDistanceToOponentGoal < 0.8f)
             {
-                bestDistanceToOponentGoal = curDistanceToOponentGoal;
-                fitness ++;
-            }
-
-            /*if (curDistanceToBall < bestDistanceToBall)
-            {
-                bestDistanceToBall = curDistanceToBall;
-                fitness ++;
-            }
-
-            /* REWARD FOR LESSER ERROR IN DIRECTION */
-            /*if (curBallHitDirectionError < bestBallHitDirectionError)
-            {
-                bestBallHitDirectionError = curBallHitDirectionError;
-                fitness ++;
-            }*/
-
-            if (isColided)
-            {
-                if (fitness > 0)
-                {
-                    Fitness--;
-                }
+                fitness++;
             }
         }
 
-        isColided = false;
+        Debug.DrawLine(transform.position, oponentGoal.transform.position);
+
         HandlePlayerRotation();
     }
 
@@ -100,14 +78,10 @@ public class AttackPlayer : MonoBehaviour
     {
         List<double> inputs = new List<double>();
 
-        /* Add ball locations */
-
-        /* Oponents goal */
         Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
-        /* inputs.Add(toOponentGoal.x);
-         inputs.Add(toOponentGoal.y);*/
-        inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);
+        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
+        inputs.Add(toBall.x);
+        inputs.Add(toBall.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
@@ -187,32 +161,23 @@ public class AttackPlayer : MonoBehaviour
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
             colided = true;
-			fitness -= 0.1f;
         }
         else if (transform.position.x < GameConsts.GAME_FIELD_LEFT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_LEFT, transform.position.y);
             colided = true;
-			fitness -= 0.1f;
         }
 
         if (transform.position.y > GameConsts.GAME_FIELD_UP)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
             colided = true;
-			fitness -= 0.1f;
         }
         else if (transform.position.y < GameConsts.GAME_FIELD_DOWN)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
             colided = true;
-			fitness -= 0.1f;
         }
-		
-		if(fitness < 0)
-		{
-			fitness = 0;
-		}
     }
 
     public int PlayerID
