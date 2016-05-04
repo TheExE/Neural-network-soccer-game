@@ -3,32 +3,42 @@ using System.Collections;
 
 public class BallScript : MonoBehaviour
 {
-    private Rigidbody2D rgBody;
     private Vector2 startPosition;
     private float cullDown = 0.2f;
     private float curCullDown = 0f;
     private bool ballIsFlying = false;
     private float ballFieldUp = GameConsts.GAME_FIELD_UP - 0.08f;
     private float ballFieldDown = GameConsts.GAME_FIELD_DOWN + 0.08f;
+    private Vector2 velocity;
 
     void Start()
     {
-        rgBody = GetComponent<Rigidbody2D>();
         startPosition = new Vector2(transform.position.x, transform.position.y);
     }
 
 
     void Update()
     {
-        if(ballIsFlying)
+    }
+
+    public void UpdateBall()
+    {
+        if (ballIsFlying)
         {
             curCullDown += Time.deltaTime;
-            if(curCullDown > cullDown)
+            if (curCullDown > cullDown)
             {
                 ballIsFlying = false;
                 curCullDown = 0;
             }
         }
+        float velocityXNow = velocity.x * Time.deltaTime;
+        float velocityYNow = velocity.y * Time.deltaTime;
+        transform.position = new Vector2(transform.position.x + velocityXNow, transform.position.y + velocityYNow);
+        velocity.x = velocity.x - velocityXNow;
+        velocity.y = velocity.y - velocityYNow;
+
+        KeepBallInField();
     }
     
     public void KeepBallInField()
@@ -72,14 +82,14 @@ public class BallScript : MonoBehaviour
 
         if (!ballIsFlying)
         {
-            rgBody.AddForce(direction * resultingStrenght);
+            velocity += direction * hitStrenght;
             ballIsFlying = true;
         }
     }
     public void Reset()
     {
         transform.position = new Vector2(startPosition.x, startPosition.y);
-        rgBody.velocity = Vector2.zero;
+        velocity = Vector2.zero;
     }
 
 }

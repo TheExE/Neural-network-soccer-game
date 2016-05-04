@@ -3,10 +3,12 @@ using System.Collections;
 
 public class GameConsts
 {
-    public const int MAX_GENERATIONS = 2000;
-    public const int ATTACK_PLAYER_COUNT = 10;
-    public const int DEFENSE_PLAYER_COUNT = 16;
-    public const int GOALLY_PLAYER_COUNT = 10;
+    public const float FRICTION = 0.2f;
+    public const float ACCELERATED_TIME = 10;
+    public const int MAX_GENERATIONS = 1500;
+    public const int ATTACK_PLAYER_COUNT = 60;
+    public const int DEFENSE_PLAYER_COUNT = 60;
+    public const int GOALLY_PLAYER_COUNT = 60;
     public const float BALL_HIT_STRENGHT_SCALE = 20f;
 
     public const float GAME_FIELD_LEFT = -3.05f;

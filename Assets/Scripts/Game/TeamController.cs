@@ -4,6 +4,18 @@ using System;
 
 public class TeamController : MonoBehaviour
 {
+    public struct ValueAndIndex
+    {
+        public float value;
+        public int index;
+
+        public ValueAndIndex(float value, int index)
+        {
+            this.value = value;
+            this.index = index;
+        }
+    };
+
     public GameObject dummyAttacker;
     public GameObject dummyDefensePlayer;
     public GameObject dummyGoaly;
@@ -74,27 +86,21 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
+        double bestFiness = 0;
+        foreach(AttackPlayer att in attackPlayers)
+        {
+            if(att.Fitness > bestFiness)
+            {
+                bestFiness = att.Fitness;
+            }
+        }
         statText.text = "Cur gen: " + generationCounter + 
-            " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Application.targetFrameRate = -1;
-        }
-		else if(Input.GetKeyDown(KeyCode.F))
-		{
-            Application.targetFrameRate = 60;
-        }
-
-        if (generationCounter < GameConsts.MAX_GENERATIONS)
-        {
-            UpdateTeam();
-        }
+            " Attacker Fitness: " + Mathf.Round((float)bestFiness);
     }
-    private void UpdateTeam()
+    public void UpdateTeam()
     {
         curTicks++;
-        if (curTicks < NeuralNetworkConst.MAX_TICKS)
+        if (curTicks < NeuralNetworkConst.MAX_TICKS || generationCounter >= GameConsts.MAX_GENERATIONS)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
@@ -283,6 +289,22 @@ public class TeamController : MonoBehaviour
         {
             goalyPlayers[i].Fitness += amount;
         }
+    }
+
+    public ValueAndIndex BestAttackerSqrtMagnitudeToBall()
+    {
+        int index = -1;
+        float bestDistanceSoFar = float.MaxValue;
+        for(int i = 0; i < attackPlayers.Count; i++)
+        {
+            if(attackPlayers[i].CurDistanceToBall < bestDistanceSoFar)
+            {
+                bestDistanceSoFar = attackPlayers[i].CurDistanceToBall;
+                index = i;
+            }
+        }
+
+        return new ValueAndIndex(bestDistanceSoFar, index);
     }
 }
 

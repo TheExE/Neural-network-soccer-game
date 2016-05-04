@@ -147,7 +147,7 @@ public class NeuralNetwork
 			    int	numInputs = nnLayers[i].LayerNeurons[j].InputCount;
 			
 			    //sum all weights * inputs	
-			    for (int k = 0; k < numInputs; k++)
+			    for (int k = 0; k < numInputs-1; k++)
 			    {
 				    netinput += nnLayers[i].LayerNeurons[j].NeuronWeights[k] * 
                         inputs[weightIdx];
@@ -169,18 +169,6 @@ public class NeuralNetwork
 
 	private double ActivationFunction(double netinput, double response)
     {
-        double result = (1 / (1 + Math.Exp(-netinput / response)));
-        if(result <= 0.5)
-        {
-            result *= -1;
-        }
-        else
-        {
-            result -= 0.5;
-        }
-
-        result *= 2;
-
-        return result;
+       return  (1 / (1 + Math.Exp(-netinput / response)));
     }
 }

@@ -101,7 +101,6 @@ public class DefensePlayer : AttackPlayer
             id++;
             teamGoally = transform.parent.GetComponentInChildren<GoallyPlayer>();
             oponentAttacker = oponentTeam.GetComponentInChildren<AttackPlayer>();
-            rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
             brain = new NeuralNetwork(NeuralNetworkConst.DEFENSE_INPUT_COUNT, NeuralNetworkConst.DEFENSE_OUTPUT_COUNT,
                 NeuralNetworkConst.DEFENSE_HID_LAYER_COUNT, NeuralNetworkConst.DEFENSE_NEURONS_PER_HID_LAY);
@@ -123,38 +122,21 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toHomeGoal.y);
 
         /* Add ball hit direction */
-        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        Vector2 ballToGoal = (attackerPlayer.transform.position - transform.position).normalized;
         inputs.Add(ballToGoal.x);
         inputs.Add(ballToGoal.y);
 
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
-        /*transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
-            transform.position.y + (float)output[1] * Time.deltaTime);*/
 
-        rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])),ForceMode2D.Impulse);
-        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        transform.position = new Vector2(transform.position.x + GetScaledOutput(output[0])* Time.deltaTime,
+            transform.position.y + GetScaledOutput(output[1]) * Time.deltaTime);
+        directionOfHitBall = new Vector2(GetScaledOutput(output[2]), GetScaledOutput(output[3]));
        
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = (float)output[4];
+        ballHitStrenght = GetScaledOutput(output[4]);
 
-       // ClipPlayerToField();
-    }
-
-    new void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Ball")
-        {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-
-            if(ballHitTimes < 10)
-            {
-                fitness ++;
-                ballHitTimes++;
-            }
-        }
-
-        isColided = true;
+        CheckCollision();
     }
 }

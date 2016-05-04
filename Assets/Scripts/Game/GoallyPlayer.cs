@@ -63,7 +63,6 @@ public class GoallyPlayer : AttackPlayer
         {
             id++;
             teamDefense = transform.parent.gameObject.GetComponentsInChildren<DefensePlayer>();
-            rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
             brain = new NeuralNetwork(NeuralNetworkConst.GOLY_INPUT_COUNT, NeuralNetworkConst.GOLY_OUTPUT_COUNT,
                 NeuralNetworkConst.GOLY_HID_LAYER_COUNT, NeuralNetworkConst.GOLY_NEURONS_PER_HID_LAY);
@@ -88,21 +87,23 @@ public class GoallyPlayer : AttackPlayer
 
 
         /* Add ball hit direction */
-        Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);
+        Vector2 toDefensePlayer = (teamDefense[GetClosestDefensePlayerIdx()]
+            .transform.position - ballScript.transform.position).normalized;
+        inputs.Add(toDefensePlayer.x);
+        inputs.Add(toDefensePlayer.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
 
-        rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
-        directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
+        transform.position = new Vector2(transform.position.x,
+            transform.position.y + (GetScaledOutput(output[0]) * Time.deltaTime));
+        directionOfHitBall = new Vector2(GetScaledOutput(output[1]) * 2, GetScaledOutput(output[2]) * 2);
 
         /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = (float)output[3];
+        curBallHitDirectionError = (toDefensePlayer - directionOfHitBall).sqrMagnitude;
+        ballHitStrenght = GetScaledOutput(output[3]);
 
-      //  ClipPlayerToField();
+        CheckCollision();
     }
     private float GetDistanceToClosesDefensePlayer()
     {
@@ -119,18 +120,22 @@ public class GoallyPlayer : AttackPlayer
         return bestDistance;
     }
 
-    new public void OnTriggerEnter2D(Collider2D collision)
+    private int GetClosestDefensePlayerIdx()
     {
-        if (collision.gameObject.tag == "Ball")
+        float bestDistance = float.MaxValue;
+        int keyIdx = -1;
+        int index = 0;
+        foreach (DefensePlayer def in teamDefense)
         {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-
-            if(ballHitTimes < 10)
+            float curDistance = (def.transform.position - transform.position).sqrMagnitude;
+            if (curDistance < bestDistance)
             {
-                fitness += 1f;
-                ballHitTimes++;
+                bestDistance = curDistance;
+                keyIdx = index;
             }
+            index++;
         }
-        isColided = true;
+
+        return keyIdx;
     }
 }

@@ -8,7 +8,6 @@ public class AttackPlayer : MonoBehaviour
     public GameObject oponentTeam;
 
     protected string nameType = GameConsts.ATTACK_PLAYER;
-    protected Rigidbody2D rgBody;
     protected NeuralNetwork brain;
     protected BallScript ballScript;
     protected static int id = 0;
@@ -33,8 +32,6 @@ public class AttackPlayer : MonoBehaviour
     private float curDistanceToOponentGoal;
     private Vector2 lastPosition = Vector2.zero;
 	
-
-
     void Start()
     {
         if(!isInited)
@@ -46,12 +43,11 @@ public class AttackPlayer : MonoBehaviour
 
     void Update()
     {
+        curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
         curTime += Time.deltaTime;
         if(curTime > 2 && !isColided)
         {
             curTime = 0;
-
-            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
             curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
 
             /* Balls distance to oponents goal */
@@ -61,22 +57,29 @@ public class AttackPlayer : MonoBehaviour
                 fitness ++;
             }
 
-            if (curDistanceToBall < bestDistanceToBall)
+            /*if (curDistanceToBall < bestDistanceToBall)
             {
                 bestDistanceToBall = curDistanceToBall;
                 fitness ++;
             }
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError)
+            /*if (curBallHitDirectionError < bestBallHitDirectionError)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness ++;
+            }*/
+
+            if (isColided)
+            {
+                if (fitness > 0)
+                {
+                    Fitness--;
+                }
             }
         }
+
         isColided = false;
-		
-        
         HandlePlayerRotation();
     }
 
@@ -86,7 +89,6 @@ public class AttackPlayer : MonoBehaviour
         {
             id++;
             oponentDefense = oponentTeam.GetComponentsInChildren<DefensePlayer>();
-            rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
 
             brain = new NeuralNetwork(NeuralNetworkConst.ATTACKER_INPUT_COUNT, NeuralNetworkConst.ATTACKER_OUTPUT_COUNT,
@@ -99,41 +101,46 @@ public class AttackPlayer : MonoBehaviour
         List<double> inputs = new List<double>();
 
         /* Add ball locations */
-        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
-        inputs.Add(toBall.x);
-        inputs.Add(toBall.y);
 
         /* Oponents goal */
-       Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        /* inputs.Add(toOponentGoal.x);
+         inputs.Add(toOponentGoal.y);*/
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
-        rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
+        transform.position = new Vector2(transform.position.x + GetScaledOutput(output[0])*Time.deltaTime,
+            transform.position.y + GetScaledOutput(output[1])* Time.deltaTime);
 
-        directionOfHitBall = new Vector2((float)output[2]*Time.deltaTime, (float)output[3]*Time.deltaTime);
+        /*directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
         ballHitStrenght = (float)output[4];
 
+        
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
+        ballHitStrenght = 2f;
+        directionOfHitBall = toOponentGoal;
 
-        //ClipPlayerToField();
+        CheckCollision();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    protected void CheckCollision()
     {
-        if (collision.gameObject.tag == "Ball")
+        float ditanceBetween = (ballScript.transform.position - transform.position).magnitude;
+
+
+        if (ditanceBetween < 0.5f)
         {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            if(ballHitTimes < 10)
+            if (!gameObject.name.Contains("Dummy"))
             {
-                fitness ++;
-                ballHitTimes++;
+                ballScript.Shoot(directionOfHitBall, ballHitStrenght);
             }
+            fitness++;
         }
 
-        isColided = true;
+        ClipPlayerToField();
     }
 
     protected void HandlePlayerRotation()
@@ -171,11 +178,6 @@ public class AttackPlayer : MonoBehaviour
     public void Reset()
     {
         fitness = 0;
-
-        /* RESET FORCE */
-        rgBody.velocity = Vector2.zero;
-        rgBody.angularVelocity = 0f;
-        rgBody.angularDrag = 0f;
     }
 
     protected void ClipPlayerToField()
@@ -213,11 +215,6 @@ public class AttackPlayer : MonoBehaviour
 		}
     }
 
-    public Rigidbody2D PhysicsBody
-    {
-        get { return rgBody; }
-    }
-
     public int PlayerID
     {
         get { return id; }
@@ -248,6 +245,39 @@ public class AttackPlayer : MonoBehaviour
     public List<int> SplitPoints
     {
         get { return brain.CauculateSplitPoints(); }
+    }
+
+    private int Vec2DSign(Vector2 v1, Vector2 v2)
+    {
+        if (v1.y * v2.x > v1.x * v2.y)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public float CurDistanceToBall
+    {
+        get{ return curBallHitDirectionError; }
+    }
+
+    protected float GetScaledOutput(double output)
+    {
+        if (output <= 0.5)
+        {
+            output *= -1;
+        }
+        else
+        {
+            output -= 0.5f;
+        }
+
+        output *= 2;
+
+        return (float)output;
     }
 
 }

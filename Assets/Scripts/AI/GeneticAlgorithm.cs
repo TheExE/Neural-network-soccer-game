@@ -29,8 +29,6 @@ public class GeneticAlgorithm
         this.splitPoints.AddRange(splitPoints);
 
 
-
-
         /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
         for (int i = 0; i < populationSize; i++)
         {
@@ -96,28 +94,28 @@ public class GeneticAlgorithm
 
     private void GrabNBest(int bestCount, int copyCount, List<Genome> pop)
     {
-        //Add n best players to the list
-        while (bestCount > 0)
+        int counter = 1;
+        /* Add n best players to the new population */
+        while (counter <= bestCount)
         {
             for (int i = 0; i < copyCount; i++)
             {
-                pop.Add(population[populationSize - bestCount]);
+                pop.Add(population[populationSize - counter]);
             }
 
-            bestCount--;
+            counter++;
         }
     }
 
     private void CalculateBestWorstAverageTotal()
     {
         totalFitness = 0;
-
         double highestSoFar = 0;
         double lowestSoFar = double.MaxValue;
 
         for (int i = 0; i < population.Count; i++)
         {
-            //find best fitness
+            /* Find best fitness */
             if (population[i].Fitness > highestSoFar)
             {
                 highestSoFar = population[i].Fitness;
@@ -125,7 +123,7 @@ public class GeneticAlgorithm
                 bestFitness = highestSoFar;
             }
 
-            //find worst fitness
+            /* Find worst fitness */
             if (population[i].Fitness < lowestSoFar)
             {
                 lowestSoFar = population[i].Fitness;
@@ -146,52 +144,52 @@ public class GeneticAlgorithm
 
     public void Epoch()
     {
-        //reset the appropriate variables
         Reset();
 
-        //sort the population (for scaling and elitism)
-        population.Sort(Genome.Comparison);
-
-        //calculate best, worst, average and total fitness
+        /* Calculate best, worst, average and total fitness */
         CalculateBestWorstAverageTotal();
 
-        //create a temporary vector to store new chromosones
+        /* Sort the population */
+        population.Sort(Genome.Comparison);
+
+        /* Create a temporary vector to store new chromosones */
         List<Genome> newPopulation = new List<Genome>();
 
-        //Now to add a little elitism we shall add in some copies of the
-        //fittest genomes. Make sure we add an EVEN number or the roulette
-        //wheel sampling will crash
+        /*Now to add a little elitism we shall add in some copies of the
+          fittest genomes */
         if ((NeuralNetworkConst.NUMBER_OF_ELITE_COPYS * NeuralNetworkConst.NUMBER_OF_ELITE % 2) == 0)
         {
             GrabNBest(NeuralNetworkConst.NUMBER_OF_ELITE, NeuralNetworkConst.NUMBER_OF_ELITE_COPYS, newPopulation);
         }
 
 
-        //now we enter the GA loop
-        //repeat until a new population is generated
+        /* Now we enter the GA loop */
         while (newPopulation.Count < populationSize)
         {
-            //grab two chromosones
-            Genome mum = TournamentSelection(NeuralNetworkConst.TOURNAMENT_COMPETITIORS);
-            Genome dad = TournamentSelection(NeuralNetworkConst.TOURNAMENT_COMPETITIORS);
+            /* Grab two chromosones */
+            Genome individ1 = TournamentSelection(NeuralNetworkConst.
+                TOURNAMENT_COMPETITIORS);
+            Genome individ2 = TournamentSelection(NeuralNetworkConst.
+                TOURNAMENT_COMPETITIORS);
 
-            //create some offspring via crossover
-            List<double> baby1 = new List<double>();
-            List<double> baby2 = new List<double>();
+            /* Create some offspring via crossover */
+            List<double> offspr1 = new List<double>();
+            List<double> offspr2 = new List<double>();
 
-            CrossoverAtSplitPoints(mum.Weights, dad.Weights, baby1, baby2);
+            CrossoverAtSplitPoints(individ1.Weights, individ2.Weights, offspr1, offspr2);
 
-            //now we mutate
-            Mutate(baby1);
-            Mutate(baby2);
+            Mutate(offspr1);
+            Mutate(offspr2);
 
-            //now copy into vecNewPop population
-            newPopulation.Add(new Genome(baby1, 0));
-            newPopulation.Add(new Genome(baby2, 0));
+            /* Add to new populations */
+            newPopulation.Add(new Genome(offspr1, 0));
+            newPopulation.Add(new Genome(offspr2, 0));
         }
 
-        //finished so assign new pop back into m_vecPop
-        population = newPopulation;
+        /* When finished then delete old population and
+        add newPopulation */
+        population.Clear();
+        population.AddRange(newPopulation);
     }
 
     Genome TournamentSelection(int n)
@@ -200,8 +198,8 @@ public class GeneticAlgorithm
 
         int chosenOne = 0;
 
-        //Select N members from the population at random testing against 
-        //the best found so far
+        /* Select N members from the population at random testing against 
+           the best found so far */
         for (int i = 0; i < n; i++)
         {
             int thisTry = Random.Range(0, populationSize-1);
@@ -213,7 +211,7 @@ public class GeneticAlgorithm
             }
         }
 
-        //return the champion
+        /* Return the champion */
         return population[chosenOne];
     }
 
