@@ -139,22 +139,6 @@ public class DefensePlayer : AttackPlayer
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[4];
 
-       // ClipPlayerToField();
-    }
-
-    new void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Ball")
-        {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-
-            if(ballHitTimes < 10)
-            {
-                fitness ++;
-                ballHitTimes++;
-            }
-        }
-
-        isColided = true;
+        ClipPlayerToField();
     }
 }

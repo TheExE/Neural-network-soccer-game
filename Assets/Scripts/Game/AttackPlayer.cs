@@ -74,7 +74,6 @@ public class AttackPlayer : MonoBehaviour
                 fitness ++;
             }
         }
-        isColided = false;
 		
         
         HandlePlayerRotation();
@@ -104,7 +103,7 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toBall.y);
 
         /* Oponents goal */
-       Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
@@ -112,13 +111,13 @@ public class AttackPlayer : MonoBehaviour
         List<double> output = brain.Update(inputs);
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
-        directionOfHitBall = new Vector2((float)output[2]*Time.deltaTime, (float)output[3]*Time.deltaTime);
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
         ballHitStrenght = (float)output[4];
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
 
-        //ClipPlayerToField();
+        ClipPlayerToField();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -126,14 +125,13 @@ public class AttackPlayer : MonoBehaviour
         if (collision.gameObject.tag == "Ball")
         {
             ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            if(ballHitTimes < 10)
+            if (ballHitTimes < 50)
             {
-                fitness ++;
+                fitness++;
                 ballHitTimes++;
             }
+            fitness++;
         }
-
-        isColided = true;
     }
 
     protected void HandlePlayerRotation()
@@ -185,32 +183,24 @@ public class AttackPlayer : MonoBehaviour
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
             colided = true;
-			fitness -= 0.1f;
         }
         else if (transform.position.x < GameConsts.GAME_FIELD_LEFT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_LEFT, transform.position.y);
             colided = true;
-			fitness -= 0.1f;
         }
 
         if (transform.position.y > GameConsts.GAME_FIELD_UP)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
             colided = true;
-			fitness -= 0.1f;
         }
         else if (transform.position.y < GameConsts.GAME_FIELD_DOWN)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
             colided = true;
-			fitness -= 0.1f;
         }
-		
-		if(fitness < 0)
-		{
-			fitness = 0;
-		}
+
     }
 
     public Rigidbody2D PhysicsBody

@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour {
     private static int blueTeamScore;
     private BallScript ball;
     private TeamController[] teamControllers;
+    private tk2dTextMesh fpsText;
 
 	void Start () 
     {
+        fpsText = GetComponentInChildren<tk2dTextMesh>();
         Application.runInBackground = true;
         redTeamTxt = redTeamScoreObj.GetComponent<tk2dTextMesh>();
         blueTeamTxt = blueTeamScoreObj.GetComponent<tk2dTextMesh>();
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour {
     {
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
+        fpsText.text = "Fps:" + Mathf.RoundToInt(1 / Time.deltaTime);
 	}
 
     public static int RedTeamScore

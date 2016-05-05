@@ -74,8 +74,17 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
+        float bestFitness = 0;
+        foreach (AttackPlayer player in attackPlayers)
+        {
+            if(player.Fitness > bestFitness)
+            {
+                bestFitness = (float)player.Fitness;
+            }
+        }
+
         statText.text = "Cur gen: " + generationCounter + 
-            " BestFitness Def: " + Mathf.Round((float)(genAlgDefensePlayers.BestFitness));
+            " Attack best Fit: " + Mathf.Round((bestFitness));
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -86,15 +95,12 @@ public class TeamController : MonoBehaviour
             Application.targetFrameRate = 60;
         }
 
-        if (generationCounter < GameConsts.MAX_GENERATIONS)
-        {
-            UpdateTeam();
-        }
+        UpdateTeam();
     }
     private void UpdateTeam()
     {
         curTicks++;
-        if (curTicks < NeuralNetworkConst.MAX_TICKS)
+        if (curTicks < NeuralNetworkConst.MAX_TICKS || generationCounter >= GameConsts.MAX_GENERATIONS)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)

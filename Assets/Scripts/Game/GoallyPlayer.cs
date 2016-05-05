@@ -102,7 +102,7 @@ public class GoallyPlayer : AttackPlayer
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[3];
 
-      //  ClipPlayerToField();
+       ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
     {
@@ -117,20 +117,5 @@ public class GoallyPlayer : AttackPlayer
         }
 
         return bestDistance;
-    }
-
-    new public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Ball")
-        {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-
-            if(ballHitTimes < 10)
-            {
-                fitness += 1f;
-                ballHitTimes++;
-            }
-        }
-        isColided = true;
     }
 }
