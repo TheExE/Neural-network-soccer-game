@@ -169,6 +169,8 @@ public class AttackPlayer : MonoBehaviour
     public void Reset()
     {
         fitness = 0;
+        curDistanceToBall = float.MaxValue;
+        bestDistanceToBall = float.MaxValue;
 
         /* RESET FORCE */
         rgBody.velocity = Vector2.zero;
