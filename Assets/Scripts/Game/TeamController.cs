@@ -4,6 +4,17 @@ using System;
 
 public class TeamController : MonoBehaviour
 {
+    public struct DistanceAndIndex
+    {
+        public float distance;
+        public int index;
+
+        public DistanceAndIndex(float distance, int index)
+        {
+            this.distance = distance;
+            this.index = index;
+        }
+    }
     public GameObject dummyAttacker;
     public GameObject dummyDefensePlayer;
     public GameObject dummyGoaly;
@@ -289,6 +300,23 @@ public class TeamController : MonoBehaviour
         {
             goalyPlayers[i].Fitness += amount;
         }
+    }
+
+    public DistanceAndIndex GetClosestToBallAttackPlayer()
+    {
+        int index = -1;
+        float bestDistance = float.MaxValue;
+
+        for(int i = 0; i < attackPlayers.Count; i++)
+        {
+            if(attackPlayers[i].CurDistanceToBall > bestDistance)
+            {
+                bestDistance = attackPlayers[i].CurDistanceToBall;
+                index = i;
+            }
+        }
+
+        return new DistanceAndIndex(bestDistance, index);
     }
 }
 

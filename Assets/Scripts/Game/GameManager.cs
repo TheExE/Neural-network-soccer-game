@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     private BallScript ball;
     private TeamController[] teamControllers;
     private tk2dTextMesh fpsText;
+    private float timer = 0f;
 
 	void Start () 
     {
@@ -30,6 +31,25 @@ public class GameManager : MonoBehaviour {
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
         fpsText.text = "Fps:" + Mathf.RoundToInt(1 / Time.deltaTime);
+
+        timer += Time.deltaTime;
+        if(timer > 2)
+        {
+
+            TeamController.DistanceAndIndex blueAttack = teamControllers[0].GetClosestToBallAttackPlayer();
+            TeamController.DistanceAndIndex redAttack = teamControllers[1].GetClosestToBallAttackPlayer();
+
+            if (blueAttack.distance < redAttack.distance)
+            {
+                teamControllers[0].Attacker[blueAttack.index].Fitness++;
+            }
+            else
+            {
+                teamControllers[1].Attacker[redAttack.index].Fitness++;
+            }
+
+            timer = 0;
+        }
 	}
 
     public static int RedTeamScore

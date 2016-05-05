@@ -240,4 +240,8 @@ public class AttackPlayer : MonoBehaviour
         get { return brain.CauculateSplitPoints(); }
     }
 
+    public float CurDistanceToBall
+    {
+        get { return curDistanceToBall; }
+    }
 }
