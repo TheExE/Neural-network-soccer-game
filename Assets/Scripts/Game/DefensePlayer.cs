@@ -144,6 +144,6 @@ public class DefensePlayer : AttackPlayer
 
     new public void OnTriggerEnter2D(Collider2D collision)
     {
-        OnTriggerEnter2D(collision);
+        base.OnTriggerEnter2D(collision);
     }
 }
