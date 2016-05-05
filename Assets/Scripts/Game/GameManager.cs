@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private TeamController[] teamControllers;
     private tk2dTextMesh fpsText;
     private float timer = 0f;
+    private static bool shouldPauseEvolution = true;
 
 	void Start () 
     {
@@ -43,12 +44,21 @@ public class GameManager : MonoBehaviour {
             {
                 teamControllers[0].Attacker[blueAttack.index].Fitness++;
             }
-            else
+            else if(redAttack.distance < blueAttack.distance)
             {
                 teamControllers[1].Attacker[redAttack.index].Fitness++;
             }
 
             timer = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            shouldPauseEvolution = false;
+        }
+        else if(Input.GetKeyDown(KeyCode.U))
+        {
+            shouldPauseEvolution = true;
         }
 	}
 
@@ -89,4 +99,11 @@ public class GameManager : MonoBehaviour {
     {
         teamCont.IncreaseTeamsFitness(NeuralNetworkConst.FITNESS_FOR_GOAL);
     }
+
+    public static bool ShouldContinueEvolution
+    {
+        get { return shouldPauseEvolution; }
+
+    }
+
 }

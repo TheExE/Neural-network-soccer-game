@@ -16,10 +16,10 @@ public class GoallyPlayer : AttackPlayer
     {
         nameType = GameConsts.GOALLY_PLAYER;
     }
-    
+
     void Start()
     {
-        if(!isInited)
+        if (!isInited)
         {
             InitPlayer();
         }
@@ -28,7 +28,7 @@ public class GoallyPlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if(curTime > 2f && !isColided)
+        if (curTime > 2f && !isColided)
         {
             curTime = 0;
             curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
@@ -59,7 +59,7 @@ public class GoallyPlayer : AttackPlayer
 
     public override void InitPlayer()
     {
-        if(!isInited)
+        if (!isInited)
         {
             id++;
             teamDefense = transform.parent.gameObject.GetComponentsInChildren<DefensePlayer>();
@@ -83,8 +83,8 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toBall.y);
 
         /* Add y distance from goal middle */
-         Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
-         inputs.Add(toGoalCenter.y);
+        Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
+        inputs.Add(toGoalCenter.y);
 
 
         /* Add ball hit direction */
@@ -102,12 +102,12 @@ public class GoallyPlayer : AttackPlayer
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[3];
 
-       ClipPlayerToField();
+        ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
     {
         float bestDistance = float.MaxValue;
-        foreach(DefensePlayer def in teamDefense)
+        foreach (DefensePlayer def in teamDefense)
         {
             float curDistance = (def.transform.position - transform.position).sqrMagnitude;
             if (curDistance < bestDistance)
@@ -117,5 +117,10 @@ public class GoallyPlayer : AttackPlayer
         }
 
         return bestDistance;
+    }
+
+    new public void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
     }
 }

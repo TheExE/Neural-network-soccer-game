@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DefensePlayer : AttackPlayer 
+public class DefensePlayer : AttackPlayer
 {
     public GameObject homeGoal;
     public AttackPlayer attackerPlayer;
@@ -22,16 +22,16 @@ public class DefensePlayer : AttackPlayer
         nameType = GameConsts.DEFENSE_PLAYER;
     }
 
-	void Start () 
+    void Start()
     {
-        if(!isInited)
+        if (!isInited)
         {
             InitPlayer();
         }
         lastPositionX = transform.position.x;
     }
 
-	void Update ()
+    void Update()
     {
         curTime += Time.deltaTime;
         if (curTime > 2 && !isColided)
@@ -49,7 +49,7 @@ public class DefensePlayer : AttackPlayer
             if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
             {
                 bestDistToGoly = curDistToGoaly;
-                fitness ++;
+                fitness++;
             }
 
 
@@ -57,14 +57,14 @@ public class DefensePlayer : AttackPlayer
             if (curDistanceToBall < bestDistanceToBall)
             {
                 bestDistanceToBall = curDistanceToBall;
-                fitness ++;
+                fitness++;
             }
 
             /* DISTANCE TO HOME GOAL */
             if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
             {
                 bestDistanceToHomeGoal = curDistanceToHomeGoal;
-                fitness ++;
+                fitness++;
             }
 
 
@@ -72,21 +72,21 @@ public class DefensePlayer : AttackPlayer
             if (curBallHitDirectionError < bestBallHitDirectionError)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
-                fitness ++;
+                fitness++;
             }
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
             if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
-                fitness ++;
+                fitness++;
             }
 
             /* REWARD FOR NOT BEING IN THE WAY OF ATTACKER */
             if (curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
             {
                 bestDistanceToAttacker = curDistanceToAttacker;
-                fitness ++;
+                fitness++;
             }
         }
 
@@ -96,7 +96,7 @@ public class DefensePlayer : AttackPlayer
 
     public override void InitPlayer()
     {
-        if(!isInited)
+        if (!isInited)
         {
             id++;
             teamGoally = transform.parent.GetComponentInChildren<GoallyPlayer>();
@@ -132,13 +132,18 @@ public class DefensePlayer : AttackPlayer
         /*transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
             transform.position.y + (float)output[1] * Time.deltaTime);*/
 
-        rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])),ForceMode2D.Impulse);
+        rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
-       
+
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = (float)output[4];
 
         ClipPlayerToField();
+    }
+
+    new public void OnTriggerEnter2D(Collider2D collision)
+    {
+        OnTriggerEnter2D(collision);
     }
 }
