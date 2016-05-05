@@ -55,11 +55,11 @@ public class AttackPlayer : MonoBehaviour
             curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
 
             /* Balls distance to oponents goal */
-            if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
+           /* if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
             {
                 bestDistanceToOponentGoal = curDistanceToOponentGoal;
                 fitness ++;
-            }
+            }*/
 
             if (curDistanceToBall < bestDistanceToBall)
             {
@@ -68,11 +68,11 @@ public class AttackPlayer : MonoBehaviour
             }
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError)
+            /*if (curBallHitDirectionError < bestBallHitDirectionError)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness ++;
-            }
+            }*/
         }
 		
         
@@ -104,15 +104,15 @@ public class AttackPlayer : MonoBehaviour
 
         /* Oponents goal */
         Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
-        inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);
+       /* inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);*/
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
-        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
-        ballHitStrenght = (float)output[4];
+        directionOfHitBall = toOponentGoal;
+        ballHitStrenght = 1.5f;
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;

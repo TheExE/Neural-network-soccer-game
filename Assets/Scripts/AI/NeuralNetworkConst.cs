@@ -13,8 +13,8 @@ public class NeuralNetworkConst
     public static float FITNESS_FOR_GOAL = 1;
 
 
-    public static int ATTACKER_INPUT_COUNT = 4;
-    public static int ATTACKER_OUTPUT_COUNT = 5;
+    public static int ATTACKER_INPUT_COUNT = 2;
+    public static int ATTACKER_OUTPUT_COUNT = 2;
     public static int ATTACKER_HID_LAYER_COUNT = 3;
     public static int ATTACKER_NEURONS_PER_HID_LAY = 6;
 
