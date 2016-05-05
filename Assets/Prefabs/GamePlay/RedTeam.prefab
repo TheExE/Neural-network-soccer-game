@@ -12,7 +12,6 @@ GameObject:
   - 33: {fileID: 3383684}
   - 114: {fileID: 11432220}
   - 50: {fileID: 5079802}
-  - 114: {fileID: 11402174}
   - 58: {fileID: 5803298}
   - 114: {fileID: 11444850}
   m_Layer: 0
@@ -34,7 +33,6 @@ GameObject:
   - 33: {fileID: 3392710}
   - 114: {fileID: 11460358}
   - 50: {fileID: 5034544}
-  - 114: {fileID: 11490708}
   - 114: {fileID: 11401266}
   - 58: {fileID: 5861924}
   m_Layer: 0
@@ -75,7 +73,6 @@ GameObject:
   - 114: {fileID: 11423540}
   - 50: {fileID: 5012880}
   - 114: {fileID: 11475874}
-  - 114: {fileID: 11411196}
   - 58: {fileID: 5851016}
   m_Layer: 0
   m_Name: RedAttack
@@ -112,7 +109,6 @@ GameObject:
   - 33: {fileID: 3373500}
   - 114: {fileID: 11439886}
   - 50: {fileID: 5031248}
-  - 114: {fileID: 11470468}
   - 58: {fileID: 5833720}
   - 114: {fileID: 11438802}
   m_Layer: 0
@@ -373,7 +369,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 176568}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -390,7 +386,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 198118}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -407,7 +403,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 158204}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -424,7 +420,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 122640}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -502,28 +498,6 @@ MonoBehaviour:
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
   goalToSave: {fileID: 0}
---- !u!114 &11402174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499577abce47c74eb03e3b268c2b2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11411196
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499577abce47c74eb03e3b268c2b2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11423540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -704,17 +678,6 @@ MonoBehaviour:
   dummyAttacker: {fileID: 198990, guid: 928072188211f674fbef8816f9d97a13, type: 2}
   dummyDefensePlayer: {fileID: 153758, guid: 6ae4724e06454ea46a4818cbc10da45b, type: 2}
   dummyGoaly: {fileID: 190770, guid: 29a387a5fe709814cba5fe0f287c63ef, type: 2}
---- !u!114 &11470468
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499577abce47c74eb03e3b268c2b2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11475874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -728,17 +691,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oponentGoal: {fileID: 0}
   oponentTeam: {fileID: 0}
---- !u!114 &11490708
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499577abce47c74eb03e3b268c2b2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
