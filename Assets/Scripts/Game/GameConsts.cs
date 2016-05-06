@@ -4,9 +4,9 @@ using System.Collections;
 public class GameConsts
 {
     public const int MAX_GENERATIONS = 1000;
-    public const int ATTACK_PLAYER_COUNT = 20;
-    public const int DEFENSE_PLAYER_COUNT = 32;
-    public const int GOALLY_PLAYER_COUNT = 20;
+    public const int ATTACK_PLAYER_COUNT = 60;
+    public const int DEFENSE_PLAYER_COUNT = 60;
+    public const int GOALLY_PLAYER_COUNT = 60;
     public const float BALL_HIT_STRENGHT_SCALE = 20f;
 
     public const float GAME_FIELD_LEFT = -3.05f;
