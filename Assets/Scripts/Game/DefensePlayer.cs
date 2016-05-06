@@ -99,8 +99,16 @@ public class DefensePlayer : AttackPlayer
         if (!isInited)
         {
             id++;
-            teamGoally = transform.parent.GetComponentInChildren<GoallyPlayer>();
-            oponentAttacker = oponentTeam.GetComponentInChildren<AttackPlayer>();
+            teamGoally = transform.parent.gameObject.GetComponentInChildren<GoallyPlayer>();
+            AttackPlayer[] list = oponentTeam.GetComponentsInChildren<AttackPlayer>();
+            foreach(AttackPlayer a in list)
+            {
+                if(a.NameType == GameConsts.ATTACK_PLAYER)
+                {
+                    oponentAttacker = a;
+                    break;
+                }
+            }
             rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
             brain = new NeuralNetwork(NeuralNetworkConst.DEFENSE_INPUT_COUNT, NeuralNetworkConst.DEFENSE_OUTPUT_COUNT,
@@ -145,5 +153,17 @@ public class DefensePlayer : AttackPlayer
     new public void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
+    }
+    
+    public AttackPlayer OponentsAttacker
+    {
+        get { return oponentAttacker; }
+        set { oponentAttacker = value; }
+    }
+
+    public GoallyPlayer TeamGoally
+    {
+        get { return teamGoally; }
+        set { teamGoally = value; }
     }
 }

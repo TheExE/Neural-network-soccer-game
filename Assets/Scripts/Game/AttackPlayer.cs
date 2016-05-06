@@ -12,7 +12,7 @@ public class AttackPlayer : MonoBehaviour
     protected NeuralNetwork brain;
     protected BallScript ballScript;
     protected static int id = 0;
-    protected double fitness;
+    protected float fitness;
     protected DefensePlayer[] oponentDefense;
 
     protected bool colided = false;
@@ -150,7 +150,7 @@ public class AttackPlayer : MonoBehaviour
         lastPositionX = transform.position.x;
     }
 
-    public double Fitness
+    public float Fitness
     {
         get { return fitness; }
         set { fitness = value; }

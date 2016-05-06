@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameConsts
 {
-    public const int MAX_GENERATIONS = 1500;
+    public const int MAX_GENERATIONS = 1000;
     public const int ATTACK_PLAYER_COUNT = 20;
     public const int DEFENSE_PLAYER_COUNT = 32;
     public const int GOALLY_PLAYER_COUNT = 20;

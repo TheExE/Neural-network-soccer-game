@@ -6,25 +6,27 @@ public class GameManager : MonoBehaviour {
 
     public GameObject redTeamScoreObj;
     public GameObject blueTeamScoreObj;
+    public tk2dTextMesh redTeamFitness;
+    public tk2dTextMesh blueTeamFitnes;
+    public tk2dTextMesh fpsText;
 
     private tk2dTextMesh redTeamTxt;
     private tk2dTextMesh blueTeamTxt;
     private static int redTeamScore;
     private static int blueTeamScore;
     private BallScript ball;
-    private TeamController[] teamControllers;
-    private tk2dTextMesh fpsText;
+    private TeamController teamController;
+
     private float timer = 0f;
     private static bool shouldPauseEvolution = true;
 
 	void Start () 
     {
-        fpsText = GetComponentInChildren<tk2dTextMesh>();
         Application.runInBackground = true;
         redTeamTxt = redTeamScoreObj.GetComponent<tk2dTextMesh>();
         blueTeamTxt = blueTeamScoreObj.GetComponent<tk2dTextMesh>();
         ball = GameObject.FindObjectOfType<BallScript>();
-        teamControllers = GameObject.FindObjectsOfType<TeamController>();
+        teamController = GetComponent<TeamController>();
 	}
 	
 	void Update () 
@@ -32,24 +34,18 @@ public class GameManager : MonoBehaviour {
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
         fpsText.text = "Fps:" + Mathf.RoundToInt(1 / Time.deltaTime);
+        blueTeamFitnes.text = "Att Fit: " + teamController.BestBlueAttacker;
+        redTeamFitness.text = "Att Fit: " + teamController.BestRedAttacker;
 
         timer += Time.deltaTime;
         if(timer > 2)
         {
 
-            TeamController.DistanceAndIndex blueAttack = teamControllers[0].GetClosestToBallAttackPlayer();
-            TeamController.DistanceAndIndex redAttack = teamControllers[1].GetClosestToBallAttackPlayer();
-
-            if (blueAttack.distance < redAttack.distance)
+            int bestIdx = teamController.GetClosestToBallAttackPlayer().index;
+            if (bestIdx != -1)
             {
-                teamControllers[0].Attacker[blueAttack.index].Fitness++;
+                teamController.Attacker[bestIdx].Fitness++;
             }
-            else if(redAttack.distance < blueAttack.distance)
-            {
-                teamControllers[1].Attacker[redAttack.index].Fitness++;
-            }
-
-            timer = 0;
         }
 
         if(Input.GetKeyDown(KeyCode.P))
@@ -77,27 +73,19 @@ public class GameManager : MonoBehaviour {
 
     public void IncreaseFitnessBlueTeam()
     {
-        IncreaseTeamsFitness(teamControllers[0]);
+        teamController.IncreaseTeamsFitness(1,true);
     
     }
 
     public void IncreaseFitnessRedTeam()
     {
-        IncreaseTeamsFitness(teamControllers[1]);
+        teamController.IncreaseTeamsFitness(1, false);
     }
      
     public void RestartGame()
     {
         ball.Reset();
-        for(int i = 0; i < teamControllers.Length; i++)
-        {
-            teamControllers[i].Reset();
-        }
-    }
-
-    private void IncreaseTeamsFitness(TeamController teamCont)
-    {
-        teamCont.IncreaseTeamsFitness(NeuralNetworkConst.FITNESS_FOR_GOAL);
+        teamController.Reset();
     }
 
     public static bool ShouldContinueEvolution

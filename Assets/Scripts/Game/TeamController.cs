@@ -4,6 +4,9 @@ using System;
 
 public class TeamController : MonoBehaviour
 {
+    public tk2dTextMesh statText;
+    public GameObject redTeam;
+    public GameObject blueTeam;
     public struct DistanceAndIndex
     {
         public float distance;
@@ -22,6 +25,8 @@ public class TeamController : MonoBehaviour
     private List<DefensePlayer> defensePlayers = new List<DefensePlayer>();
     private List<GoallyPlayer > goalyPlayers = new List<GoallyPlayer>();
     private List<AttackPlayer> attackPlayers = new List<AttackPlayer>();
+    private List<AttackPlayer> redTeamAttackers = new List<AttackPlayer>();
+    private List<AttackPlayer> blueTeamAttackers = new List<AttackPlayer>();
     private List<Genome> attackPlayersPop = new List<Genome>();
     private List<Genome> defensePlayerPop = new List<Genome>();
     private List<Genome> goalyPlayerPop = new List<Genome>();
@@ -30,13 +35,42 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgGoaly;
    
     private int generationCounter = 0;
-    private int curTicks = 0;
-    private tk2dTextMesh statText;
     private List<Vector2> startPosition = new List<Vector2>();
+    private int curTicks = 0;
+
+    private AttackPlayer redTeamAttackerExample;
+    private DefensePlayer redTeamDefenseExample;
+    private GoallyPlayer redTeamGoallyExample;
+    private AttackPlayer blueTeamAttackerExmaple;
+    private DefensePlayer blueTeamDefenseExmaple;
+    private GoallyPlayer blueTeamGoallyExample;
 
     void Start()
     {
-        statText = GetComponentInChildren<tk2dTextMesh>();
+        var att = redTeam.GetComponentsInChildren<AttackPlayer>();
+        foreach(AttackPlayer a in att)
+        {
+            if(a.NameType == GameConsts.ATTACK_PLAYER)
+            {
+                redTeamAttackerExample = a;
+                break;
+            }
+        }
+        redTeamDefenseExample = redTeam.GetComponentInChildren<DefensePlayer>();
+        redTeamGoallyExample = redTeam.GetComponentInChildren<GoallyPlayer>();
+
+        var attb = blueTeam.GetComponentsInChildren<AttackPlayer>();
+        foreach(AttackPlayer a in attb)
+        {
+            if(a.NameType == GameConsts.ATTACK_PLAYER)
+            {
+                blueTeamAttackerExmaple = a;
+                break;
+            }
+        }
+        blueTeamDefenseExmaple = blueTeam.GetComponentInChildren<DefensePlayer>();
+        blueTeamGoallyExample = blueTeam.GetComponentInChildren<GoallyPlayer>();
+
         InitMainTeam();
         FillTeamWithDummyPlayers();
         InitGeneticAlgorithms();
@@ -85,17 +119,7 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
-        float bestFitness = 0;
-        foreach (AttackPlayer player in attackPlayers)
-        {
-            if(player.Fitness > bestFitness)
-            {
-                bestFitness = (float)player.Fitness;
-            }
-        }
-
-        statText.text = "Cur gen: " + generationCounter + 
-            " Attack best Fit: " + Mathf.Round((bestFitness));
+        statText.text = "Cur gen: " + generationCounter;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -208,12 +232,20 @@ public class TeamController : MonoBehaviour
     private void InitMainTeam()
     {
         /* INIT TEAM */
-        var a = GetComponentsInChildren<AttackPlayer>();
+        var a = GameObject.FindObjectsOfType<AttackPlayer>();
         foreach (AttackPlayer att in a)
         {
             switch (att.NameType)
             {
                 case GameConsts.ATTACK_PLAYER:
+                    if(att.gameObject.name.StartsWith("B"))
+                    {
+                        blueTeamAttackers.Add(att);
+                    }
+                    else
+                    {
+                        redTeamAttackers.Add(att);
+                    }
                     attackPlayers.Add(att);
                     attackPlayers[attackPlayers.Count-1].InitPlayer();
                     break;
@@ -235,42 +267,100 @@ public class TeamController : MonoBehaviour
     {
 
         /* DEFENSE PLAYERS */
+        int counter = 0;
         while (defensePlayers.Count < GameConsts.DEFENSE_PLAYER_COUNT)
         {
             var gO = Instantiate(dummyDefensePlayer) as GameObject;
-            gO.transform.parent = transform;
-            DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
-            defPlayer.oponentTeam = defensePlayers[0].oponentTeam;
-            defPlayer.oponentGoal = defensePlayers[0].oponentGoal;
-            defPlayer.homeGoal = defensePlayers[0].homeGoal;
-            defPlayer.attackerPlayer = defensePlayers[0].attackerPlayer;
-            defPlayer.InitPlayer();
-            defensePlayers.Add(defPlayer);
+
+            if (counter % 2 == 0)
+            {
+                gO.transform.parent = redTeam.transform;
+                DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
+                defPlayer.oponentTeam = redTeamDefenseExample.oponentTeam;
+                defPlayer.oponentGoal = redTeamDefenseExample.oponentGoal;
+                defPlayer.homeGoal = redTeamDefenseExample.homeGoal;
+                defPlayer.attackerPlayer = redTeamDefenseExample.attackerPlayer;
+                defPlayer.InitPlayer();
+                defPlayer.TeamGoally = redTeamDefenseExample.TeamGoally;
+                defPlayer.OponentsAttacker = redTeamDefenseExample.OponentsAttacker;
+                defensePlayers.Add(defPlayer);
+            }
+            else
+            {
+                gO.transform.parent = blueTeam.transform;
+                DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
+                defPlayer.oponentTeam = blueTeamDefenseExmaple.oponentTeam;
+                defPlayer.oponentGoal = blueTeamDefenseExmaple.oponentGoal;
+                defPlayer.homeGoal = blueTeamDefenseExmaple.homeGoal;
+                defPlayer.attackerPlayer = blueTeamDefenseExmaple.attackerPlayer;
+                defPlayer.InitPlayer();
+                defPlayer.TeamGoally = blueTeamDefenseExmaple.TeamGoally;
+                defPlayer.OponentsAttacker = blueTeamDefenseExmaple.OponentsAttacker;
+                defensePlayers.Add(defPlayer);
+            }
+            counter++;
         }
 
+        counter = 0;
         /* ATTACK PLAYERS */
         while (attackPlayers.Count < GameConsts.ATTACK_PLAYER_COUNT)
         {
             var gO = Instantiate(dummyAttacker) as GameObject;
-            gO.transform.parent = transform;
-            AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
-            attPlayer.oponentGoal = attackPlayers[0].oponentGoal;
-            attPlayer.oponentTeam = attackPlayers[0].oponentTeam;
-            attPlayer.InitPlayer();
-            attackPlayers.Add(attPlayer);
+            if (counter % 2 == 0)
+            {
+                gO.transform.parent = redTeam.transform;
+                AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
+                attPlayer.oponentGoal = redTeamAttackerExample.oponentGoal;
+                attPlayer.oponentTeam = redTeamAttackerExample.oponentTeam;
+                attPlayer.InitPlayer();
+                attackPlayers.Add(attPlayer);
+
+                redTeamAttackers.Add(attPlayer);
+            }
+            else
+            {
+                gO.transform.parent = blueTeam.transform;
+                AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
+                attPlayer.oponentGoal = blueTeamAttackerExmaple.oponentGoal;
+                attPlayer.oponentTeam = blueTeamAttackerExmaple.oponentTeam;
+                attPlayer.InitPlayer();
+                attackPlayers.Add(attPlayer);
+
+                blueTeamAttackers.Add(attPlayer);
+            }
+
+            counter++;
         }
-        
+
+
+        counter = 0;
         /* GOALY PLAYERS */
         while (goalyPlayers.Count < GameConsts.GOALLY_PLAYER_COUNT)
         {
             var gO = Instantiate(dummyGoaly) as GameObject;
-            gO.transform.parent = transform;
-            GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
-            goaly.oponentGoal = goalyPlayers[0].oponentGoal;
-            goaly.oponentTeam = goalyPlayers[0].oponentTeam;
-            goaly.goalToSave = goalyPlayers[0].goalToSave;
-            goaly.InitPlayer();
-            goalyPlayers.Add(goaly);
+
+            if(counter % 2 == 0)
+            {
+                gO.transform.parent = redTeam.transform;
+                GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
+                goaly.oponentGoal = redTeamGoallyExample.oponentGoal;
+                goaly.oponentTeam = redTeamGoallyExample.oponentTeam;
+                goaly.goalToSave = redTeamGoallyExample.goalToSave;
+                goaly.InitPlayer();
+                goalyPlayers.Add(goaly);
+            }
+            else
+            {
+                gO.transform.parent = blueTeam.transform;
+                GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
+                goaly.oponentGoal = blueTeamGoallyExample.oponentGoal;
+                goaly.oponentTeam = blueTeamGoallyExample.oponentTeam;
+                goaly.goalToSave = blueTeamGoallyExample.goalToSave;
+                goaly.InitPlayer();
+                goalyPlayers.Add(goaly);
+            }
+
+            counter++;
         }
     }
     public List<DefensePlayer> DefensePlayers
@@ -281,23 +371,65 @@ public class TeamController : MonoBehaviour
     {
         get { return attackPlayers; }
     }
-    public void IncreaseTeamsFitness(float amount)
+
+    public List<AttackPlayer> BlueAttacker
     {
-        /* DEFENSE PLAYERS */
-        for (int i = 0; i < defensePlayers.Count; i++)
+        get { return blueTeamAttackers; }
+    }
+    public List<AttackPlayer> RedAttacker
+    {
+        get { return redTeamAttackers; }
+    }
+
+    public float BestBlueAttacker
+    {
+        get
         {
-            defensePlayers[i].Fitness += amount;
+            float bestFitness = 0;
+            foreach (AttackPlayer a in blueTeamAttackers)
+            {
+                if(a.Fitness > bestFitness)
+                {
+                    bestFitness = a.Fitness;
+                }
+            }
+            return bestFitness;
         }
-        /* ATTACK PLAYERS */
-        for (int i = 0; i < attackPlayers.Count; i++)
+        
+    }
+
+    public float BestRedAttacker
+    {
+        get
         {
-            attackPlayers[i].Fitness += amount;
+            float bestFitness = 0;
+            foreach (AttackPlayer a in redTeamAttackers)
+            {
+                if (a.Fitness > bestFitness)
+                {
+                    bestFitness = a.Fitness;
+                }
+            }
+            return bestFitness;
         }
 
-        /* GOALY PLAYERS */
-        for (int i = 0; i < goalyPlayers.Count; i++)
+    }
+
+
+    public void IncreaseTeamsFitness(float amount, bool inscreaseBlueTeam)
+    {
+        AttackPlayer[] team;
+        if (inscreaseBlueTeam)
         {
-            goalyPlayers[i].Fitness += amount;
+            team = blueTeam.GetComponentsInChildren<AttackPlayer>();
+        }
+        else
+        {
+            team = redTeam.GetComponentsInChildren<AttackPlayer>();
+        }
+        foreach (AttackPlayer a in team)
+        {
+            a.Fitness += amount;
         }
     }
 
