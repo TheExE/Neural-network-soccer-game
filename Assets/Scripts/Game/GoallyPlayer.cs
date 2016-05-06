@@ -89,18 +89,18 @@ public class GoallyPlayer : AttackPlayer
 
         /* Add ball hit direction */
         Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);
+        /*inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);*/
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
-        directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
+        directionOfHitBall = toOponentGoal;
 
         /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = (float)output[3];
+        curBallHitDirectionError = 0f;
+        ballHitStrenght = 2f;
 
         ClipPlayerToField();
     }
@@ -130,4 +130,10 @@ public class GoallyPlayer : AttackPlayer
         set { teamDefense = value; }
     }
 
+    new public void Reset()
+    {
+        base.Reset();
+        curYDiffWithBall = float.MaxValue;
+        bestYDiffWithBall = float.MaxValue;
+    }
 }
