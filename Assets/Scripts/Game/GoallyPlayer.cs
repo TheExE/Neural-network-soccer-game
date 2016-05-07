@@ -34,20 +34,20 @@ public class GoallyPlayer : AttackPlayer
             curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
             curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
 
-            if (curYDiffWithBall < bestYDiffWithBall)
+            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
             {
                 bestYDiffWithBall = curYDiffWithBall;
                 fitness++;
             }
 
-            if (curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
+            if (curYDiffWithGoalCenter < bestYDiffWithGoalCenter || curYDiffWithGoalCenter < 0.1f)
             {
                 bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
                 fitness++;
             }
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError)
+            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.08f)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness++;

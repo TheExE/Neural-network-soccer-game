@@ -54,14 +54,14 @@ public class DefensePlayer : AttackPlayer
 
 
             /* DISTANCE TO BALL */
-            if (curDistanceToBall < bestDistanceToBall)
+            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
             {
                 bestDistanceToBall = curDistanceToBall;
                 fitness++;
             }
 
             /* DISTANCE TO HOME GOAL */
-            if (curDistanceToHomeGoal < bestDistanceToHomeGoal)
+            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 1f)
             {
                 bestDistanceToHomeGoal = curDistanceToHomeGoal;
                 fitness++;

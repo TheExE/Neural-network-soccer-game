@@ -61,7 +61,7 @@ public class AttackPlayer : MonoBehaviour
                 fitness ++;
             }*/
 
-            if (curDistanceToBall < bestDistanceToBall)
+            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
             {
                 bestDistanceToBall = curDistanceToBall;
                 fitness ++;
