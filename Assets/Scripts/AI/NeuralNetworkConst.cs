@@ -30,6 +30,6 @@ public class NeuralNetworkConst
     public static int DEFENSE_NEURONS_PER_HID_LAY = 6;
 
     public static int TOURNAMENT_COMPETITIORS = 5;
-    public static int MAX_TICKS = 3000;
+    public static int MAX_TICKS = 5000;
     	
 }
