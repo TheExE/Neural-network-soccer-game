@@ -29,6 +29,8 @@ public class BallScript : MonoBehaviour
                 curCullDown = 0;
             }
         }
+
+        KeepBallInField();
     }
     
     public void KeepBallInField()

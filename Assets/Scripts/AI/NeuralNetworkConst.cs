@@ -9,20 +9,20 @@ public class NeuralNetworkConst
     public static int NUMBER_OF_ELITE = 2;
     public static int NUMBER_OF_ELITE_COPYS = 2;
     public static double CROSSOVER_RATE = 0.7;
-    public static double MUTATION_RATE = 0.1;
+    public static double MUTATION_RATE = 0.08;
     public static float FITNESS_FOR_GOAL = 1;
 
 
     public static int ATTACKER_INPUT_COUNT = 2;
     public static int ATTACKER_OUTPUT_COUNT = 2;
     public static int ATTACKER_HID_LAYER_COUNT = 3;
-    public static int ATTACKER_NEURONS_PER_HID_LAY = 2;
+    public static int ATTACKER_NEURONS_PER_HID_LAY = 6;
 
 
     public static int GOLY_INPUT_COUNT = 2;
     public static int GOLY_OUTPUT_COUNT = 1;
     public static int GOLY_HID_LAYER_COUNT = 3;
-    public static int GOLY_NEURONS_PER_HID_LAY = 2;
+    public static int GOLY_NEURONS_PER_HID_LAY = 6;
 
     public static int DEFENSE_INPUT_COUNT = 6;
     public static int DEFENSE_OUTPUT_COUNT = 5;

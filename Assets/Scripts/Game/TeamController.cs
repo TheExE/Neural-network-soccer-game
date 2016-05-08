@@ -135,7 +135,7 @@ public class TeamController : MonoBehaviour
     private void UpdateTeam()
     {
         curTicks++;
-        if (curTicks < NeuralNetworkConst.MAX_TICKS || generationCounter >= GameConsts.MAX_GENERATIONS || !GameManager.ShouldContinueEvolution)
+        if (curTicks < NeuralNetworkConst.MAX_TICKS || !GameManager.ShouldContinueEvolution)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
