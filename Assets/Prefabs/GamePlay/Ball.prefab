@@ -75,8 +75,8 @@ Rigidbody2D:
   m_GameObject: {fileID: 167458}
   m_UseAutoMass: 0
   m_Mass: 0.5
-  m_LinearDrag: 0.5
-  m_AngularDrag: 0.5
+  m_LinearDrag: 0.2
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
   m_Interpolate: 0

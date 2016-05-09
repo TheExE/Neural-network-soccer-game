@@ -40,12 +40,6 @@ public class GoallyPlayer : AttackPlayer
                 fitness++;
             }
 
-            if (curYDiffWithGoalCenter < bestYDiffWithGoalCenter || curYDiffWithGoalCenter < 0.1f)
-            {
-                bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-                fitness++;
-            }
-
             /* REWARD FOR LESSER ERROR IN DIRECTION */
             if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.08f)
             {
@@ -81,10 +75,6 @@ public class GoallyPlayer : AttackPlayer
         /* Add ball locations */
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.y);
-
-        /* Add y distance from goal middle */
-        Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
-        inputs.Add(toGoalCenter.y);
 
 
         /* Add ball hit direction */

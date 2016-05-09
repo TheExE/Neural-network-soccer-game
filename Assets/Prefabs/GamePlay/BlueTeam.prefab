@@ -304,7 +304,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 181914}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 1
+  m_LinearDrag: 1.2
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -321,7 +321,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 132814}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 1
+  m_LinearDrag: 1.2
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -338,7 +338,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 186692}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 1
+  m_LinearDrag: 1.2
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0
@@ -355,7 +355,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 106588}
   m_UseAutoMass: 0
   m_Mass: 70
-  m_LinearDrag: 1
+  m_LinearDrag: 1.2
   m_AngularDrag: 0
   m_GravityScale: 0
   m_IsKinematic: 0

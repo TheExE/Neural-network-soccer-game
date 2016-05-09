@@ -46,11 +46,11 @@ public class DefensePlayer : AttackPlayer
 
 
             /* DISTANCE TO GOALY PLAYER */
-            if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
+            /*if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
             {
                 bestDistToGoly = curDistToGoaly;
                 fitness++;
-            }
+            }*/
 
 
             /* DISTANCE TO BALL */
@@ -69,25 +69,25 @@ public class DefensePlayer : AttackPlayer
 
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError)
+            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness++;
             }
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-            if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
+            /*if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;
-            }
+            }*/
 
             /* REWARD FOR NOT BEING IN THE WAY OF ATTACKER */
-            if (curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
+            /*if (curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
             {
                 bestDistanceToAttacker = curDistanceToAttacker;
                 fitness++;
-            }
+            }*/
         }
 
         isColided = false;
@@ -121,9 +121,9 @@ public class DefensePlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         /* Add move to oponent Attacker */
-        Vector2 toOponentAttacker = (oponentAttacker.transform.position - transform.position).normalized;
-        inputs.Add(toOponentAttacker.x);
-        inputs.Add(toOponentAttacker.y);
+        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
+        inputs.Add(toBall.x);
+        inputs.Add(toBall.y);
 
         /* Add move to home goal */
         Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
@@ -166,4 +166,12 @@ public class DefensePlayer : AttackPlayer
         get { return teamGoally; }
         set { teamGoally = value; }
     }
+
+    new public void Reset()
+    {
+        base.Reset();
+        curDistanceToHomeGoal = float.MaxValue;
+        bestDistanceToHomeGoal = float.MaxValue;
+    }
+
 }
