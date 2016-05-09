@@ -374,7 +374,7 @@ MonoBehaviour:
   data:
     version: 1
     font: {fileID: 11400000, guid: 44e006873ca04f741b2ac3ba5dec92ad, type: 2}
-    text: 'Score: '
+    text: 
     color: {r: 1, g: 1, b: 1, a: 1}
     color2: {r: 1, g: 1, b: 1, a: 1}
     useGradient: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
     maxChars: 50
     inlineStyling: 0
     formatting: 1
-    wordWrapWidth: 843
+    wordWrapWidth: 588
     spacing: 0
     lineSpacing: 0
 --- !u!114 &11449286
@@ -435,7 +435,7 @@ MonoBehaviour:
   data:
     version: 1
     font: {fileID: 11400000, guid: 44e006873ca04f741b2ac3ba5dec92ad, type: 2}
-    text: 'Score: '
+    text: 
     color: {r: 1, g: 1, b: 1, a: 1}
     color2: {r: 1, g: 1, b: 1, a: 1}
     useGradient: 0
@@ -444,10 +444,10 @@ MonoBehaviour:
     renderLayer: 5
     scale: {x: 2.911734, y: 2.27441, z: 0}
     kerning: 0
-    maxChars: 16
-    inlineStyling: 0
-    formatting: 0
-    wordWrapWidth: 0
+    maxChars: 64
+    inlineStyling: 1
+    formatting: 1
+    wordWrapWidth: 736
     spacing: 0
     lineSpacing: 0
 --- !u!114 &11491976
@@ -479,7 +479,7 @@ MonoBehaviour:
   data:
     version: 1
     font: {fileID: 11400000, guid: 44e006873ca04f741b2ac3ba5dec92ad, type: 2}
-    text: 'Score: '
+    text: 
     color: {r: 1, g: 1, b: 1, a: 1}
     color2: {r: 1, g: 1, b: 1, a: 1}
     useGradient: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
     maxChars: 50
     inlineStyling: 0
     formatting: 1
-    wordWrapWidth: 919
+    wordWrapWidth: 588
     spacing: 0
     lineSpacing: 0
 --- !u!1001 &100100000

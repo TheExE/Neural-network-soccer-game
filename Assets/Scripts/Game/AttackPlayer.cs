@@ -17,11 +17,11 @@ public class AttackPlayer : MonoBehaviour
 
     protected bool colided = false;
     protected float curDistanceToBall;
-	protected float bestDistanceToBall = float.MaxValue;
+    protected float bestDistanceToBall = float.MaxValue;
     protected float lastPositionX;
     protected float curBallHitDirectionError = 0;
     protected float bestBallHitDirectionError = float.MaxValue;
-	protected bool isInited = false;
+    protected bool isInited = false;
     protected Vector2 directionOfHitBall = Vector2.zero;
     protected float ballHitStrenght = 1;
     protected float scale = 1;
@@ -32,12 +32,12 @@ public class AttackPlayer : MonoBehaviour
     private float bestDistanceToOponentGoal = float.MaxValue;
     private float curDistanceToOponentGoal;
     private Vector2 lastPosition = Vector2.zero;
-	
+
 
 
     void Start()
     {
-        if(!isInited)
+        if (!isInited)
         {
             InitPlayer();
         }
@@ -47,7 +47,7 @@ public class AttackPlayer : MonoBehaviour
     void Update()
     {
         curTime += Time.deltaTime;
-        if(curTime > 2 && !isColided)
+        if (curTime > 2 && !isColided)
         {
             curTime = 0;
 
@@ -55,16 +55,16 @@ public class AttackPlayer : MonoBehaviour
             curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
 
             /* Balls distance to oponents goal */
-           /* if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
-            {
-                bestDistanceToOponentGoal = curDistanceToOponentGoal;
-                fitness ++;
-            }*/
+            /* if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
+             {
+                 bestDistanceToOponentGoal = curDistanceToOponentGoal;
+                 fitness ++;
+             }*/
 
             if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
             {
                 bestDistanceToBall = curDistanceToBall;
-                fitness ++;
+                fitness++;
             }
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
@@ -74,14 +74,14 @@ public class AttackPlayer : MonoBehaviour
                 fitness ++;
             }*/
         }
-		
-        
+
+
         HandlePlayerRotation();
     }
 
     public virtual void InitPlayer()
     {
-        if(!isInited)
+        if (!isInited)
         {
             id++;
             oponentDefense = oponentTeam.GetComponentsInChildren<DefensePlayer>();
@@ -104,8 +104,8 @@ public class AttackPlayer : MonoBehaviour
 
         /* Oponents goal */
         Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
-       /* inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);*/
+        /* inputs.Add(toOponentGoal.x);
+         inputs.Add(toOponentGoal.y);*/
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
@@ -132,6 +132,15 @@ public class AttackPlayer : MonoBehaviour
             }
             fitness++;
         }
+        else
+        {
+            fitness--;
+        }
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        OnTriggerEnter2D(collision);
     }
 
     protected void HandlePlayerRotation()
@@ -203,6 +212,11 @@ public class AttackPlayer : MonoBehaviour
             colided = true;
         }
 
+        if(colided)
+        {
+            fitness--;
+        }
+
     }
 
     public Rigidbody2D PhysicsBody
@@ -219,10 +233,10 @@ public class AttackPlayer : MonoBehaviour
     {
         Vector3 closestOp = Vector3.zero;
         float bestDistance = float.MaxValue;
-        foreach(DefensePlayer oponent in oponentDefense)
+        foreach (DefensePlayer oponent in oponentDefense)
         {
             float curDistance = (oponent.transform.position - transform.position).sqrMagnitude;
-            if(curDistance < bestDistance)
+            if (curDistance < bestDistance)
             {
                 bestDistance = curDistance;
                 closestOp = new Vector2(oponent.transform.position.x, oponent.transform.position.y);

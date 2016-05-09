@@ -101,9 +101,9 @@ public class DefensePlayer : AttackPlayer
             id++;
             teamGoally = transform.parent.gameObject.GetComponentInChildren<GoallyPlayer>();
             AttackPlayer[] list = oponentTeam.GetComponentsInChildren<AttackPlayer>();
-            foreach(AttackPlayer a in list)
+            foreach (AttackPlayer a in list)
             {
-                if(a.NameType == GameConsts.ATTACK_PLAYER)
+                if (a.NameType == GameConsts.ATTACK_PLAYER)
                 {
                     oponentAttacker = a;
                     break;
@@ -132,8 +132,8 @@ public class DefensePlayer : AttackPlayer
 
         /* Add ball hit direction */
         Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(ballToGoal.x);
-        inputs.Add(ballToGoal.y);
+        /*inputs.Add(ballToGoal.x);
+        inputs.Add(ballToGoal.y);*/
 
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
@@ -141,11 +141,11 @@ public class DefensePlayer : AttackPlayer
             transform.position.y + (float)output[1] * Time.deltaTime);*/
 
         rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);
-        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        directionOfHitBall = ballToGoal;
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = (float)output[4];
+        ballHitStrenght = 2f;
 
         ClipPlayerToField();
     }
@@ -154,7 +154,12 @@ public class DefensePlayer : AttackPlayer
     {
         base.OnTriggerEnter2D(collision);
     }
-    
+
+    new public void OnTriggerStay2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+    }
+
     public AttackPlayer OponentsAttacker
     {
         get { return oponentAttacker; }

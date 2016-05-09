@@ -26,7 +26,11 @@ public class TeamController : MonoBehaviour
     private List<GoallyPlayer > goalyPlayers = new List<GoallyPlayer>();
     private List<AttackPlayer> attackPlayers = new List<AttackPlayer>();
     private List<AttackPlayer> redTeamAttackers = new List<AttackPlayer>();
+    private List<DefensePlayer> redTeamDefense = new List<DefensePlayer>();
+    private List<GoallyPlayer> redTeamGoally = new List<GoallyPlayer>();
     private List<AttackPlayer> blueTeamAttackers = new List<AttackPlayer>();
+    private List<DefensePlayer> blueTeamDefense = new List<DefensePlayer>();
+    private List<GoallyPlayer> blueTeamGoally = new List<GoallyPlayer>();
     private List<Genome> attackPlayersPop = new List<Genome>();
     private List<Genome> defensePlayerPop = new List<Genome>();
     private List<Genome> goalyPlayerPop = new List<Genome>();
@@ -34,7 +38,10 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgDefensePlayers;
     private GeneticAlgorithm genAlgGoaly;
    
-    private int generationCounter = 0;
+    private int generationCounterA = 0;
+    private int generationCounterD = 0;
+    private int generationCounterG = 0;
+
     private List<Vector2> startPosition = new List<Vector2>();
     private int curTicks = 0;
 
@@ -119,7 +126,9 @@ public class TeamController : MonoBehaviour
 
     void Update()
     {
-        statText.text = "Cur gen: " + generationCounter;
+        statText.text = "Cur gen A: " + generationCounterA + '\n'
+                        + " Cur gen D: " + generationCounterD + '\n'
+                        + " Cur gen G: " + generationCounterG;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -135,7 +144,7 @@ public class TeamController : MonoBehaviour
     private void UpdateTeam()
     {
         curTicks++;
-        if (curTicks < NeuralNetworkConst.MAX_TICKS || !GameManager.ShouldContinueEvolution)
+        if (curTicks < NeuralNetworkConst.MAX_TICKS)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
@@ -164,40 +173,49 @@ public class TeamController : MonoBehaviour
         //Generation passed create new population
         else
         {
-            generationCounter++;
             curTicks = 0;
-
-            genAlgDefensePlayers.Epoch();
-            genAlgGoaly.Epoch();
-            genAlgAttackPlayers.Epoch();
-
-            /* DEFENSE PLAYERS */
-            for (int i = 0; i < defensePlayers.Count; i++)
+           
+            if(!GameManager.ShouldPauseEvoD)
             {
-                defensePlayers[i].
-                    PutWeights(genAlgDefensePlayers.
-                    Population[i].Weights);
-                defensePlayers[i].Reset();
+                generationCounterD++;
+                genAlgDefensePlayers.Epoch();
+                /* DEFENSE PLAYERS */
+                for (int i = 0; i < defensePlayers.Count; i++)
+                {
+                    defensePlayers[i].
+                        PutWeights(genAlgDefensePlayers.
+                        Population[i].Weights);
+                    defensePlayers[i].Reset();
+                }
             }
-
-            /* ATTACK PLAYER */
-            for (int i = 0; i < attackPlayers.Count; i++)
+           
+            if(!GameManager.ShouldPauseEvoA)
             {
-                attackPlayers[i].
-                    PutWeights(genAlgAttackPlayers.
-                    Population[i].Weights);
-                attackPlayers[i].Reset();
+                generationCounterA++;
+                genAlgAttackPlayers.Epoch();
+                /* ATTACK PLAYER */
+                for (int i = 0; i < attackPlayers.Count; i++)
+                {
+                    attackPlayers[i].
+                        PutWeights(genAlgAttackPlayers.
+                        Population[i].Weights);
+                    attackPlayers[i].Reset();
+                }
             }
-          
-            /* GOALY PLAYERS */
-            for (int i = 0; i < goalyPlayers.Count; i++)
+            
+            if(!GameManager.ShouldPauseEvoG)
             {
-                goalyPlayers[i].
-                    PutWeights(genAlgGoaly.
-                    Population[i].Weights);
-                goalyPlayers[i].Reset();
+                generationCounterG++;
+                genAlgGoaly.Epoch();
+                /* GOALY PLAYERS */
+                for (int i = 0; i < goalyPlayers.Count; i++)
+                {
+                    goalyPlayers[i].
+                        PutWeights(genAlgGoaly.
+                        Population[i].Weights);
+                    goalyPlayers[i].Reset();
+                }
             }
-
         }
     }
     public void Reset()
@@ -251,11 +269,27 @@ public class TeamController : MonoBehaviour
                     break;
 
                 case GameConsts.DEFENSE_PLAYER:
+                    if (att.gameObject.name.StartsWith("B"))
+                    {
+                        blueTeamDefense.Add(att as DefensePlayer);
+                    }
+                    else
+                    {
+                        redTeamDefense.Add(att as DefensePlayer);
+                    }
                     defensePlayers.Add(att as DefensePlayer);
                     defensePlayers[defensePlayers.Count - 1].InitPlayer();
                     break;
 
                 case GameConsts.GOALLY_PLAYER:
+                    if (att.gameObject.name.StartsWith("B"))
+                    {
+                        blueTeamGoally.Add(att as GoallyPlayer);
+                    }
+                    else
+                    {
+                        redTeamGoally.Add(att as GoallyPlayer);
+                    }
                     goalyPlayers.Add(att as GoallyPlayer);
                     goalyPlayers[goalyPlayers.Count - 1].InitPlayer();
                     break;
@@ -284,6 +318,8 @@ public class TeamController : MonoBehaviour
                 defPlayer.TeamGoally = redTeamDefenseExample.TeamGoally;
                 defPlayer.OponentsAttacker = redTeamDefenseExample.OponentsAttacker;
                 defensePlayers.Add(defPlayer);
+
+                redTeamDefense.Add(defPlayer);
             }
             else
             {
@@ -297,6 +333,8 @@ public class TeamController : MonoBehaviour
                 defPlayer.TeamGoally = blueTeamDefenseExmaple.TeamGoally;
                 defPlayer.OponentsAttacker = blueTeamDefenseExmaple.OponentsAttacker;
                 defensePlayers.Add(defPlayer);
+
+                blueTeamDefense.Add(defPlayer);
             }
             counter++;
         }
@@ -348,6 +386,8 @@ public class TeamController : MonoBehaviour
                 goaly.goalToSave = redTeamGoallyExample.goalToSave;
                 goaly.InitPlayer();
                 goalyPlayers.Add(goaly);
+
+                redTeamGoally.Add(goaly);
             }
             else
             {
@@ -358,6 +398,8 @@ public class TeamController : MonoBehaviour
                 goaly.goalToSave = blueTeamGoallyExample.goalToSave;
                 goaly.InitPlayer();
                 goalyPlayers.Add(goaly);
+
+                blueTeamGoally.Add(goaly);
             }
 
             counter++;
@@ -388,16 +430,45 @@ public class TeamController : MonoBehaviour
             float bestFitness = 0;
             foreach (AttackPlayer a in blueTeamAttackers)
             {
-                if(a.Fitness > bestFitness)
+                if (a.Fitness > bestFitness)
                 {
                     bestFitness = a.Fitness;
                 }
             }
             return bestFitness;
         }
-        
-    }
 
+    }
+    public float BestBlueGoally
+    {
+        get
+        {
+            float bestFitness = 0;
+            foreach (GoallyPlayer g in blueTeamGoally)
+            {
+                if (g.Fitness > bestFitness)
+                {
+                    bestFitness = g.Fitness;
+                }
+            }
+            return bestFitness;
+        }
+    }
+    public float BestBlueDefense
+    {
+        get
+        {
+            float bestFitness = 0;
+            foreach (DefensePlayer d in blueTeamDefense)
+            {
+                if (d.Fitness > bestFitness)
+                {
+                    bestFitness = d.Fitness;
+                }
+            }
+            return bestFitness;
+        }
+    }
     public float BestRedAttacker
     {
         get
@@ -414,7 +485,36 @@ public class TeamController : MonoBehaviour
         }
 
     }
-
+    public float BestRedGoally
+    {
+        get
+        {
+            float bestFitness = 0;
+            foreach (GoallyPlayer g in redTeamGoally)
+            {
+                if (g.Fitness > bestFitness)
+                {
+                    bestFitness = g.Fitness;
+                }
+            }
+            return bestFitness;
+        }
+    }
+    public float BestRedDefense
+    {
+        get
+        {
+            float bestFitness = 0;
+            foreach (DefensePlayer d in redTeamDefense)
+            {
+                if (d.Fitness > bestFitness)
+                {
+                    bestFitness = d.Fitness;
+                }
+            }
+            return bestFitness;
+        }
+    }
 
     public void IncreaseTeamsFitness(float amount, bool inscreaseBlueTeam)
     {

@@ -114,6 +114,11 @@ public class GoallyPlayer : AttackPlayer
         base.OnTriggerEnter2D(collision);
     }
 
+    new public void OnTriggerStay2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+    }   
+
     public DefensePlayer[] TeamDefense
     {
         get { return teamDefense; }

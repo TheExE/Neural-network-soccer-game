@@ -18,7 +18,9 @@ public class GameManager : MonoBehaviour {
     private TeamController teamController;
 
     private float timer = 0f;
-    private static bool shouldPauseEvolution = true;
+    private static bool shouldPauseEvolutionA = false;
+    private static bool shouldPauseEvolutionD = false;
+    private static bool shouldPauseEvolutionG = false;
 
 	void Start () 
     {
@@ -34,8 +36,12 @@ public class GameManager : MonoBehaviour {
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
         fpsText.text = "Fps:" + Mathf.RoundToInt(1 / Time.deltaTime);
-        blueTeamFitnes.text = "Att Fit: " + teamController.BestBlueAttacker;
-        redTeamFitness.text = "Att Fit: " + teamController.BestRedAttacker;
+        blueTeamFitnes.text = "A Fit: " + teamController.BestBlueAttacker + '\n'
+            + " D Fit: " + teamController.BestBlueDefense + '\n'
+            + " G Fit: " + teamController.BestBlueGoally;
+        redTeamFitness.text = "A Fit: " + teamController.BestRedAttacker + '\n'
+            + " D Fit: " + teamController.BestRedDefense + '\n'
+            + " G Fit: " + teamController.BestRedGoally;
 
         timer += Time.deltaTime;
         if(timer > 2)
@@ -48,15 +54,37 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
+        /* PAUSE ATTACKER EVO */
+        if(Input.GetKeyDown(KeyCode.A) && shouldPauseEvolutionA)
         {
-            shouldPauseEvolution = false;
+            shouldPauseEvolutionA = false;
         }
-        else if(Input.GetKeyDown(KeyCode.U))
+        else if(Input.GetKeyDown(KeyCode.A) && !shouldPauseEvolutionA)
         {
-            shouldPauseEvolution = true;
+            shouldPauseEvolutionA = true;
         }
-	}
+
+        /* PAUSE DEFENSE PLAYER EVO */
+        if (Input.GetKeyDown(KeyCode.D) && shouldPauseEvolutionD)
+        {
+            shouldPauseEvolutionA = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && !shouldPauseEvolutionD)
+        {
+            shouldPauseEvolutionA = true;
+        }
+
+        /* PAUSE GOALLY PALYER EVO */
+        if (Input.GetKeyDown(KeyCode.G) && shouldPauseEvolutionG)
+        {
+            shouldPauseEvolutionA = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.G) && !shouldPauseEvolutionG)
+        {
+            shouldPauseEvolutionA = true;
+        }
+
+    }
 
     public static int RedTeamScore
     {
@@ -88,10 +116,17 @@ public class GameManager : MonoBehaviour {
         teamController.Reset();
     }
 
-    public static bool ShouldContinueEvolution
+    public static bool ShouldPauseEvoA
     {
-        get { return shouldPauseEvolution; }
-
+        get { return shouldPauseEvolutionA; }
+    }
+    public static bool ShouldPauseEvoD
+    {
+        get { return shouldPauseEvolutionD; }
+    }
+    public static bool ShouldPauseEvoG
+    {
+        get { return shouldPauseEvolutionG; }
     }
 
 }
