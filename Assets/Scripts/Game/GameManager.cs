@@ -67,21 +67,21 @@ public class GameManager : MonoBehaviour {
         /* PAUSE DEFENSE PLAYER EVO */
         if (Input.GetKeyDown(KeyCode.D) && shouldPauseEvolutionD)
         {
-            shouldPauseEvolutionA = false;
+            shouldPauseEvolutionD = false;
         }
         else if (Input.GetKeyDown(KeyCode.D) && !shouldPauseEvolutionD)
         {
-            shouldPauseEvolutionA = true;
+            shouldPauseEvolutionD = true;
         }
 
         /* PAUSE GOALLY PALYER EVO */
         if (Input.GetKeyDown(KeyCode.G) && shouldPauseEvolutionG)
         {
-            shouldPauseEvolutionA = false;
+            shouldPauseEvolutionG = false;
         }
         else if (Input.GetKeyDown(KeyCode.G) && !shouldPauseEvolutionG)
         {
-            shouldPauseEvolutionA = true;
+            shouldPauseEvolutionG = true;
         }
 
     }

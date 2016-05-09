@@ -583,19 +583,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 3301632, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3360618, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3308732, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+    - target: {fileID: 3301632, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3374784, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+    - target: {fileID: 3308732, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
@@ -615,6 +611,10 @@ Prefab:
       propertyPath: blueTeamScoreObj
       value: 
       objectReference: {fileID: 37778030}
+    - target: {fileID: 3374784, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
   m_IsPrefabParent: 0
