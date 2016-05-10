@@ -19,8 +19,6 @@ public class AttackPlayer : MonoBehaviour
     protected float curDistanceToBall;
     protected float bestDistanceToBall = float.MaxValue;
     protected float lastPositionX;
-    protected float curBallHitDirectionError = 0;
-    protected float bestBallHitDirectionError = float.MaxValue;
     protected bool isInited = false;
     protected Vector2 directionOfHitBall = Vector2.zero;
     protected float ballHitStrenght = 1;
@@ -29,11 +27,6 @@ public class AttackPlayer : MonoBehaviour
     protected int ballHitTimes = 0;
     protected bool isColided = false;
     protected Vector3 lastPosition = Vector3.zero;
-
-    private float bestDistanceToOponentGoal = float.MaxValue;
-    private float curDistanceToOponentGoal;
-
-
 
     void Start()
     {
@@ -51,16 +44,7 @@ public class AttackPlayer : MonoBehaviour
         if (curTime > 2)
         {
             curTime = 0;
-
             curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-            curDistanceToOponentGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
-
-            /* Balls distance to oponents goal */
-            /* if (curDistanceToOponentGoal < bestDistanceToOponentGoal)
-             {
-                 bestDistanceToOponentGoal = curDistanceToOponentGoal;
-                 fitness ++;
-             }*/
 
             if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
             {
@@ -68,12 +52,6 @@ public class AttackPlayer : MonoBehaviour
                 fitness++;
             }
 
-            /* REWARD FOR LESSER ERROR IN DIRECTION */
-            /*if (curBallHitDirectionError < bestBallHitDirectionError)
-            {
-                bestBallHitDirectionError = curBallHitDirectionError;
-                fitness ++;
-            }*/
             PunishCampers();
             lastPosition = new Vector3(transform.position.x, transform.position.y);
 
@@ -122,9 +100,6 @@ public class AttackPlayer : MonoBehaviour
         directionOfHitBall = toOponentGoal;
         ballHitStrenght = 0.6f;
 
-        /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
-
         ClipPlayerToField();
     }
 
@@ -166,7 +141,7 @@ public class AttackPlayer : MonoBehaviour
     public void PunishCampers()
     {
         Vector2 dif = transform.position - lastPosition;
-        if(dif.magnitude < 0.03f)
+        if(dif.magnitude < 0.01f)
         {
             fitness--;
         }

@@ -10,12 +10,8 @@ public class DefensePlayer : AttackPlayer
     private float bestDistanceToHomeGoal = float.MaxValue;
     private AttackPlayer oponentAttacker;
     private GoallyPlayer teamGoally;
-    private float curDistanceToAttacker = 0;
-    private float bestDistanceToAttacker = 0;
     private float curDistToOponentAttacker = float.MaxValue;
     private float bestDistanceToOponentAttacker = float.MaxValue;
-    private float curDistToGoaly = 0f;
-    private float bestDistToGoly = 0f;
 
     public DefensePlayer()
     {
@@ -42,16 +38,6 @@ public class DefensePlayer : AttackPlayer
             curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
             curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
             curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
-            curDistToGoaly = (teamGoally.transform.position - transform.position).sqrMagnitude;
-            curDistanceToAttacker = (attackerPlayer.transform.position - transform.position).sqrMagnitude;
-
-
-            /* DISTANCE TO GOALY PLAYER */
-            /*if (curDistToGoaly > bestDistToGoly && curDistToGoaly < 2f)
-            {
-                bestDistToGoly = curDistToGoaly;
-                fitness++;
-            }*/
 
 
             /* DISTANCE TO BALL */
@@ -70,7 +56,7 @@ public class DefensePlayer : AttackPlayer
 
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistanceToAttacker < 0.1f)
+            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.1f)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;

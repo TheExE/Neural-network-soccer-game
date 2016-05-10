@@ -40,13 +40,6 @@ public class GoallyPlayer : AttackPlayer
                 fitness++;
             }
 
-            /* REWARD FOR LESSER ERROR IN DIRECTION */
-            /*if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.08f)
-            {
-                bestBallHitDirectionError = curBallHitDirectionError;
-                fitness++;
-            }*/
-
             if(transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
             {
                 fitness--;
@@ -90,11 +83,7 @@ public class GoallyPlayer : AttackPlayer
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = toOponentGoal;
-
-        /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = 0f;
         ballHitStrenght = 0.6f;
-
         ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
@@ -111,23 +100,19 @@ public class GoallyPlayer : AttackPlayer
 
         return bestDistance;
     }
-
     new public void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
     }
-
     new public void OnTriggerStay2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
     }   
-
     public DefensePlayer[] TeamDefense
     {
         get { return teamDefense; }
         set { teamDefense = value; }
     }
-
     new public void Reset(bool isBallInNet)
     {
         base.Reset(isBallInNet);
