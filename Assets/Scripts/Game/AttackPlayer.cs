@@ -28,10 +28,10 @@ public class AttackPlayer : MonoBehaviour
     protected float curTime = 0;
     protected int ballHitTimes = 0;
     protected bool isColided = false;
+    protected Vector3 lastPosition = Vector3.zero;
 
     private float bestDistanceToOponentGoal = float.MaxValue;
     private float curDistanceToOponentGoal;
-    private Vector2 lastPosition = Vector2.zero;
 
 
 
@@ -112,12 +112,14 @@ public class AttackPlayer : MonoBehaviour
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
         directionOfHitBall = toOponentGoal;
-        ballHitStrenght = 1.5f;
+        ballHitStrenght = 0.6f;
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
 
         ClipPlayerToField();
+        PunishCampers();
+        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -159,34 +161,41 @@ public class AttackPlayer : MonoBehaviour
         lastPositionX = transform.position.x;
     }
 
+    public void PunishCampers()
+    {
+        Vector2 dif = transform.position - lastPosition;
+        if(dif.magnitude < 0.1f)
+        {
+            fitness--;
+        }
+    }
     public float Fitness
     {
         get { return fitness; }
         set { fitness = value; }
-
     }
     public void PutWeights(List<double> weights)
     {
         brain.PutWeights(weights);
     }
-
     public int NumberOfWeights
     {
         get { return brain.GetNumberOfWeights(); }
     }
-
-    public void Reset()
+    public void Reset(bool isBallInNet)
     {
-        fitness = 0;
-        curDistanceToBall = float.MaxValue;
-        bestDistanceToBall = float.MaxValue;
-
+        if(!isBallInNet)
+        {
+            fitness = 0;
+            curDistanceToBall = float.MaxValue;
+            bestDistanceToBall = float.MaxValue;
+        }
         /* RESET FORCE */
         rgBody.velocity = Vector2.zero;
         rgBody.angularVelocity = 0f;
         rgBody.angularDrag = 0f;
     }
-
+    
     protected void ClipPlayerToField()
     {
         colided = false;

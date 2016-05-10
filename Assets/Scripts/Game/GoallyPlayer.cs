@@ -41,10 +41,15 @@ public class GoallyPlayer : AttackPlayer
             }
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.08f)
+            /*if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.08f)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness++;
+            }*/
+
+            if(transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN)
+            {
+                fitness--;
             }
         }
 
@@ -90,7 +95,7 @@ public class GoallyPlayer : AttackPlayer
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = 0f;
-        ballHitStrenght = 2f;
+        ballHitStrenght = 0.6f;
 
         ClipPlayerToField();
     }
@@ -125,10 +130,13 @@ public class GoallyPlayer : AttackPlayer
         set { teamDefense = value; }
     }
 
-    new public void Reset()
+    new public void Reset(bool isBallInNet)
     {
-        base.Reset();
-        curYDiffWithBall = float.MaxValue;
-        bestYDiffWithBall = float.MaxValue;
+        base.Reset(isBallInNet);
+        if(!isBallInNet)
+        {
+            curYDiffWithBall = float.MaxValue;
+            bestYDiffWithBall = float.MaxValue;
+        }
     }
 }

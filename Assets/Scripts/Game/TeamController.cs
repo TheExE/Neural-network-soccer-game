@@ -185,7 +185,7 @@ public class TeamController : MonoBehaviour
                     defensePlayers[i].
                         PutWeights(genAlgDefensePlayers.
                         Population[i].Weights);
-                    defensePlayers[i].Reset();
+                    defensePlayers[i].Reset(false);
                 }
             }
            
@@ -199,7 +199,7 @@ public class TeamController : MonoBehaviour
                     attackPlayers[i].
                         PutWeights(genAlgAttackPlayers.
                         Population[i].Weights);
-                    attackPlayers[i].Reset();
+                    attackPlayers[i].Reset(false);
                 }
             }
             
@@ -213,7 +213,7 @@ public class TeamController : MonoBehaviour
                     goalyPlayers[i].
                         PutWeights(genAlgGoaly.
                         Population[i].Weights);
-                    goalyPlayers[i].Reset();
+                    goalyPlayers[i].Reset(false);
                 }
             }
         }
@@ -224,14 +224,14 @@ public class TeamController : MonoBehaviour
         for(int i = 0; i < defensePlayers.Count; i++)
         {
             defensePlayers[i].transform.position = new Vector2(startPosition[i].x, startPosition[i].y);
-            defensePlayers[i].Reset();
+            defensePlayers[i].Reset(true);
         }
         /* ATTACK PLAYERS */
         for (int i = 0; i < attackPlayers.Count; i++)
         {
             attackPlayers[i].transform.position = new Vector2(startPosition[defensePlayers.Count + i].x,
                 startPosition[defensePlayers.Count + i].y);
-            attackPlayers[i].Reset();
+            attackPlayers[i].Reset(true);
         }
 
         /* GOALY PLAYERS */
@@ -240,7 +240,7 @@ public class TeamController : MonoBehaviour
             goalyPlayers[i].transform.position = 
                 new Vector2(startPosition[defensePlayers.Count+attackPlayers.Count+i].x,
                 startPosition[defensePlayers.Count + attackPlayers.Count + i].y);
-            goalyPlayers[i].Reset();
+            goalyPlayers[i].Reset(true);
         }
     }
     public List<GoallyPlayer> Goally

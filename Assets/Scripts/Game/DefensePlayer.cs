@@ -69,11 +69,11 @@ public class DefensePlayer : AttackPlayer
 
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
+            /*if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness++;
-            }
+            }*/
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
             /*if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
@@ -145,9 +145,11 @@ public class DefensePlayer : AttackPlayer
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = 2f;
+        ballHitStrenght = 0.6f;
 
         ClipPlayerToField();
+        PunishCampers();
+        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     new public void OnTriggerEnter2D(Collider2D collision)
@@ -172,11 +174,15 @@ public class DefensePlayer : AttackPlayer
         set { teamGoally = value; }
     }
 
-    new public void Reset()
+    new public void Reset(bool isBallInNet)
     {
-        base.Reset();
-        curDistanceToHomeGoal = float.MaxValue;
-        bestDistanceToHomeGoal = float.MaxValue;
+        base.Reset(isBallInNet);
+
+        if(!isBallInNet)
+        {
+            curDistanceToHomeGoal = float.MaxValue;
+            bestDistanceToHomeGoal = float.MaxValue;
+        }
     }
 
 }

@@ -19,4 +19,7 @@ public class GameConsts
     public const string DEFENSE_PLAYER = "DEFENSE";
     public const string ATTACK_PLAYER = "ATTACK";
     public const string GOALLY_PLAYER = "GOALLY";
+
+    public const float GOALLY_LINE_UP = 1.45f;
+    public const float GOALLY_LINE_DOWN = -1.45f;
 }
