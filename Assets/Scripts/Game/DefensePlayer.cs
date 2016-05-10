@@ -29,6 +29,7 @@ public class DefensePlayer : AttackPlayer
             InitPlayer();
         }
         lastPositionX = transform.position.x;
+        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     void Update()
@@ -88,6 +89,9 @@ public class DefensePlayer : AttackPlayer
                 bestDistanceToAttacker = curDistanceToAttacker;
                 fitness++;
             }*/
+
+            PunishCampers();
+            lastPosition = new Vector3(transform.position.x, transform.position.y);
         }
 
         isColided = false;
@@ -148,8 +152,6 @@ public class DefensePlayer : AttackPlayer
         ballHitStrenght = 0.6f;
 
         ClipPlayerToField();
-        PunishCampers();
-        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     new public void OnTriggerEnter2D(Collider2D collision)

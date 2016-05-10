@@ -82,6 +82,29 @@ public class TeamController : MonoBehaviour
         FillTeamWithDummyPlayers();
         InitGeneticAlgorithms();
         InitStartingPositionForReset();
+
+        int counter = 0;
+        while(counter < 100)
+        {
+            /* DEFENSE PLAYERS */
+            for (int i = 0; i < defensePlayers.Count; i++)
+            {
+                defensePlayers[i].UpdatePlayerBrains();
+            }
+
+            /* ATTACK PLAYERS */
+            for (int i = 0; i < attackPlayers.Count; i++)
+            {
+                attackPlayers[i].UpdatePlayerBrains();
+            }
+
+            /* GOALY PLAYERS */
+            for (int i = 0; i < goalyPlayers.Count; i++)
+            {
+                goalyPlayers[i].UpdatePlayerBrains();
+            }
+            counter++;
+        }
     }
 
     private void InitGeneticAlgorithms()
@@ -129,7 +152,6 @@ public class TeamController : MonoBehaviour
         statText.text = "Cur gen A: " + generationCounterA + '\n'
                         + " Cur gen D: " + generationCounterD + '\n'
                         + " Cur gen G: " + generationCounterG;
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Application.targetFrameRate = -1;
@@ -138,6 +160,8 @@ public class TeamController : MonoBehaviour
 		{
             Application.targetFrameRate = 60;
         }
+
+        
 
         UpdateTeam();
     }

@@ -42,6 +42,7 @@ public class AttackPlayer : MonoBehaviour
             InitPlayer();
         }
         lastPositionX = transform.position.x;
+        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     void Update()
@@ -73,6 +74,8 @@ public class AttackPlayer : MonoBehaviour
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness ++;
             }*/
+            PunishCampers();
+            lastPosition = new Vector3(transform.position.x, transform.position.y);
         }
 
 
@@ -118,8 +121,6 @@ public class AttackPlayer : MonoBehaviour
         curBallHitDirectionError = (toOponentGoal - directionOfHitBall).sqrMagnitude;
 
         ClipPlayerToField();
-        PunishCampers();
-        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -164,7 +165,7 @@ public class AttackPlayer : MonoBehaviour
     public void PunishCampers()
     {
         Vector2 dif = transform.position - lastPosition;
-        if(dif.magnitude < 0.1f)
+        if(dif.magnitude < 0.05f)
         {
             fitness--;
         }
