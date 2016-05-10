@@ -69,26 +69,12 @@ public class DefensePlayer : AttackPlayer
             }
 
 
-            /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
-            {
-                bestBallHitDirectionError = curBallHitDirectionError;
-                fitness++;
-            }
-
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-            /*if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
+            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistanceToAttacker < 0.1f)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;
-            }*/
-
-            /* REWARD FOR NOT BEING IN THE WAY OF ATTACKER */
-            /*if (curDistanceToAttacker > bestDistanceToAttacker && curDistanceToAttacker < 4f)
-            {
-                bestDistanceToAttacker = curDistanceToAttacker;
-                fitness++;
-            }*/
+            }
 
             PunishCampers();
             lastPosition = new Vector3(transform.position.x, transform.position.y);
@@ -127,28 +113,22 @@ public class DefensePlayer : AttackPlayer
         List<double> inputs = new List<double>();
 
         /* Add move to oponent Attacker */
-        Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
-        inputs.Add(toBall.x);
-        inputs.Add(toBall.y);
+        Vector2 toOponentAttacker = (oponentAttacker.transform.position - transform.position).normalized;
+        inputs.Add(toOponentAttacker.x);
+        inputs.Add(toOponentAttacker.y);
 
         /* Add move to home goal */
         Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
         inputs.Add(toHomeGoal.x);
         inputs.Add(toHomeGoal.y);
 
-        /* Add ball hit direction */
-        Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(ballToGoal.x);
-        inputs.Add(ballToGoal.y);
-
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);
-        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        directionOfHitBall = (oponentGoal.transform.position - ballScript.transform.position).normalized;
 
         /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;
         ballHitStrenght = 0.6f;
 
         ClipPlayerToField();
