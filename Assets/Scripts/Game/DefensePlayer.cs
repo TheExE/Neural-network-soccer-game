@@ -35,7 +35,7 @@ public class DefensePlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 2 && !isColided)
+        if (curTime > 2)
         {
             curTime = 0;
 
@@ -62,7 +62,7 @@ public class DefensePlayer : AttackPlayer
             }
 
             /* DISTANCE TO HOME GOAL */
-            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 1f)
+            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 0.78f)
             {
                 bestDistanceToHomeGoal = curDistanceToHomeGoal;
                 fitness++;
@@ -70,11 +70,11 @@ public class DefensePlayer : AttackPlayer
 
 
             /* REWARD FOR LESSER ERROR IN DIRECTION */
-            /*if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
+            if (curBallHitDirectionError < bestBallHitDirectionError || curBallHitDirectionError < 0.1f)
             {
                 bestBallHitDirectionError = curBallHitDirectionError;
                 fitness++;
-            }*/
+            }
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
             /*if (curDistToOponentAttacker < bestDistanceToOponentAttacker)
@@ -92,9 +92,11 @@ public class DefensePlayer : AttackPlayer
 
             PunishCampers();
             lastPosition = new Vector3(transform.position.x, transform.position.y);
+            if(isColided)
+            {
+                fitness--;
+            }
         }
-
-        isColided = false;
         HandlePlayerRotation();
     }
 
@@ -136,16 +138,14 @@ public class DefensePlayer : AttackPlayer
 
         /* Add ball hit direction */
         Vector2 ballToGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        /*inputs.Add(ballToGoal.x);
-        inputs.Add(ballToGoal.y);*/
+        inputs.Add(ballToGoal.x);
+        inputs.Add(ballToGoal.y);
 
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
-        /*transform.position = new Vector2(transform.position.x + (float)output[0] * Time.deltaTime,
-            transform.position.y + (float)output[1] * Time.deltaTime);*/
 
         rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);
-        directionOfHitBall = ballToGoal;
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
 
         /* RECORD MISTAKE IN DIRECTION */
         curBallHitDirectionError = (ballToGoal - directionOfHitBall).sqrMagnitude;

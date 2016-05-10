@@ -28,7 +28,7 @@ public class GoallyPlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 2f && !isColided)
+        if (curTime > 2f)
         {
             curTime = 0;
             curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
@@ -47,13 +47,11 @@ public class GoallyPlayer : AttackPlayer
                 fitness++;
             }*/
 
-            if(transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN)
+            if(transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
             {
                 fitness--;
             }
         }
-
-        isColided = false;
     }
 
     public override void InitPlayer()

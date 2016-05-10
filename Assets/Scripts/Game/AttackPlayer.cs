@@ -48,7 +48,7 @@ public class AttackPlayer : MonoBehaviour
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 2 && !isColided)
+        if (curTime > 2)
         {
             curTime = 0;
 
@@ -76,6 +76,11 @@ public class AttackPlayer : MonoBehaviour
             }*/
             PunishCampers();
             lastPosition = new Vector3(transform.position.x, transform.position.y);
+
+            if(colided)
+            {
+                fitness--;
+            }
         }
 
 
@@ -135,10 +140,6 @@ public class AttackPlayer : MonoBehaviour
             }
             fitness++;
         }
-        else
-        {
-            fitness--;
-        }
     }
 
     public void OnTriggerStay2D(Collider2D collision)
@@ -165,7 +166,7 @@ public class AttackPlayer : MonoBehaviour
     public void PunishCampers()
     {
         Vector2 dif = transform.position - lastPosition;
-        if(dif.magnitude < 0.05f)
+        if(dif.magnitude < 0.03f)
         {
             fitness--;
         }
@@ -221,12 +222,6 @@ public class AttackPlayer : MonoBehaviour
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
             colided = true;
         }
-
-        if(colided)
-        {
-            fitness--;
-        }
-
     }
 
     public Rigidbody2D PhysicsBody
