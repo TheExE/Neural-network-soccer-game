@@ -52,8 +52,8 @@ public class AttackPlayer : MonoBehaviour
                 fitness++;
             }
 
-            PunishCampers();
-            lastPosition = new Vector3(transform.position.x, transform.position.y);
+            /*PunishCampers();
+            lastPosition = new Vector3(transform.position.x, transform.position.y);*/
 
             if(colided)
             {

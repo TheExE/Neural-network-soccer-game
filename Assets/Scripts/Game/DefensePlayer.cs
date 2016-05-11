@@ -62,9 +62,10 @@ public class DefensePlayer : AttackPlayer
                 fitness++;
             }
 
-            PunishCampers();
-            lastPosition = new Vector3(transform.position.x, transform.position.y);
-            if(isColided)
+            /*PunishCampers();
+            lastPosition = new Vector3(transform.position.x, transform.position.y);*/
+
+            if (isColided)
             {
                 fitness--;
             }
