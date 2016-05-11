@@ -84,7 +84,7 @@ public class TeamController : MonoBehaviour
         InitStartingPositionForReset();
 
         int counter = 0;
-        while(counter < 100)
+        while(counter < 500)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)

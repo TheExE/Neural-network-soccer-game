@@ -17,7 +17,6 @@ public class NeuronLayer
         }
     }
 
-
     public int NeuronCount
     {
         get { return neuronCount; }

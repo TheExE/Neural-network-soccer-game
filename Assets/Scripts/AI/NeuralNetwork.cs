@@ -18,7 +18,6 @@ public class NeuralNetwork
         this.neuronsPerHiddenLayer = neuronsPerHiddenLayer;
         
         CreateNetwork();
-
     }
 
     private void CreateNetwork()
@@ -72,10 +71,8 @@ public class NeuralNetwork
         return GetWeights().Count;
     }
 
-
     public void PutWeights(List<double> weights)
     {
-       
         int index = 0;
 	
 	    /* +1 Because we also want to incoporate output layer*/
@@ -94,7 +91,6 @@ public class NeuralNetwork
 		    }
 	    }
     }
-
     public List<int> CauculateSplitPoints()
     {
         List<int> splitPoints = new List<int>();
@@ -108,14 +104,11 @@ public class NeuralNetwork
                 {
                     weightCounter++;
                 }
-
-                splitPoints.Add(weightCounter);
+                splitPoints.Add(weightCounter-1);
             }
         }
         return splitPoints;
     }
-
-
     public List<double> Update(List<double> inputs)
     {
         /* Cauculate the output from a set of inputs */
@@ -147,7 +140,7 @@ public class NeuralNetwork
 			    int	numInputs = nnLayers[i].LayerNeurons[j].InputCount;
 			
 			    //sum all weights * inputs	
-			    for (int k = 0; k < numInputs; k++)
+			    for (int k = 0; k < numInputs - 1; k++)
 			    {
 				    netinput += nnLayers[i].LayerNeurons[j].NeuronWeights[k] * 
                         inputs[weightIdx];
@@ -156,7 +149,7 @@ public class NeuralNetwork
 
 			    //last weight is bias
 			    netinput += nnLayers[i].LayerNeurons[j].
-                    NeuronWeights[numInputs] * NeuralNetworkConst.BIAS;
+                    NeuronWeights[numInputs-1] * NeuralNetworkConst.BIAS;
 
                 //get cur neuron output and store it 
 			    outputs.Add(ActivationFunction(netinput, NeuralNetworkConst.ACTIVATION_TRESHOLD));
@@ -166,7 +159,6 @@ public class NeuralNetwork
 
 	    return outputs;
     }
-
 	private double ActivationFunction(double netinput, double response)
     {
         double result = (1 / (1 + Math.Exp(-netinput / response)));

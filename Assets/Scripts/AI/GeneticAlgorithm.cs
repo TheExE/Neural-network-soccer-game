@@ -29,8 +29,6 @@ public class GeneticAlgorithm
         this.splitPoints.AddRange(splitPoints);
 
 
-
-
         /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
         for (int i = 0; i < populationSize; i++)
         {
@@ -93,7 +91,6 @@ public class GeneticAlgorithm
             }
         }
     }
-
     private void GrabNBest(int bestCount, int copyCount, List<Genome> pop)
     {
         //Add n best players to the list
@@ -107,7 +104,6 @@ public class GeneticAlgorithm
             bestCount--;
         }
     }
-
     private void CalculateBestWorstAverageTotal()
     {
         totalFitness = 0;
@@ -136,14 +132,12 @@ public class GeneticAlgorithm
             totalFitness += population[i].Fitness;
         }
     }
-
     private void Reset()
     {
         totalFitness = 0;
         bestFitness = 0;
         worstFitness = double.MaxValue;
     }
-
     public void Epoch()
     {
         //reset the appropriate variables
@@ -193,7 +187,6 @@ public class GeneticAlgorithm
         //finished so assign new pop back into m_vecPop
         population = newPopulation;
     }
-
     Genome TournamentSelection(int n)
     {
         double bestFitnessSoFar = -999999;
@@ -216,14 +209,11 @@ public class GeneticAlgorithm
         //return the champion
         return population[chosenOne];
     }
-
-
     public List<Genome> Population
     {
         get { return population; }
         set { population = value; }
     }
-
     public double BestFitness
     {
         get { return bestFitness; }

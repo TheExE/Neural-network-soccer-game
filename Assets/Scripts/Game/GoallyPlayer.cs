@@ -34,7 +34,7 @@ public class GoallyPlayer : AttackPlayer
             curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
             curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
 
-            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
+            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.2f)
             {
                 bestYDiffWithBall = curYDiffWithBall;
                 fitness++;
