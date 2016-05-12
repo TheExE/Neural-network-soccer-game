@@ -31,7 +31,7 @@ public class DefensePlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 2)
+        if (curTime > 1)
         {
             curTime = 0;
 
@@ -61,15 +61,17 @@ public class DefensePlayer : AttackPlayer
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;
             }
-
-            /*PunishCampers();
-            lastPosition = new Vector3(transform.position.x, transform.position.y);*/
-
-            if (isColided)
+        }
+        curColideTimer += Time.deltaTime;
+        if (curColideTimer > 4)
+        {
+            if (colided)
             {
+                curColideTimer = 0;
                 fitness--;
             }
         }
+
         HandlePlayerRotation();
     }
 

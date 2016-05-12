@@ -44,6 +44,7 @@ public class GoallyPlayer : AttackPlayer
             {
                 fitness--;
             }
+
         }
     }
 

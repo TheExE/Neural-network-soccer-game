@@ -27,6 +27,7 @@ public class AttackPlayer : MonoBehaviour
     protected int ballHitTimes = 0;
     protected bool isColided = false;
     protected Vector3 lastPosition = Vector3.zero;
+    protected float curColideTimer = 0f;
 
     void Start()
     {
@@ -40,23 +41,20 @@ public class AttackPlayer : MonoBehaviour
 
     void Update()
     {
-        curTime += Time.deltaTime;
-        if (curTime > 2)
+        curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+
+        if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
         {
-            curTime = 0;
-            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-
-            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
+            bestDistanceToBall = curDistanceToBall;
+            fitness++;
+        }            
+        
+        curColideTimer += Time.deltaTime;
+        if (curColideTimer > 2)
+        {
+            if (colided)
             {
-                bestDistanceToBall = curDistanceToBall;
-                fitness++;
-            }
-
-            /*PunishCampers();
-            lastPosition = new Vector3(transform.position.x, transform.position.y);*/
-
-            if(colided)
-            {
+                curColideTimer = 0;
                 fitness--;
             }
         }
