@@ -43,23 +43,21 @@ public class AttackPlayer : MonoBehaviour
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
 
-        if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
+        curTime += Time.deltaTime;
+        if(curTime > 0.3f)
         {
-            bestDistanceToBall = curDistanceToBall;
-            fitness++;
-        }            
-        
-        curColideTimer += Time.deltaTime;
-        if (curColideTimer > 2)
-        {
+            curTime = 0;
+            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.2f)
+            {
+                bestDistanceToBall = curDistanceToBall;
+                fitness++;
+            }
+
             if (colided)
             {
-                curColideTimer = 0;
                 fitness--;
             }
         }
-
-
         HandlePlayerRotation();
     }
 

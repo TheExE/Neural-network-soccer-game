@@ -12,6 +12,8 @@ public class DefensePlayer : AttackPlayer
     private GoallyPlayer teamGoally;
     private float curDistToOponentAttacker = float.MaxValue;
     private float bestDistanceToOponentAttacker = float.MaxValue;
+    private bool isRedTeam = false;
+
 
     public DefensePlayer()
     {
@@ -48,7 +50,7 @@ public class DefensePlayer : AttackPlayer
             }
 
             /* DISTANCE TO HOME GOAL */
-            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 0.78f)
+            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 1f)
             {
                 bestDistanceToHomeGoal = curDistanceToHomeGoal;
                 fitness++;
@@ -61,9 +63,23 @@ public class DefensePlayer : AttackPlayer
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;
             }
+            if(isRedTeam)
+            {
+                if(transform.position.x < 0)
+                {
+                    fitness--;
+                }
+            }
+            else
+            {
+                if(transform.position.x > 0)
+                {
+                    fitness--;
+                }
+            }
         }
         curColideTimer += Time.deltaTime;
-        if (curColideTimer > 4)
+        if (curColideTimer > 2)
         {
             if (colided)
             {
@@ -81,6 +97,15 @@ public class DefensePlayer : AttackPlayer
         {
             id++;
             teamGoally = transform.parent.gameObject.GetComponentInChildren<GoallyPlayer>();
+            if (teamGoally.transform.position.x < 0)
+            {
+                isRedTeam = false;
+            }
+            else
+            {
+                isRedTeam = true;
+            }
+
             AttackPlayer[] list = oponentTeam.GetComponentsInChildren<AttackPlayer>();
             foreach (AttackPlayer a in list)
             {

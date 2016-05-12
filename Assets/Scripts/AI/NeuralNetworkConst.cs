@@ -4,7 +4,7 @@ using System.Collections;
 public class NeuralNetworkConst
 {
     public static double BIAS = -1;
-    public static double ACTIVATION_TRESHOLD = 1;
+    public static double ACTIVATION_TRESHOLD = 0.8;
     public static double MAX_PERTURBATION = 0.3;
     public static int NUMBER_OF_ELITE = 5;
     public static int NUMBER_OF_ELITE_COPYS = 5;
