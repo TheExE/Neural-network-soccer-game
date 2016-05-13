@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private TeamController teamController;
     private AudioSource source;
     private bool isFirstRun = true;
+    private bool shouldRenderDummys = false;
 
     private static bool shouldPauseEvolutionA = false;
     private static bool shouldPauseEvolutionD = false;
@@ -103,6 +104,19 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.S))
         {
             teamController.SaveState();
+        }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            if(!shouldRenderDummys)
+            {
+                teamController.TurnOnDummySprites();
+                shouldRenderDummys = true;
+            }
+            else
+            {
+                teamController.TurnOffDummySprites();
+                shouldRenderDummys = false;
+            }
         }
     }
 

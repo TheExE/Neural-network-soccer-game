@@ -626,7 +626,6 @@ public class TeamController : MonoBehaviour
         mGoally.WriteTo(File.Create(GameConsts.SAVE_G));
         mGoallyGen.WriteTo(File.Create(GameConsts.SAVE_GG));
     }
-
     private void LoadStats()
     {
         BinaryFormatter bf = new BinaryFormatter();
@@ -644,6 +643,54 @@ public class TeamController : MonoBehaviour
         genAlgDefensePlayers = (GeneticAlgorithm)bf.Deserialize(mDefenseGen);
         genAlgGoaly = (GeneticAlgorithm)bf.Deserialize(mGoallyGen);
 
+    }
+    public void TurnOnDummySprites()
+    {
+        foreach (AttackPlayer a in attackPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        foreach (DefensePlayer a in defensePlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        foreach (GoallyPlayer a in goalyPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+    }
+    public void TurnOffDummySprites()
+    {
+        foreach (AttackPlayer a in attackPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+        foreach (DefensePlayer a in defensePlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+        foreach (GoallyPlayer a in goalyPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
     }
 
 }
