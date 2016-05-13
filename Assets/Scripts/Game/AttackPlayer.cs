@@ -57,6 +57,7 @@ public class AttackPlayer : MonoBehaviour
             if (colided)
             {
                 fitness--;
+                isBallKicked = false;
             }
         }
 

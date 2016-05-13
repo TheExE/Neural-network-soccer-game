@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class GameManager : MonoBehaviour
     public tk2dTextMesh redTeamFitness;
     public tk2dTextMesh blueTeamFitnes;
     public tk2dTextMesh fpsText;
+    public AudioClip clip;
 
     private tk2dTextMesh redTeamTxt;
     private tk2dTextMesh blueTeamTxt;
@@ -16,6 +19,8 @@ public class GameManager : MonoBehaviour
     private static int blueTeamScore;
     private BallScript ball;
     private TeamController teamController;
+    private AudioSource source;
+    private bool isFirstRun = true;
 
     private static bool shouldPauseEvolutionA = false;
     private static bool shouldPauseEvolutionD = false;
@@ -24,10 +29,12 @@ public class GameManager : MonoBehaviour
 	void Start () 
     {
         Application.runInBackground = true;
+        Application.targetFrameRate = 500;
         redTeamTxt = redTeamScoreObj.GetComponent<tk2dTextMesh>();
         blueTeamTxt = blueTeamScoreObj.GetComponent<tk2dTextMesh>();
         ball = GameObject.FindObjectOfType<BallScript>();
         teamController = GetComponent<TeamController>();
+        source = GetComponent<AudioSource>();
 	}
 	
 	void Update () 
@@ -75,7 +82,11 @@ public class GameManager : MonoBehaviour
         /* STOP EVOLVING ATTACKER */
         if(teamController.RedTeamAttacker.IsBallKicked && teamController.BlueTeamAttacker.IsBallKicked)
         {
-            shouldPauseEvolutionA = true;
+            if(!shouldPauseEvolutionA)
+            {
+                shouldPauseEvolutionA = true;
+                source.PlayOneShot(clip);
+            }
         }
 
         /* STOP EVOLVING GOALLY */
@@ -83,7 +94,16 @@ public class GameManager : MonoBehaviour
         {
             shouldPauseEvolutionG = true;
         }
+        else
+        {
+            shouldPauseEvolutionG = false;
+        }
 
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            teamController.SaveState();
+        }
     }
 
     public static int RedTeamScore

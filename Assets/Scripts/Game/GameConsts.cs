@@ -20,6 +20,13 @@ public class GameConsts
     public const string ATTACK_PLAYER = "ATTACK";
     public const string GOALLY_PLAYER = "GOALLY";
 
-    public const float GOALLY_LINE_UP = 1.45f;
-    public const float GOALLY_LINE_DOWN = -1.45f;
+    public const float GOALLY_LINE_UP = 0.9f;
+    public const float GOALLY_LINE_DOWN = -0.9f;
+
+    public const string SAVE_A = "ATTACKERS";
+    public const string SAVE_D = "DEFENDERS";
+    public const string SAVE_G = "GOALLY";
+    public const string SAVE_AG = "GNETIC_A";
+    public const string SAVE_DG = "GENETIC_G";
+    public const string SAVE_GG = "GENETIC_G";
 }

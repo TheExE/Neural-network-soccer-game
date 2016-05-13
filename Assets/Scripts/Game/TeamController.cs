@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class TeamController : MonoBehaviour
 {
@@ -78,13 +80,25 @@ public class TeamController : MonoBehaviour
         blueTeamDefenseExmaple = blueTeam.GetComponentInChildren<DefensePlayer>();
         blueTeamGoallyExample = blueTeam.GetComponentInChildren<GoallyPlayer>();
 
-        InitMainTeam();
-        FillTeamWithDummyPlayers();
-        InitGeneticAlgorithms();
-        InitStartingPositionForReset();
+        try
+        {
+            LoadStats();
+        }
+        catch(Exception e)
+        {
+            InitMainTeam();
+            FillTeamWithDummyPlayers();
+            InitGeneticAlgorithms();
 
+        }
+        InitStartingPositionForReset();
+        WarmUp();
+    }
+
+    private void WarmUp()
+    {
         int counter = 0;
-        while(counter < 500)
+        while (counter < 500)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
@@ -106,7 +120,6 @@ public class TeamController : MonoBehaviour
             counter++;
         }
     }
-
     private void InitGeneticAlgorithms()
     {
         /* INIT GENETIC ALGORITHM */
@@ -556,7 +569,6 @@ public class TeamController : MonoBehaviour
             a.Fitness += amount;
         }
     }
-
     public DistanceAndIndex GetClosestToBallAttackPlayer()
     {
         int index = -1;
@@ -573,25 +585,65 @@ public class TeamController : MonoBehaviour
 
         return new DistanceAndIndex(bestDistance, index);
     }
-
     public AttackPlayer BlueTeamAttacker
     {
         get { return blueTeamAttackerExmaple; }
     }
-
     public AttackPlayer RedTeamAttacker
     {
         get { return redTeamAttackerExample; }
     }
-
     public GoallyPlayer RedTeamGoally
     {
         get { return redTeamGoallyExample; }
     }
-
     public GoallyPlayer BlueTeamGoally
     {
         get { return blueTeamGoallyExample; }
+    }
+
+    public void SaveState()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        MemoryStream mAttackers = new MemoryStream();
+        MemoryStream mDefense = new MemoryStream();
+        MemoryStream mGoally = new MemoryStream();
+        MemoryStream mAttackerGen = new MemoryStream();
+        MemoryStream mDefenseGen = new MemoryStream();
+        MemoryStream mGoallyGen = new MemoryStream();
+
+        bf.Serialize(mAttackers, attackPlayers);
+        bf.Serialize(mDefense, defensePlayers);
+        bf.Serialize(mGoally, goalyPlayers);
+        bf.Serialize(mAttackerGen, genAlgAttackPlayers);
+        bf.Serialize(mDefenseGen, genAlgDefensePlayers);
+        bf.Serialize(mGoallyGen, genAlgGoaly);
+
+        mAttackers.WriteTo(File.Create(GameConsts.SAVE_A));
+        mAttackerGen.WriteTo(File.Create(GameConsts.SAVE_AG));
+        mDefense.WriteTo(File.Create(GameConsts.SAVE_D));
+        mDefenseGen.WriteTo(File.Create(GameConsts.SAVE_DG));
+        mGoally.WriteTo(File.Create(GameConsts.SAVE_G));
+        mGoallyGen.WriteTo(File.Create(GameConsts.SAVE_GG));
+    }
+
+    private void LoadStats()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        MemoryStream mAttackers = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_A));
+        MemoryStream mDefense = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_D));
+        MemoryStream mGoally = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_G));
+        MemoryStream mAttackerGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_AG));
+        MemoryStream mDefenseGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_DG));
+        MemoryStream mGoallyGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_GG));
+
+        attackPlayers = (List<AttackPlayer>)bf.Deserialize(mAttackers);
+        defensePlayers = (List<DefensePlayer>)bf.Deserialize(mDefense);
+        goalyPlayers = (List<GoallyPlayer>)bf.Deserialize(mGoally);
+        genAlgAttackPlayers = (GeneticAlgorithm)bf.Deserialize(mAttackerGen);
+        genAlgDefensePlayers = (GeneticAlgorithm)bf.Deserialize(mDefenseGen);
+        genAlgGoaly = (GeneticAlgorithm)bf.Deserialize(mGoallyGen);
+
     }
 
 }

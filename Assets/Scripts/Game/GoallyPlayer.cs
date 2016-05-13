@@ -29,7 +29,7 @@ public class GoallyPlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 2f)
+        if (curTime > 1f)
         {
             curTime = 0;
             curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
@@ -41,16 +41,17 @@ public class GoallyPlayer : AttackPlayer
                 fitness++;
             }
 
-            isTrained = false;
+           
             if (transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
             {
                 fitness--;
+                isTrained = false;
             }
             else
             {
                 isTrained = true;
             }
-            
+
         }
     }
 
@@ -134,4 +135,10 @@ public class GoallyPlayer : AttackPlayer
     {
         get { return isTrained; }
     }
+
+    public bool IsColided
+    {
+        get { return isColided; }
+    }
+
 }

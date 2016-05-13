@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[SerializeField]
 public class Neuron
 {
     private int inputCount;

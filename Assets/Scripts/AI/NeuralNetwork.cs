@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 
+[SerializeField]
 public class NeuralNetwork
 {
     private int networkInputCount;

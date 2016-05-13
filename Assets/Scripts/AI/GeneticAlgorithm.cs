@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[SerializeField]
 public class GeneticAlgorithm
 {
     private List<Genome> population = new List<Genome>();
