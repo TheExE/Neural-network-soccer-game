@@ -28,6 +28,7 @@ public class AttackPlayer : MonoBehaviour
     protected bool isColided = false;
     protected Vector3 lastPosition = Vector3.zero;
     protected float curColideTimer = 0f;
+    private bool isBallKicked = false;
 
     void Start()
     {
@@ -42,9 +43,9 @@ public class AttackPlayer : MonoBehaviour
     void Update()
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-
+        curColideTimer += Time.deltaTime;
         curTime += Time.deltaTime;
-        if(curTime > 0.3f)
+        if(curTime > 0.15f)
         {
             curTime = 0;
             if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.2f)
@@ -57,6 +58,12 @@ public class AttackPlayer : MonoBehaviour
             {
                 fitness--;
             }
+        }
+
+        if(curColideTimer > 1)
+        {
+            curColideTimer = 0;
+            isBallKicked = false;
         }
         HandlePlayerRotation();
     }
@@ -110,6 +117,11 @@ public class AttackPlayer : MonoBehaviour
                 ballHitTimes++;
             }
             fitness++;
+
+            if(gameObject.name.Contains("Att"))
+            {
+                isBallKicked = true;
+            }
         }
     }
 
@@ -236,4 +248,10 @@ public class AttackPlayer : MonoBehaviour
     {
         get { return curDistanceToBall; }
     }
+
+    public bool IsBallKicked
+    {
+        get { return isBallKicked; }
+    }
+    
 }

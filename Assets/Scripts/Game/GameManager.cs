@@ -2,8 +2,8 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
-
+public class GameManager : MonoBehaviour
+{
     public GameObject redTeamScoreObj;
     public GameObject blueTeamScoreObj;
     public tk2dTextMesh redTeamFitness;
@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour {
     private BallScript ball;
     private TeamController teamController;
 
-    private float timer = 0f;
     private static bool shouldPauseEvolutionA = false;
     private static bool shouldPauseEvolutionD = false;
     private static bool shouldPauseEvolutionG = false;
@@ -42,17 +41,6 @@ public class GameManager : MonoBehaviour {
         redTeamFitness.text = "A Fit: " + teamController.BestRedAttacker + '\n'
             + " D Fit: " + teamController.BestRedDefense + '\n'
             + " G Fit: " + teamController.BestRedGoally;
-
-        timer += Time.deltaTime;
-        if(timer > 2)
-        {
-
-            int bestIdx = teamController.GetClosestToBallAttackPlayer().index;
-            if (bestIdx != -1)
-            {
-                teamController.Attacker[bestIdx].Fitness++;
-            }
-        }
 
         /* PAUSE ATTACKER EVO */
         if(Input.GetKeyDown(KeyCode.A) && shouldPauseEvolutionA)
@@ -80,6 +68,18 @@ public class GameManager : MonoBehaviour {
             shouldPauseEvolutionG = false;
         }
         else if (Input.GetKeyDown(KeyCode.G) && !shouldPauseEvolutionG)
+        {
+            shouldPauseEvolutionG = true;
+        }
+
+        /* STOP EVOLVING ATTACKER */
+        if(teamController.RedTeamAttacker.IsBallKicked && teamController.BlueTeamAttacker.IsBallKicked)
+        {
+            shouldPauseEvolutionA = true;
+        }
+
+        /* STOP EVOLVING GOALLY */
+        if(teamController.RedTeamGoally.IsTrained && teamController.BlueTeamGoally.IsTrained)
         {
             shouldPauseEvolutionG = true;
         }

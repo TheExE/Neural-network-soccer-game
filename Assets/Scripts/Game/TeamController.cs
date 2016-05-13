@@ -573,5 +573,26 @@ public class TeamController : MonoBehaviour
 
         return new DistanceAndIndex(bestDistance, index);
     }
+
+    public AttackPlayer BlueTeamAttacker
+    {
+        get { return blueTeamAttackerExmaple; }
+    }
+
+    public AttackPlayer RedTeamAttacker
+    {
+        get { return redTeamAttackerExample; }
+    }
+
+    public GoallyPlayer RedTeamGoally
+    {
+        get { return redTeamGoallyExample; }
+    }
+
+    public GoallyPlayer BlueTeamGoally
+    {
+        get { return blueTeamGoallyExample; }
+    }
+
 }
 

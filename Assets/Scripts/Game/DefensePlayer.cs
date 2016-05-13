@@ -33,7 +33,7 @@ public class DefensePlayer : AttackPlayer
     void Update()
     {
         curTime += Time.deltaTime;
-        if (curTime > 1)
+        if (curTime > 0.3f)
         {
             curTime = 0;
 
@@ -56,26 +56,11 @@ public class DefensePlayer : AttackPlayer
                 fitness++;
             }
 
-
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
             if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.1f)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
                 fitness++;
-            }
-            if(isRedTeam)
-            {
-                if(transform.position.x < 0)
-                {
-                    fitness--;
-                }
-            }
-            else
-            {
-                if(transform.position.x > 0)
-                {
-                    fitness--;
-                }
             }
         }
         curColideTimer += Time.deltaTime;

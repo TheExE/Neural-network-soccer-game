@@ -4,10 +4,10 @@ using System.Collections;
 public class NeuralNetworkConst
 {
     public static double BIAS = -1;
-    public static double ACTIVATION_TRESHOLD = 0.8;
+    public static double ACTIVATION_TRESHOLD = 1;
     public static double MAX_PERTURBATION = 0.3;
     public static int NUMBER_OF_ELITE = 5;
-    public static int NUMBER_OF_ELITE_COPYS = 5;
+    public static int NUMBER_OF_ELITE_COPYS = 4;
     public static double CROSSOVER_RATE = 0.7;
     public static double MUTATION_RATE = 0.1;
     public static float FITNESS_FOR_GOAL = 1;
@@ -15,7 +15,7 @@ public class NeuralNetworkConst
 
     public static int ATTACKER_INPUT_COUNT = 2;
     public static int ATTACKER_OUTPUT_COUNT = 2;
-    public static int ATTACKER_HID_LAYER_COUNT = 3;
+    public static int ATTACKER_HID_LAYER_COUNT = 2;
     public static int ATTACKER_NEURONS_PER_HID_LAY = 6;
 
 
@@ -30,6 +30,6 @@ public class NeuralNetworkConst
     public static int DEFENSE_NEURONS_PER_HID_LAY = 6;
 
     public static int TOURNAMENT_COMPETITIORS = 8;
-    public static int MAX_TICKS = 5000;
+    public static int MAX_TICKS = 4000;
     	
 }

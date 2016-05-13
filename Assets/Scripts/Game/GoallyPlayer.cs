@@ -11,6 +11,7 @@ public class GoallyPlayer : AttackPlayer
     private float bestYDiffWithGoalCenter = float.MaxValue;
     private int chosenDefensePlayer = 0;
     private DefensePlayer[] teamDefense;
+    private bool isTrained = false;
 
     public GoallyPlayer()
     {
@@ -40,11 +41,16 @@ public class GoallyPlayer : AttackPlayer
                 fitness++;
             }
 
-            if(transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
+            isTrained = false;
+            if (transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
             {
                 fitness--;
             }
-
+            else
+            {
+                isTrained = true;
+            }
+            
         }
     }
 
@@ -122,5 +128,10 @@ public class GoallyPlayer : AttackPlayer
             curYDiffWithBall = float.MaxValue;
             bestYDiffWithBall = float.MaxValue;
         }
+    }
+
+    public bool IsTrained
+    {
+        get { return isTrained; }
     }
 }
