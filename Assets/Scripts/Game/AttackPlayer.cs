@@ -58,16 +58,23 @@ public class AttackPlayer : MonoBehaviour
                 fitness++;
             }
 
-            if(curBallHitError < bestBallHitError || curBallHitError < 0.1f)
-            {
-                curBallHitError = bestBallHitError;
-                fitness++;
-            }
-
             if (colided)
             {
                 fitness--;
                 isBallKicked = false;
+            }
+            /* REWARD FOR HITING BALL IN RIGHT DIRECTION */
+            if (!IsBallGoingToBeOutBoundAfterKick())
+            {
+                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                {
+                    curBallHitError = bestBallHitError;
+                    fitness += 5;
+                }
+            }
+            else
+            {
+                fitness--;
             }
 
             /* REWARD FOR BALL HIT STRENGHT */
@@ -110,7 +117,16 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toBall.y);
 
         /* Oponents goal */
-        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
+        if(oponentGoalPos.x < 0)
+        {
+            oponentGoalPos.x += 0.5f;
+        }
+        else
+        {
+            oponentGoalPos.x -= 0.5f;
+        }
+        Vector2 toOponentGoal = (oponentGoalPos - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
@@ -128,29 +144,17 @@ public class AttackPlayer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            if(!IsBallGoingToBeOutBoundAfterKick())
+            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
+            if (ballHitTimes < 50)
             {
-                ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-                if (ballHitTimes < 50)
-                {
-                    fitness++;
-                    ballHitTimes++;
-                }
+                fitness++;
+                ballHitTimes++;
             }
-            else
-            {
-                fitness--;
-            }
-           
 
-            if(gameObject.name.Contains("Att"))
+            if (gameObject.name.Contains("Att"))
             {
                 isBallKicked = true;
             }
-        }
-        else
-        {
-            fitness--;
         }
     }
 

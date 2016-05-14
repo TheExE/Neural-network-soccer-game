@@ -51,12 +51,19 @@ public class GoallyPlayer : AttackPlayer
             {
                 isTrained = true;
             }
-            
+
             /* REWARD FOR HIT DIRECTION */
-            if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+            if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                bestBallHitError = curBallHitError;
-                fitness++;
+                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                {
+                    curBallHitError = bestBallHitError;
+                    fitness += 5;
+                }
+            }
+            else
+            {
+                fitness--;
             }
 
             /* REWARD FOR BALL HIT STRENGHT */
@@ -94,6 +101,9 @@ public class GoallyPlayer : AttackPlayer
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.y);
 
+        /* Add center of goal */
+        Vector2 toHomeGoal = (goalToSave.transform.position - transform.position).normalized;
+        inputs.Add(toHomeGoal.y);
 
         /* Add ball hit direction */
         Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;

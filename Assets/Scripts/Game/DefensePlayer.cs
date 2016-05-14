@@ -64,13 +64,20 @@ public class DefensePlayer : AttackPlayer
             }
 
             /* REWARD FOR HIT DIRECTION */
-            if(curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+            if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                bestBallHitError = curBallHitError;
-                fitness++;
+                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                {
+                    curBallHitError = bestBallHitError;
+                    fitness += 5;
+                }
+            }
+            else
+            {
+                fitness--;
             }
 
-             /* REWARD FOR BALL HIT STRENGHT */
+            /* REWARD FOR BALL HIT STRENGHT */
             if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
             {
                 bestBallHitStrenght = ballHitStrenght;
@@ -136,7 +143,16 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toHomeGoal.y);
 
         /* Add ball hit direction */
-        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
+        if (oponentGoalPos.x < 0)
+        {
+            oponentGoalPos.x += 0.5f;
+        }
+        else
+        {
+            oponentGoalPos.x -= 0.5f;
+        }
+        Vector2 toOponentGoal = (oponentGoalPos - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
