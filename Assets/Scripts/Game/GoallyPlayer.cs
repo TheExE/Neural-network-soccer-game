@@ -40,6 +40,11 @@ public class GoallyPlayer : AttackPlayer
                 bestYDiffWithBall = curYDiffWithBall;
                 fitness++;
             }
+            if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter || curYDiffWithGoalCenter < 0.2f)
+            {
+                bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
+                fitness += 2f;
+            }
 
            
             if (transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)

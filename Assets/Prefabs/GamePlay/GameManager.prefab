@@ -482,6 +482,10 @@ MonoBehaviour:
   dummyAttacker: {fileID: 198990, guid: 928072188211f674fbef8816f9d97a13, type: 2}
   dummyDefensePlayer: {fileID: 153758, guid: 6ae4724e06454ea46a4818cbc10da45b, type: 2}
   dummyGoaly: {fileID: 190770, guid: 29a387a5fe709814cba5fe0f287c63ef, type: 2}
+  leftUpCorner: {fileID: 0}
+  leftDownCorner: {fileID: 0}
+  rightUpCorner: {fileID: 0}
+  rightDownCorner: {fileID: 0}
 --- !u!114 &11465018
 MonoBehaviour:
   m_ObjectHideFlags: 1
