@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
        
 
         /* STOP EVOLVING ATTACKER */
-        if(!Input.GetKeyDown(KeyCode.End))
+       /* if(!Input.GetKeyDown(KeyCode.End))
         {
             if (teamController.RedTeamAttacker.IsBallKicked && teamController.BlueTeamAttacker.IsBallKicked)
             {
@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour
                     source.PlayOneShot(clip);
                 }
             }
-        }
+        }*/
 
 
         /* STOP EVOLVING GOALLY */
-        if (!Input.GetKeyDown(KeyCode.Delete))
+        /*if (!Input.GetKeyDown(KeyCode.Delete))
         {
             if (teamController.RedTeamGoally.IsTrained && teamController.BlueTeamGoally.IsTrained)
             {
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
             {
                 shouldPauseEvolutionG = false;
             }
-        }
+        }*/
       
 
         if(Input.GetKeyDown(KeyCode.S))

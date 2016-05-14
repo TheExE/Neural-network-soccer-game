@@ -51,10 +51,18 @@ public class GoallyPlayer : AttackPlayer
             {
                 isTrained = true;
             }
+            
             /* REWARD FOR HIT DIRECTION */
             if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
             {
                 bestBallHitError = curBallHitError;
+                fitness++;
+            }
+
+            /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+            {
+                bestBallHitStrenght = ballHitStrenght;
                 fitness++;
             }
 

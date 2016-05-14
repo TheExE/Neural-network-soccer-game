@@ -336,8 +336,8 @@ public class TeamController : MonoBehaviour
     }
     private void FillTeamWithDummyPlayers()
     {
-        Vector2 redDefensePos = redTeam.GetComponent<DefensePlayer>().transform.position;
-        Vector2 blueDefensePos = blueTeam.GetComponent<DefensePlayer>().transform.position;
+        Vector2 redDefensePos = redTeam.GetComponentInChildren<DefensePlayer>().transform.position;
+        Vector2 blueDefensePos = blueTeam.GetComponentInChildren<DefensePlayer>().transform.position;
         /* DEFENSE PLAYERS */
         int counter = 0;
         while (defensePlayers.Count < GameConsts.DEFENSE_PLAYER_COUNT)
@@ -379,8 +379,8 @@ public class TeamController : MonoBehaviour
             counter++;
         }
 
-        Vector2 redAttackerPos = redTeam.GetComponent<AttackPlayer>().transform.position;
-        Vector2 blueAttackerPos = blueTeam.GetComponent<AttackPlayer>().transform.position;
+        Vector2 redAttackerPos = redTeam.GetComponentInChildren<AttackPlayer>().transform.position;
+        Vector2 blueAttackerPos = blueTeam.GetComponentInChildren<AttackPlayer>().transform.position;
 
         counter = 0;
         /* ATTACK PLAYERS */
@@ -416,8 +416,8 @@ public class TeamController : MonoBehaviour
         }
 
 
-        Vector2 redGoallyPos = redTeam.GetComponent<GoallyPlayer>().transform.position;
-        Vector2 blueGoallyPos = blueTeam.GetComponent<GoallyPlayer>().transform.position;
+        Vector2 redGoallyPos = redTeam.GetComponentInChildren<GoallyPlayer>().transform.position;
+        Vector2 blueGoallyPos = blueTeam.GetComponentInChildren<GoallyPlayer>().transform.position;
         counter = 0;
         /* GOALY PLAYERS */
         while (goalyPlayers.Count < GameConsts.GOALLY_PLAYER_COUNT)

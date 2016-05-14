@@ -30,7 +30,7 @@ public class BallScript : MonoBehaviour
             }
         }
 
-        KeepBallInField();
+        /*KeepBallInField();*/
     }
     
     public void KeepBallInField()

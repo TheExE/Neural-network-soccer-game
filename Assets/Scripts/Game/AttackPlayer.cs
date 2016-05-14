@@ -24,6 +24,7 @@ public class AttackPlayer : MonoBehaviour
     protected float curBallHitError = float.MaxValue;
     protected float bestBallHitError = float.MaxValue;
     protected float ballHitStrenght = 1;
+    protected float bestBallHitStrenght = 0;
     protected float scale = 1;
     protected float curTime = 0;
     protected int ballHitTimes = 0;
@@ -47,6 +48,7 @@ public class AttackPlayer : MonoBehaviour
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
         curColideTimer += Time.deltaTime;
         curTime += Time.deltaTime;
+        
         if(curTime > 0.15f)
         {
             curTime = 0;
@@ -66,6 +68,13 @@ public class AttackPlayer : MonoBehaviour
             {
                 fitness--;
                 isBallKicked = false;
+            }
+
+            /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+            {
+                bestBallHitStrenght = ballHitStrenght;
+                fitness++;
             }
         }
 
@@ -119,18 +128,29 @@ public class AttackPlayer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            if (ballHitTimes < 50)
+            if(!IsBallGoingToBeOutBoundAfterKick())
             {
-                fitness++;
-                ballHitTimes++;
+                ballScript.Shoot(directionOfHitBall, ballHitStrenght);
+                if (ballHitTimes < 50)
+                {
+                    fitness++;
+                    ballHitTimes++;
+                }
             }
-            fitness++;
+            else
+            {
+                fitness--;
+            }
+           
 
             if(gameObject.name.Contains("Att"))
             {
                 isBallKicked = true;
             }
+        }
+        else
+        {
+            fitness--;
         }
     }
 
@@ -217,7 +237,28 @@ public class AttackPlayer : MonoBehaviour
             colided = true;
         }
     }
-
+    protected bool IsBallGoingToBeOutBoundAfterKick()
+    {
+        bool hitInvalid = false;
+        Vector2 ballPosition = ballScript.transform.position;
+        if(ballPosition.x + directionOfHitBall.x < GameConsts.GAME_FIELD_LEFT)
+        {
+            hitInvalid = true;
+        }
+        else if(ballPosition.x + directionOfHitBall.x > GameConsts.GAME_FIELD_RIGHT)
+        {
+            hitInvalid = true;
+        }
+        else if(ballPosition.y + directionOfHitBall.y < GameConsts.GAME_FIELD_DOWN)
+        {
+            hitInvalid = true;
+        }
+        else if(ballPosition.y + directionOfHitBall.y > GameConsts.GAME_FIELD_UP)
+        {
+            hitInvalid = true;
+        }
+        return hitInvalid;
+    }
     public Rigidbody2D PhysicsBody
     {
         get { return rgBody; }

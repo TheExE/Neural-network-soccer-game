@@ -69,6 +69,13 @@ public class DefensePlayer : AttackPlayer
                 bestBallHitError = curBallHitError;
                 fitness++;
             }
+
+             /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+            {
+                bestBallHitStrenght = ballHitStrenght;
+                fitness++;
+            }
         }
         curColideTimer += Time.deltaTime;
         if (curColideTimer > 2)
