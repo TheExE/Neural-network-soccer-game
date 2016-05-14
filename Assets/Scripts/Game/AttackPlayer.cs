@@ -44,7 +44,6 @@ public class AttackPlayer : MonoBehaviour
         lastPositionX = transform.position.x;
         lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
-
     void Update()
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
@@ -64,7 +63,7 @@ public class AttackPlayer : MonoBehaviour
             if(curDistBallToGoal < bestDistBallToGoal)
             {
                 bestDistBallToGoal = curDistBallToGoal;
-                fitness += 2;
+                fitness ++;
             }
 
             if (colided)
@@ -75,10 +74,10 @@ public class AttackPlayer : MonoBehaviour
             /* REWARD FOR HITING BALL IN RIGHT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                if (curBallHitError < bestBallHitError)
                 {
-                    curBallHitError = bestBallHitError;
-                    fitness += 5;
+                    bestBallHitError = curBallHitError;
+                    fitness ++;
                 }
             }
             else
@@ -101,7 +100,6 @@ public class AttackPlayer : MonoBehaviour
         }
         HandlePlayerRotation();
     }
-
     public virtual void InitPlayer()
     {
         if (!isInited)

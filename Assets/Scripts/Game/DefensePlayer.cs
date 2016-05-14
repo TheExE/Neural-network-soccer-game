@@ -60,7 +60,7 @@ public class DefensePlayer : AttackPlayer
             if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.3f)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
-                fitness += 2;
+                fitness ++;
             }
 
             /* REWARD FOR HIT DIRECTION */
@@ -68,8 +68,8 @@ public class DefensePlayer : AttackPlayer
             {
                 if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
                 {
-                    curBallHitError = bestBallHitError;
-                    fitness += 5;
+                    bestBallHitError = curBallHitError;
+                    fitness ++;
                 }
             }
             else
@@ -141,11 +141,11 @@ public class DefensePlayer : AttackPlayer
         Vector3 homeGoalPosition = new Vector3(homeGoal.transform.position.x, homeGoal.transform.position.y);
         if(homeGoalPosition.x > 0)
         {
-            homeGoalPosition.x -= 0.5f; 
+            homeGoalPosition.x -= 1f; 
         }
         else
         {
-            homeGoalPosition.x += 0.5f;
+            homeGoalPosition.x += 1f;
         }
         Vector2 toHomeGoal = (homeGoalPosition - transform.position).normalized;
         inputs.Add(toHomeGoal.x);

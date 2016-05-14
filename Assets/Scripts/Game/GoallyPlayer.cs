@@ -43,7 +43,7 @@ public class GoallyPlayer : AttackPlayer
             if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter || curYDiffWithGoalCenter < 0.2f)
             {
                 bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-                fitness += 2f;
+                fitness ++;
             }
 
            
@@ -62,7 +62,7 @@ public class GoallyPlayer : AttackPlayer
             {
                 if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
                 {
-                    curBallHitError = bestBallHitError;
+                    bestBallHitError = curBallHitError;
                     fitness += 5;
                 }
             }
