@@ -177,71 +177,10 @@ public class TeamController : MonoBehaviour
 		{
             Application.targetFrameRate = 60;
         }
-        PunishForCorners();
+       
         UpdateTeam();
     }
 
-    private void PunishForCorners()
-    {
-        foreach (AttackPlayer a in attackPlayers)
-        {
-            if ((a.transform.position - leftDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                a.Fitness--;
-            }
-            else if ((a.transform.position - leftUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                a.Fitness--;
-            }
-            else if ((a.transform.position - rightUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                a.Fitness--;
-            }
-            else if ((a.transform.position - rightDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                a.Fitness--;
-            }
-        }
-        foreach (DefensePlayer d in defensePlayers)
-        {
-            if ((d.transform.position - leftDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                d.Fitness--;
-            }
-            else if ((d.transform.position - leftUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                d.Fitness--;
-            }
-            else if ((d.transform.position - rightUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                d.Fitness--;
-            }
-            else if ((d.transform.position - rightDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                d.Fitness--;
-            }
-        }
-
-        foreach (GoallyPlayer g in goalyPlayers)
-        {
-            if ((g.transform.position - leftDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                g.Fitness--;
-            }
-            else if ((g.transform.position - leftUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                g.Fitness--;
-            }
-            else if ((g.transform.position - rightUpCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                g.Fitness--;
-            }
-            else if ((g.transform.position - rightDownCorner.transform.position).sqrMagnitude <= 0.25)
-            {
-                g.Fitness--;
-            }
-        }
-    }
     private void UpdateTeam()
     {
         curTicks++;

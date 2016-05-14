@@ -138,7 +138,16 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toOponentAttacker.y);
 
         /* Add move to home goal */
-        Vector2 toHomeGoal = (homeGoal.transform.position - transform.position).normalized;
+        Vector3 homeGoalPosition = new Vector3(homeGoal.transform.position.x, homeGoal.transform.position.y);
+        if(homeGoalPosition.x > 0)
+        {
+            homeGoalPosition.x -= 0.5f; 
+        }
+        else
+        {
+            homeGoalPosition.x += 0.5f;
+        }
+        Vector2 toHomeGoal = (homeGoalPosition - transform.position).normalized;
         inputs.Add(toHomeGoal.x);
         inputs.Add(toHomeGoal.y);
 

@@ -32,6 +32,8 @@ public class AttackPlayer : MonoBehaviour
     protected Vector3 lastPosition = Vector3.zero;
     protected float curColideTimer = 0f;
     private bool isBallKicked = false;
+    private float curDistBallToGoal = float.MaxValue;
+    private float bestDistBallToGoal = float.MaxValue;
 
     void Start()
     {
@@ -46,6 +48,7 @@ public class AttackPlayer : MonoBehaviour
     void Update()
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
+        curDistBallToGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
         curColideTimer += Time.deltaTime;
         curTime += Time.deltaTime;
         
@@ -56,6 +59,12 @@ public class AttackPlayer : MonoBehaviour
             {
                 bestDistanceToBall = curDistanceToBall;
                 fitness++;
+            }
+
+            if(curDistBallToGoal < bestDistBallToGoal)
+            {
+                bestDistBallToGoal = curDistBallToGoal;
+                fitness += 2;
             }
 
             if (colided)
@@ -210,6 +219,9 @@ public class AttackPlayer : MonoBehaviour
             curBallHitError = float.MaxValue;
             bestBallHitError = float.MaxValue;
         }
+        curDistBallToGoal = float.MaxValue;
+        bestDistBallToGoal = float.MaxValue;
+
         /* RESET FORCE */
         rgBody.velocity = Vector2.zero;
         rgBody.angularVelocity = 0f;
