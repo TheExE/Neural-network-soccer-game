@@ -79,27 +79,35 @@ public class GameManager : MonoBehaviour
         {
             shouldPauseEvolutionG = true;
         }
+       
 
         /* STOP EVOLVING ATTACKER */
-        if(teamController.RedTeamAttacker.IsBallKicked && teamController.BlueTeamAttacker.IsBallKicked)
+        if(!Input.GetKeyDown(KeyCode.End))
         {
-            if(!shouldPauseEvolutionA)
+            if (teamController.RedTeamAttacker.IsBallKicked && teamController.BlueTeamAttacker.IsBallKicked)
             {
-                shouldPauseEvolutionA = true;
-                source.PlayOneShot(clip);
+                if (!shouldPauseEvolutionA)
+                {
+                    shouldPauseEvolutionA = true;
+                    source.PlayOneShot(clip);
+                }
             }
         }
 
-        /* STOP EVOLVING GOALLY */
-        if(teamController.RedTeamGoally.IsTrained && teamController.BlueTeamGoally.IsTrained)
-        {
-            shouldPauseEvolutionG = true;
-        }
-        else
-        {
-            shouldPauseEvolutionG = false;
-        }
 
+        /* STOP EVOLVING GOALLY */
+        if (!Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (teamController.RedTeamGoally.IsTrained && teamController.BlueTeamGoally.IsTrained)
+            {
+                shouldPauseEvolutionG = true;
+            }
+            else
+            {
+                shouldPauseEvolutionG = false;
+            }
+        }
+      
 
         if(Input.GetKeyDown(KeyCode.S))
         {

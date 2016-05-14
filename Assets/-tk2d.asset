@@ -703,6 +703,9 @@ MonoBehaviour:
     - playerRed_A
     - playerRed_D
     - playerRed_G
+    - Defense
+    - attacker
+    - Goally
     spriteTextureGUIDs:
     - 46ffc1d631d7be949a091ff1dff5ee99
     - bfda2a7f3fdd5b647b6d6085616c8c6a
@@ -711,6 +714,9 @@ MonoBehaviour:
     - eb2b5f581b8880445ab4e5c54b3849ac
     - 95986786802b9a3479cc853f114526cd
     - 82f98bda0d7718940aae3daa98fd5351
+    - 55342e9e7a6844c4184f07e821b188b5
+    - 6a0c0f54625835f489c6a3a406826e50
+    - 85991a00d75ee4d4cbc12fd8fec544f0
     spriteTextureTimeStamps:
     - 1455369600.4237
     - 1460026898.26393
@@ -719,6 +725,9 @@ MonoBehaviour:
     - 1460026992.73399
     - 1460027015.31444
     - 1460027033.84896
+    - 1463161746.22072
+    - 1463159608.67726
+    - 1463161832.5181
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

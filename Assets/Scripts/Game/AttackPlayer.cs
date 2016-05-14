@@ -21,6 +21,8 @@ public class AttackPlayer : MonoBehaviour
     protected float lastPositionX;
     protected bool isInited = false;
     protected Vector2 directionOfHitBall = Vector2.zero;
+    protected float curBallHitError = float.MaxValue;
+    protected float bestBallHitError = float.MaxValue;
     protected float ballHitStrenght = 1;
     protected float scale = 1;
     protected float curTime = 0;
@@ -51,6 +53,12 @@ public class AttackPlayer : MonoBehaviour
             if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.2f)
             {
                 bestDistanceToBall = curDistanceToBall;
+                fitness++;
+            }
+
+            if(curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+            {
+                curBallHitError = bestBallHitError;
                 fitness++;
             }
 
@@ -94,16 +102,16 @@ public class AttackPlayer : MonoBehaviour
 
         /* Oponents goal */
         Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
-        /* inputs.Add(toOponentGoal.x);
-         inputs.Add(toOponentGoal.y);*/
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
-        directionOfHitBall = toOponentGoal;
-        ballHitStrenght = 0.6f;
-
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
+        ballHitStrenght = (float)output[4];
+        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
 
@@ -175,6 +183,8 @@ public class AttackPlayer : MonoBehaviour
             fitness = 0;
             curDistanceToBall = float.MaxValue;
             bestDistanceToBall = float.MaxValue;
+            curBallHitError = float.MaxValue;
+            bestBallHitError = float.MaxValue;
         }
         /* RESET FORCE */
         rgBody.velocity = Vector2.zero;

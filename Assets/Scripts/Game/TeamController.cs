@@ -150,7 +150,7 @@ public class TeamController : MonoBehaviour
        {
             startPosition.Add(new Vector2(defensePlayers[i].transform.position.x, defensePlayers[i].transform.position.y));
        }
-       for(int i =0; i < attackPlayers.Count; i++)
+       for(int i = 0; i < attackPlayers.Count; i++)
        {
             startPosition.Add(new Vector2(attackPlayers[i].transform.position.x, attackPlayers[i].transform.position.y));
        }
@@ -336,7 +336,8 @@ public class TeamController : MonoBehaviour
     }
     private void FillTeamWithDummyPlayers()
     {
-
+        Vector2 redDefensePos = redTeam.GetComponent<DefensePlayer>().transform.position;
+        Vector2 blueDefensePos = blueTeam.GetComponent<DefensePlayer>().transform.position;
         /* DEFENSE PLAYERS */
         int counter = 0;
         while (defensePlayers.Count < GameConsts.DEFENSE_PLAYER_COUNT)
@@ -346,6 +347,7 @@ public class TeamController : MonoBehaviour
             if (counter % 2 == 0)
             {
                 gO.transform.parent = redTeam.transform;
+                gO.transform.position = new Vector2(redDefensePos.x, redDefensePos.y);
                 DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
                 defPlayer.oponentTeam = redTeamDefenseExample.oponentTeam;
                 defPlayer.oponentGoal = redTeamDefenseExample.oponentGoal;
@@ -361,6 +363,7 @@ public class TeamController : MonoBehaviour
             else
             {
                 gO.transform.parent = blueTeam.transform;
+                gO.transform.position = new Vector2(blueDefensePos.x, blueDefensePos.y);
                 DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
                 defPlayer.oponentTeam = blueTeamDefenseExmaple.oponentTeam;
                 defPlayer.oponentGoal = blueTeamDefenseExmaple.oponentGoal;
@@ -376,6 +379,9 @@ public class TeamController : MonoBehaviour
             counter++;
         }
 
+        Vector2 redAttackerPos = redTeam.GetComponent<AttackPlayer>().transform.position;
+        Vector2 blueAttackerPos = blueTeam.GetComponent<AttackPlayer>().transform.position;
+
         counter = 0;
         /* ATTACK PLAYERS */
         while (attackPlayers.Count < GameConsts.ATTACK_PLAYER_COUNT)
@@ -384,6 +390,7 @@ public class TeamController : MonoBehaviour
             if (counter % 2 == 0)
             {
                 gO.transform.parent = redTeam.transform;
+                gO.transform.position = new Vector2(redAttackerPos.x, redAttackerPos.y);
                 AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
                 attPlayer.oponentGoal = redTeamAttackerExample.oponentGoal;
                 attPlayer.oponentTeam = redTeamAttackerExample.oponentTeam;
@@ -395,6 +402,7 @@ public class TeamController : MonoBehaviour
             else
             {
                 gO.transform.parent = blueTeam.transform;
+                gO.transform.position = new Vector2(blueAttackerPos.x, blueAttackerPos.y);
                 AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
                 attPlayer.oponentGoal = blueTeamAttackerExmaple.oponentGoal;
                 attPlayer.oponentTeam = blueTeamAttackerExmaple.oponentTeam;
@@ -408,6 +416,8 @@ public class TeamController : MonoBehaviour
         }
 
 
+        Vector2 redGoallyPos = redTeam.GetComponent<GoallyPlayer>().transform.position;
+        Vector2 blueGoallyPos = blueTeam.GetComponent<GoallyPlayer>().transform.position;
         counter = 0;
         /* GOALY PLAYERS */
         while (goalyPlayers.Count < GameConsts.GOALLY_PLAYER_COUNT)
@@ -417,6 +427,7 @@ public class TeamController : MonoBehaviour
             if(counter % 2 == 0)
             {
                 gO.transform.parent = redTeam.transform;
+                gO.transform.position = new Vector2(redGoallyPos.x, redGoallyPos.y);
                 GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
                 goaly.oponentGoal = redTeamGoallyExample.oponentGoal;
                 goaly.oponentTeam = redTeamGoallyExample.oponentTeam;
@@ -429,6 +440,7 @@ public class TeamController : MonoBehaviour
             else
             {
                 gO.transform.parent = blueTeam.transform;
+                gO.transform.position = new Vector2(blueGoallyPos.x, blueGoallyPos.y);
                 GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
                 goaly.oponentGoal = blueTeamGoallyExample.oponentGoal;
                 goaly.oponentTeam = blueTeamGoallyExample.oponentTeam;

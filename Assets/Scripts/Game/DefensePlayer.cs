@@ -57,9 +57,16 @@ public class DefensePlayer : AttackPlayer
             }
 
             /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.1f)
+            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.3f)
             {
                 bestDistanceToOponentAttacker = curDistToOponentAttacker;
+                fitness += 2;
+            }
+
+            /* REWARD FOR HIT DIRECTION */
+            if(curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+            {
+                bestBallHitError = curBallHitError;
                 fitness++;
             }
         }
@@ -121,15 +128,20 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toHomeGoal.x);
         inputs.Add(toHomeGoal.y);
 
+        /* Add ball hit direction */
+        Vector2 toOponentGoal = (oponentGoal.transform.position - transform.position).normalized;
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
+
         /* Update the brain and get feedback */
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);
-        directionOfHitBall = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
 
         /* RECORD MISTAKE IN DIRECTION */
-        ballHitStrenght = 0.6f;
-
+        ballHitStrenght = (float)output[4];
+        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
 

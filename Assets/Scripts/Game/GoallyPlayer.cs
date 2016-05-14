@@ -51,6 +51,12 @@ public class GoallyPlayer : AttackPlayer
             {
                 isTrained = true;
             }
+            /* REWARD FOR HIT DIRECTION */
+            if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+            {
+                bestBallHitError = curBallHitError;
+                fitness++;
+            }
 
         }
     }
@@ -83,15 +89,16 @@ public class GoallyPlayer : AttackPlayer
 
         /* Add ball hit direction */
         Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        /*inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);*/
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
-        directionOfHitBall = toOponentGoal;
-        ballHitStrenght = 0.6f;
+        directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
+        ballHitStrenght = (float)output[3];
+        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
     private float GetDistanceToClosesDefensePlayer()
