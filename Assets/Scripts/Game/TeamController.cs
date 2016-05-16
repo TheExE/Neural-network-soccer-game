@@ -169,6 +169,7 @@ public class TeamController : MonoBehaviour
         statText.text = "Cur gen A: " + generationCounterA + '\n'
                         + " Cur gen D: " + generationCounterD + '\n'
                         + " Cur gen G: " + generationCounterG;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Application.targetFrameRate = -1;

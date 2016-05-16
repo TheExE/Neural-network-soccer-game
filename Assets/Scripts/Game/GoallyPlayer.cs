@@ -28,57 +28,48 @@ public class GoallyPlayer : AttackPlayer
 
     void Update()
     {
-        curTime += Time.deltaTime;
-        if (curTime > 1f)
+        curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
+        curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
+
+        if (((curYDiffWithGoalCenter < bestYDiffWithGoalCenter) ||
+            (curYDiffWithBall < 0.2f)) && (curYDiffWithGoalCenter < 0.2f))
         {
-            curTime = 0;
-            curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
-            curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
+            bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
+            fitness++;
+        }
+        if (transform.position.y > GameConsts.GOALLY_LINE_UP ||
+            transform.position.y < GameConsts.GOALLY_LINE_DOWN)
+        {
+            fitness--;
+            isTrained = false;
+        }
 
-            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.2f)
-            {
-                bestYDiffWithBall = curYDiffWithBall;
-                fitness++;
-            }
-            if(curYDiffWithGoalCenter < bestYDiffWithGoalCenter || curYDiffWithGoalCenter < 0.2f)
-            {
-                bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-                fitness ++;
-            }
-
-           
-            if (transform.position.y > GameConsts.GOALLY_LINE_UP || transform.position.y < GameConsts.GOALLY_LINE_DOWN || isColided)
-            {
-                fitness--;
-                isTrained = false;
-            }
-            else
-            {
-                isTrained = true;
-            }
-
+        if (!isColided)
+        {
             /* REWARD FOR HIT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                if ((curBallHitError < bestBallHitError && curYDiffWithBall < bestYDiffWithBall) ||
+                    (curYDiffWithBall < 0.2f && curBallHitError < 0.1f))
                 {
                     bestBallHitError = curBallHitError;
-                    fitness += 5;
+                    bestYDiffWithBall = curYDiffWithBall;
+                    fitness++;
                 }
             }
             else
             {
                 fitness--;
             }
-
-            /* REWARD FOR BALL HIT STRENGHT */
-            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
-            {
-                bestBallHitStrenght = ballHitStrenght;
-                fitness++;
-            }
-
         }
+
+        /* REWARD FOR BALL HIT STRENGHT */
+        if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+        {
+            bestBallHitStrenght = ballHitStrenght;
+            fitness++;
+        }
+
     }
 
     public override void InitPlayer()
@@ -120,7 +111,7 @@ public class GoallyPlayer : AttackPlayer
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
-        ballHitStrenght = (float)output[3];
+        ballHitStrenght = 0.6f;
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
@@ -145,7 +136,7 @@ public class GoallyPlayer : AttackPlayer
     new public void OnTriggerStay2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-    }   
+    }
     public DefensePlayer[] TeamDefense
     {
         get { return teamDefense; }
@@ -154,7 +145,7 @@ public class GoallyPlayer : AttackPlayer
     new public void Reset(bool isBallInNet)
     {
         base.Reset(isBallInNet);
-        if(!isBallInNet)
+        if (!isBallInNet)
         {
             curYDiffWithBall = float.MaxValue;
             bestYDiffWithBall = float.MaxValue;

@@ -13,6 +13,7 @@ public class DefensePlayer : AttackPlayer
     private float curDistToOponentAttacker = float.MaxValue;
     private float bestDistanceToOponentAttacker = float.MaxValue;
     private bool isRedTeam = false;
+    private bool isCloseEnoughToAttacker = false;
 
 
     public DefensePlayer()
@@ -32,67 +33,43 @@ public class DefensePlayer : AttackPlayer
 
     void Update()
     {
-        curTime += Time.deltaTime;
-        if (curTime > 0.3f)
+
+        curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
+        curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
+
+        if (!colided)
         {
-            curTime = 0;
-
-            curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
-            curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-            curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
-
-
-            /* DISTANCE TO BALL */
-            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.1f)
-            {
-                bestDistanceToBall = curDistanceToBall;
-                fitness++;
-            }
-
-            /* DISTANCE TO HOME GOAL */
-            if (curDistanceToHomeGoal < bestDistanceToHomeGoal || curDistanceToHomeGoal < 1f)
-            {
-                bestDistanceToHomeGoal = curDistanceToHomeGoal;
-                fitness++;
-            }
-
-            /* REWARD FOR GOING CLOSER TO OPPONENT ATTACKR */
-            if (curDistToOponentAttacker < bestDistanceToOponentAttacker || curDistToOponentAttacker < 0.3f)
-            {
-                bestDistanceToOponentAttacker = curDistToOponentAttacker;
-                fitness ++;
-            }
-
             /* REWARD FOR HIT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                if (curBallHitError < bestBallHitError || curBallHitError < 0.1f)
+                if ((curBallHitError < bestBallHitError &&
+                    curDistToOponentAttacker < bestDistanceToOponentAttacker &&
+                    curDistanceToHomeGoal < bestDistanceToHomeGoal) ||
+                    (curBallHitError < 0.1f && curDistanceToHomeGoal < 1.5f &&
+                    curDistToOponentAttacker < 0.2f))
                 {
                     bestBallHitError = curBallHitError;
-                    fitness ++;
+                    fitness++;
                 }
             }
             else
             {
                 fitness--;
             }
-
-            /* REWARD FOR BALL HIT STRENGHT */
-            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
-            {
-                bestBallHitStrenght = ballHitStrenght;
-                fitness++;
-            }
         }
-        curColideTimer += Time.deltaTime;
-        if (curColideTimer > 2)
+        else
         {
-            if (colided)
-            {
-                curColideTimer = 0;
-                fitness--;
-            }
+            fitness--;
         }
+
+
+        /* REWARD FOR BALL HIT STRENGHT */
+        if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+        {
+            bestBallHitStrenght = ballHitStrenght;
+            fitness++;
+        }
+
 
         HandlePlayerRotation();
     }
@@ -139,9 +116,9 @@ public class DefensePlayer : AttackPlayer
 
         /* Add move to home goal */
         Vector3 homeGoalPosition = new Vector3(homeGoal.transform.position.x, homeGoal.transform.position.y);
-        if(homeGoalPosition.x > 0)
+        if (homeGoalPosition.x > 0)
         {
-            homeGoalPosition.x -= 1f; 
+            homeGoalPosition.x -= 1f;
         }
         else
         {
@@ -155,11 +132,11 @@ public class DefensePlayer : AttackPlayer
         Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
         if (oponentGoalPos.x < 0)
         {
-            oponentGoalPos.x += 0.5f;
+            oponentGoalPos.x += 0.3f;
         }
         else
         {
-            oponentGoalPos.x -= 0.5f;
+            oponentGoalPos.x -= 0.3f;
         }
         Vector2 toOponentGoal = (oponentGoalPos - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
@@ -172,7 +149,7 @@ public class DefensePlayer : AttackPlayer
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
 
         /* RECORD MISTAKE IN DIRECTION */
-        ballHitStrenght = (float)output[4];
+        ballHitStrenght = 0.6f;
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
@@ -203,10 +180,10 @@ public class DefensePlayer : AttackPlayer
     {
         base.Reset(isBallInNet);
 
-        if(!isBallInNet)
+        if (!isBallInNet)
         {
-            curDistanceToHomeGoal = float.MaxValue;
-            bestDistanceToHomeGoal = float.MaxValue;
+            curDistToOponentAttacker = float.MaxValue;
+            bestDistanceToOponentAttacker = float.MaxValue;
         }
     }
 

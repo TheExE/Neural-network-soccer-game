@@ -31,9 +31,6 @@ public class AttackPlayer : MonoBehaviour
     protected bool isColided = false;
     protected Vector3 lastPosition = Vector3.zero;
     protected float curColideTimer = 0f;
-    private bool isBallKicked = false;
-    private float curDistBallToGoal = float.MaxValue;
-    private float bestDistBallToGoal = float.MaxValue;
 
     void Start()
     {
@@ -47,37 +44,24 @@ public class AttackPlayer : MonoBehaviour
     void Update()
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-        curDistBallToGoal = (oponentGoal.transform.position - transform.position).sqrMagnitude;
         curColideTimer += Time.deltaTime;
-        curTime += Time.deltaTime;
-        
-        if(curTime > 0.15f)
+
+        if (colided)
         {
-            curTime = 0;
-            if (curDistanceToBall < bestDistanceToBall || curDistanceToBall < 0.2f)
-            {
-                bestDistanceToBall = curDistanceToBall;
-                fitness++;
-            }
+            fitness--;
 
-            if(curDistBallToGoal < bestDistBallToGoal)
-            {
-                bestDistBallToGoal = curDistBallToGoal;
-                fitness ++;
-            }
-
-            if (colided)
-            {
-                fitness--;
-                isBallKicked = false;
-            }
+        }
+        else
+        {
             /* REWARD FOR HITING BALL IN RIGHT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                if (curBallHitError < bestBallHitError)
+                if ((curDistanceToBall < bestDistanceToBall && curBallHitError < bestBallHitError)
+                    || (curBallHitError < 0.1f && curDistanceToBall < 0.3f))
                 {
+                    bestDistanceToBall = curDistanceToBall;
                     bestBallHitError = curBallHitError;
-                    fitness ++;
+                    fitness++;
                 }
             }
             else
@@ -93,11 +77,6 @@ public class AttackPlayer : MonoBehaviour
             }
         }
 
-        if(curColideTimer > 1)
-        {
-            curColideTimer = 0;
-            isBallKicked = false;
-        }
         HandlePlayerRotation();
     }
     public virtual void InitPlayer()
@@ -125,13 +104,13 @@ public class AttackPlayer : MonoBehaviour
 
         /* Oponents goal */
         Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
-        if(oponentGoalPos.x < 0)
+        if (oponentGoalPos.x < 0)
         {
-            oponentGoalPos.x += 0.5f;
+            oponentGoalPos.x += 0.3f;
         }
         else
         {
-            oponentGoalPos.x -= 0.5f;
+            oponentGoalPos.x -= 0.3f;
         }
         Vector2 toOponentGoal = (oponentGoalPos - transform.position).normalized;
         inputs.Add(toOponentGoal.x);
@@ -142,7 +121,7 @@ public class AttackPlayer : MonoBehaviour
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
-        ballHitStrenght = (float)output[4];
+        ballHitStrenght = 0.6f;
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
@@ -157,11 +136,7 @@ public class AttackPlayer : MonoBehaviour
                 fitness++;
                 ballHitTimes++;
             }
-
-            if (gameObject.name.Contains("Att"))
-            {
-                isBallKicked = true;
-            }
+            fitness++;
         }
     }
 
@@ -189,7 +164,7 @@ public class AttackPlayer : MonoBehaviour
     public void PunishCampers()
     {
         Vector2 dif = transform.position - lastPosition;
-        if(dif.magnitude < 0.01f)
+        if (dif.magnitude < 0.01f)
         {
             fitness--;
         }
@@ -209,23 +184,21 @@ public class AttackPlayer : MonoBehaviour
     }
     public void Reset(bool isBallInNet)
     {
-        if(!isBallInNet)
+        if (!isBallInNet)
         {
             fitness = 0;
-            curDistanceToBall = float.MaxValue;
-            bestDistanceToBall = float.MaxValue;
             curBallHitError = float.MaxValue;
             bestBallHitError = float.MaxValue;
+            curDistanceToBall = float.MaxValue;
+            bestDistanceToBall = float.MaxValue;
         }
-        curDistBallToGoal = float.MaxValue;
-        bestDistBallToGoal = float.MaxValue;
 
         /* RESET FORCE */
         rgBody.velocity = Vector2.zero;
         rgBody.angularVelocity = 0f;
         rgBody.angularDrag = 0f;
     }
-    
+
     protected void ClipPlayerToField()
     {
         colided = false;
@@ -255,19 +228,19 @@ public class AttackPlayer : MonoBehaviour
     {
         bool hitInvalid = false;
         Vector2 ballPosition = ballScript.transform.position;
-        if(ballPosition.x + directionOfHitBall.x < GameConsts.GAME_FIELD_LEFT)
+        if (ballPosition.x + directionOfHitBall.x < GameConsts.GAME_FIELD_LEFT)
         {
             hitInvalid = true;
         }
-        else if(ballPosition.x + directionOfHitBall.x > GameConsts.GAME_FIELD_RIGHT)
+        else if (ballPosition.x + directionOfHitBall.x > GameConsts.GAME_FIELD_RIGHT)
         {
             hitInvalid = true;
         }
-        else if(ballPosition.y + directionOfHitBall.y < GameConsts.GAME_FIELD_DOWN)
+        else if (ballPosition.y + directionOfHitBall.y < GameConsts.GAME_FIELD_DOWN)
         {
             hitInvalid = true;
         }
-        else if(ballPosition.y + directionOfHitBall.y > GameConsts.GAME_FIELD_UP)
+        else if (ballPosition.y + directionOfHitBall.y > GameConsts.GAME_FIELD_UP)
         {
             hitInvalid = true;
         }
@@ -315,9 +288,4 @@ public class AttackPlayer : MonoBehaviour
         get { return curDistanceToBall; }
     }
 
-    public bool IsBallKicked
-    {
-        get { return isBallKicked; }
-    }
-    
 }

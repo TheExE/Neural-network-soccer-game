@@ -557,10 +557,6 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3308732, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3360618, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
       propertyPath: m_Mesh
       value: 
@@ -573,6 +569,22 @@ Prefab:
       propertyPath: blueTeam
       value: 
       objectReference: {fileID: 419014172}
+    - target: {fileID: 11449286, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: leftUpCorner
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11449286, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: leftDownCorner
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11449286, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: rightUpCorner
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11449286, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: rightDownCorner
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 11438530, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
       propertyPath: redTeamScoreObj
       value: 
@@ -581,6 +593,10 @@ Prefab:
       propertyPath: blueTeamScoreObj
       value: 
       objectReference: {fileID: 37778030}
+    - target: {fileID: 3308732, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cf13c9f37ac71744ab1803a82067883, type: 2}
   m_IsPrefabParent: 0
@@ -769,11 +785,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 443368, guid: e01daa294ef2a91409119634dcd8e77f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.02
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 443368, guid: e01daa294ef2a91409119634dcd8e77f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.04
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 443368, guid: e01daa294ef2a91409119634dcd8e77f, type: 2}
       propertyPath: m_LocalPosition.z
