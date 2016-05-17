@@ -345,6 +345,7 @@ public class TeamController : MonoBehaviour
             goaly.oponentGoal = goallyExample.oponentGoal;
             goaly.oponentTeam = goallyExample.oponentTeam;
             goaly.goalToSave = goallyExample.goalToSave;
+            goaly.TeamAttacker = goallyExample.TeamAttacker;
             goaly.InitPlayer();
             goalyPlayers.Add(goaly);
         }

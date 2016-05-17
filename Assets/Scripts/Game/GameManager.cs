@@ -45,60 +45,61 @@ public class GameManager : MonoBehaviour
 
         EvolutionPauseChecker();
         CheckSaveStats();
+        CheckDrawDummys();
     }
 
     private void EvolutionPauseChecker()
     {
         /* PAUSE ATTACKER EVO */
-        if (Input.GetKeyDown(KeyCode.A) && redTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && redTeam.PauseAttackEvo)
         {
             redTeam.PauseAttackEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.A) && !redTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && !redTeam.PauseAttackEvo)
         {
             redTeam.PauseAttackEvo = true;
         }
-        if (Input.GetKeyDown(KeyCode.A) && blueTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && blueTeam.PauseAttackEvo)
         {
             blueTeam.PauseAttackEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.A) && !blueTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && !blueTeam.PauseAttackEvo)
         {
             blueTeam.PauseAttackEvo = true;
         }
 
         /* PAUSE DEFENSE PLAYER EVO */
-        if (Input.GetKeyDown(KeyCode.D) && redTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && redTeam.PauseDefenseEvo)
         {
             redTeam.PauseDefenseEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !redTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && !redTeam.PauseDefenseEvo)
         {
             redTeam.PauseDefenseEvo = true;
         }
-        if (Input.GetKeyDown(KeyCode.D) && blueTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Alpha5) && blueTeam.PauseDefenseEvo)
         {
             blueTeam.PauseDefenseEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !blueTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Alpha5) && !blueTeam.PauseDefenseEvo)
         {
             blueTeam.PauseDefenseEvo = true;
         }
 
         /* PAUSE GOALLY PALYER EVO */
-        if (Input.GetKeyDown(KeyCode.G) && redTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Alpha3) && redTeam.PauseGoallyEvo)
         {
             redTeam.PauseGoallyEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.G) && !redTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && !redTeam.PauseGoallyEvo)
         {
             redTeam.PauseGoallyEvo = true;
         }
-        if (Input.GetKeyDown(KeyCode.G) && blueTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Alpha6) && blueTeam.PauseGoallyEvo)
         {
             blueTeam.PauseGoallyEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.G) && !blueTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Alpha6) && !blueTeam.PauseGoallyEvo)
         {
             blueTeam.PauseGoallyEvo = true;
         }

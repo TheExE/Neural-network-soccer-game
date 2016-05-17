@@ -7,10 +7,7 @@ public class GoallyPlayer : AttackPlayer
 
     private float curYDiffWithBall = 0;
     private float bestYDiffWithBall = float.MaxValue;
-    private float curYDiffWithGoalCenter = 0;
-    private float bestYDiffWithGoalCenter = float.MaxValue;
-    private int chosenDefensePlayer = 0;
-    private DefensePlayer[] teamDefense;
+    private AttackPlayer teamAttacker;
     private bool isTrained = false;
 
     public GoallyPlayer()
@@ -76,7 +73,15 @@ public class GoallyPlayer : AttackPlayer
         if (!isInited)
         {
             id++;
-            teamDefense = transform.parent.gameObject.GetComponentsInChildren<DefensePlayer>();
+            var attackers = transform.parent.gameObject.GetComponentsInChildren<AttackPlayer>();
+            foreach(AttackPlayer a in attackers)
+            {
+                if(a.NameType == GameConsts.ATTACK_PLAYER)
+                {
+                    teamAttacker = a;
+                    break;
+                }
+            }
             rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
             brain = new NeuralNetwork(NeuralNetworkConst.GOLY_INPUT_COUNT, NeuralNetworkConst.GOLY_OUTPUT_COUNT,
@@ -97,9 +102,9 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toBall.y);
 
         /* Add ball hit direction */
-        Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toOponentGoal.x);
-        inputs.Add(toOponentGoal.y);
+        Vector2 toAttacker = (teamAttacker.transform.position - ballScript.transform.position).normalized;
+        inputs.Add(toAttacker.x);
+        inputs.Add(toAttacker.y);
 
         //update the brain and get feedback
         List<double> output = brain.Update(inputs);
@@ -107,23 +112,10 @@ public class GoallyPlayer : AttackPlayer
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
         ballHitStrenght = (float)output[3];
-        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
+        curBallHitError = (directionOfHitBall - toAttacker).sqrMagnitude;
         ClipPlayerToField();
     }
-    private float GetDistanceToClosesDefensePlayer()
-    {
-        float bestDistance = float.MaxValue;
-        foreach (DefensePlayer def in teamDefense)
-        {
-            float curDistance = (def.transform.position - transform.position).sqrMagnitude;
-            if (curDistance < bestDistance)
-            {
-                bestDistance = curDistance;
-            }
-        }
 
-        return bestDistance;
-    }
     new public void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
@@ -132,10 +124,10 @@ public class GoallyPlayer : AttackPlayer
     {
         base.OnTriggerEnter2D(collision);
     }
-    public DefensePlayer[] TeamDefense
+    public AttackPlayer TeamAttacker
     {
-        get { return teamDefense; }
-        set { teamDefense = value; }
+        get { return teamAttacker; }
+        set { teamAttacker = value; }
     }
     new public void Reset(bool isBallInNet)
     {
