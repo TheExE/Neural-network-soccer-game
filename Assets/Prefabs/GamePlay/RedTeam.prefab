@@ -71,6 +71,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 422804}
+  - 114: {fileID: 11469988}
   m_Layer: 0
   m_Name: RedTeam
   m_TagString: Untagged
@@ -555,6 +556,21 @@ MonoBehaviour:
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
   renderLayer: 3
+--- !u!114 &11469988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba96d5b744970344d84ec8bf484c89ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statText: {fileID: 0}
+  dummyAttacker: {fileID: 198990, guid: 928072188211f674fbef8816f9d97a13, type: 2}
+  dummyDefensePlayer: {fileID: 153758, guid: 6ae4724e06454ea46a4818cbc10da45b, type: 2}
+  dummyGoaly: {fileID: 190770, guid: 29a387a5fe709814cba5fe0f287c63ef, type: 2}
 --- !u!114 &11475874
 MonoBehaviour:
   m_ObjectHideFlags: 1

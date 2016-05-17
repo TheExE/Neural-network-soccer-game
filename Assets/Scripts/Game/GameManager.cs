@@ -10,22 +10,17 @@ public class GameManager : MonoBehaviour
     public GameObject blueTeamScoreObj;
     public tk2dTextMesh redTeamFitness;
     public tk2dTextMesh blueTeamFitnes;
-    public tk2dTextMesh fpsText;
+    public tk2dTextMesh fpstxt;
     public AudioClip clip;
+    public TeamController blueTeam;
+    public TeamController redTeam;
 
     private tk2dTextMesh redTeamTxt;
     private tk2dTextMesh blueTeamTxt;
     private static int redTeamScore;
     private static int blueTeamScore;
     private BallScript ball;
-    private TeamController teamController;
-    private AudioSource source;
-    private bool isFirstRun = true;
     private bool shouldRenderDummys = false;
-
-    private static bool shouldPauseEvolutionA = false;
-    private static bool shouldPauseEvolutionD = false;
-    private static bool shouldPauseEvolutionG = false;
 
 	void Start () 
     {
@@ -34,72 +29,106 @@ public class GameManager : MonoBehaviour
         redTeamTxt = redTeamScoreObj.GetComponent<tk2dTextMesh>();
         blueTeamTxt = blueTeamScoreObj.GetComponent<tk2dTextMesh>();
         ball = GameObject.FindObjectOfType<BallScript>();
-        teamController = GetComponent<TeamController>();
-        source = GetComponent<AudioSource>();
 	}
 	
 	void Update () 
     {
+        fpstxt.text = "fps:" + Mathf.RoundToInt((1 / Time.deltaTime));
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
-        fpsText.text = "Fps:" + Mathf.RoundToInt(1 / Time.deltaTime);
-        blueTeamFitnes.text = "A Fit: " + teamController.BestBlueAttacker + '\n'
-            + " D Fit: " + teamController.BestBlueDefense + '\n'
-            + " G Fit: " + teamController.BestBlueGoally;
-        redTeamFitness.text = "A Fit: " + teamController.BestRedAttacker + '\n'
-            + " D Fit: " + teamController.BestRedDefense + '\n'
-            + " G Fit: " + teamController.BestRedGoally;
+        blueTeamFitnes.text = "A Fit: " + blueTeam.BestAttacker + '\n'
+            + " D Fit: " + blueTeam.BestDefense + '\n'
+            + " G Fit: " + blueTeam.BestGoally;
+        redTeamFitness.text = "A Fit: " + redTeam.BestAttacker + '\n'
+            + " D Fit: " + redTeam.BestDefense + '\n'
+            + " G Fit: " + redTeam.BestGoally;
 
+        EvolutionPauseChecker();
+        CheckSaveStats();
+    }
+
+    private void EvolutionPauseChecker()
+    {
         /* PAUSE ATTACKER EVO */
-        if(Input.GetKeyDown(KeyCode.A) && shouldPauseEvolutionA)
+        if (Input.GetKeyDown(KeyCode.A) && redTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionA = false;
+            redTeam.PauseAttackEvo = false;
         }
-        else if(Input.GetKeyDown(KeyCode.A) && !shouldPauseEvolutionA)
+        else if (Input.GetKeyDown(KeyCode.A) && !redTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionA = true;
+            redTeam.PauseAttackEvo = true;
+        }
+        if (Input.GetKeyDown(KeyCode.A) && blueTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.B))
+        {
+            blueTeam.PauseAttackEvo = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && !blueTeam.PauseAttackEvo && Input.GetKeyDown(KeyCode.B))
+        {
+            blueTeam.PauseAttackEvo = true;
         }
 
         /* PAUSE DEFENSE PLAYER EVO */
-        if (Input.GetKeyDown(KeyCode.D) && shouldPauseEvolutionD)
+        if (Input.GetKeyDown(KeyCode.D) && redTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionD = false;
+            redTeam.PauseDefenseEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !shouldPauseEvolutionD)
+        else if (Input.GetKeyDown(KeyCode.D) && !redTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionD = true;
+            redTeam.PauseDefenseEvo = true;
+        }
+        if (Input.GetKeyDown(KeyCode.D) && blueTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.B))
+        {
+            blueTeam.PauseDefenseEvo = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && !blueTeam.PauseDefenseEvo && Input.GetKeyDown(KeyCode.B))
+        {
+            blueTeam.PauseDefenseEvo = true;
         }
 
         /* PAUSE GOALLY PALYER EVO */
-        if (Input.GetKeyDown(KeyCode.G) && shouldPauseEvolutionG)
+        if (Input.GetKeyDown(KeyCode.G) && redTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionG = false;
+            redTeam.PauseGoallyEvo = false;
         }
-        else if (Input.GetKeyDown(KeyCode.G) && !shouldPauseEvolutionG)
+        else if (Input.GetKeyDown(KeyCode.G) && !redTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.R))
         {
-            shouldPauseEvolutionG = true;
+            redTeam.PauseGoallyEvo = true;
         }
-      
-
-        if(Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.G) && blueTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.B))
         {
-            teamController.SaveState();
+            blueTeam.PauseGoallyEvo = false;
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.G) && !blueTeam.PauseGoallyEvo && Input.GetKeyDown(KeyCode.B))
         {
-            if(!shouldRenderDummys)
+            blueTeam.PauseGoallyEvo = true;
+        }
+    }
+    private void CheckSaveStats()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            redTeam.SaveState();
+            blueTeam.SaveState();
+        }
+    }
+    private void CheckDrawDummys()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (!shouldRenderDummys)
             {
-                teamController.TurnOnDummySprites();
+                redTeam.TurnOnDummySprites();
+                blueTeam.TurnOnDummySprites();
                 shouldRenderDummys = true;
             }
             else
             {
-                teamController.TurnOffDummySprites();
+                redTeam.TurnOffDummySprites();
+                blueTeam.TurnOffDummySprites();
                 shouldRenderDummys = false;
             }
         }
     }
-
     public static int RedTeamScore
     {
         get { return redTeamScore; }
@@ -115,32 +144,18 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseFitnessBlueTeam()
     {
-        teamController.IncreaseTeamsFitness(1,true);
-    
+        blueTeam.IncreaseTeamsFitness(1);
     }
 
     public void IncreaseFitnessRedTeam()
     {
-        teamController.IncreaseTeamsFitness(1, false);
+        redTeam.IncreaseTeamsFitness(1);
     }
      
     public void RestartGame()
     {
         ball.Reset();
-        teamController.Reset();
+        blueTeam.Reset();
+        redTeam.Reset();
     }
-
-    public static bool ShouldPauseEvoA
-    {
-        get { return shouldPauseEvolutionA; }
-    }
-    public static bool ShouldPauseEvoD
-    {
-        get { return shouldPauseEvolutionD; }
-    }
-    public static bool ShouldPauseEvoG
-    {
-        get { return shouldPauseEvolutionG; }
-    }
-
 }
