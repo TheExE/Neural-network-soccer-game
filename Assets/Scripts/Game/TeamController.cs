@@ -23,10 +23,6 @@ public class TeamController : MonoBehaviour
     public GameObject dummyAttacker;
     public GameObject dummyDefensePlayer;
     public GameObject dummyGoaly;
-    public GameObject leftUpCorner;
-    public GameObject leftDownCorner;
-    public GameObject rightUpCorner;
-    public GameObject rightDownCorner;
 
     private List<DefensePlayer> defensePlayers = new List<DefensePlayer>();
     private List<GoallyPlayer > goalyPlayers = new List<GoallyPlayer>();

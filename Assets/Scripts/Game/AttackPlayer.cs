@@ -57,7 +57,7 @@ public class AttackPlayer : MonoBehaviour
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
                 if ((curDistanceToBall < bestDistanceToBall && curBallHitError < bestBallHitError)
-                    || (curBallHitError < 0.1f && curDistanceToBall < 0.3f))
+                    || (curBallHitError < 0.2f && curDistanceToBall < 0.4f))
                 {
                     bestDistanceToBall = curDistanceToBall;
                     bestBallHitError = curBallHitError;
@@ -121,7 +121,7 @@ public class AttackPlayer : MonoBehaviour
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
-        ballHitStrenght = 0.6f;
+        ballHitStrenght = (float)output[4];
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
@@ -161,14 +161,6 @@ public class AttackPlayer : MonoBehaviour
         lastPositionX = transform.position.x;
     }
 
-    public void PunishCampers()
-    {
-        Vector2 dif = transform.position - lastPosition;
-        if (dif.magnitude < 0.01f)
-        {
-            fitness--;
-        }
-    }
     public float Fitness
     {
         get { return fitness; }
@@ -191,6 +183,8 @@ public class AttackPlayer : MonoBehaviour
             bestBallHitError = float.MaxValue;
             curDistanceToBall = float.MaxValue;
             bestDistanceToBall = float.MaxValue;
+            ballHitStrenght = float.MaxValue;
+            bestBallHitStrenght = float.MaxValue;
         }
 
         /* RESET FORCE */

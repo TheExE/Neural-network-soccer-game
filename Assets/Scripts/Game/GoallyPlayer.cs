@@ -29,14 +29,7 @@ public class GoallyPlayer : AttackPlayer
     void Update()
     {
         curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
-        curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
 
-        if (((curYDiffWithGoalCenter < bestYDiffWithGoalCenter) ||
-            (curYDiffWithBall < 0.2f)) && (curYDiffWithGoalCenter < 0.2f))
-        {
-            bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-            fitness++;
-        }
         if (transform.position.y > GameConsts.GOALLY_LINE_UP ||
             transform.position.y < GameConsts.GOALLY_LINE_DOWN)
         {
@@ -61,6 +54,12 @@ public class GoallyPlayer : AttackPlayer
             {
                 fitness--;
             }
+        }
+
+        if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
+        {
+            bestYDiffWithBall = curYDiffWithBall;
+            fitness++;
         }
 
         /* REWARD FOR BALL HIT STRENGHT */
@@ -97,10 +96,6 @@ public class GoallyPlayer : AttackPlayer
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.y);
 
-        /* Add center of goal */
-        Vector2 toHomeGoal = (goalToSave.transform.position - transform.position).normalized;
-        inputs.Add(toHomeGoal.y);
-
         /* Add ball hit direction */
         Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
         inputs.Add(toOponentGoal.x);
@@ -111,7 +106,7 @@ public class GoallyPlayer : AttackPlayer
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
-        ballHitStrenght = 0.6f;
+        ballHitStrenght = (float)output[3];
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }

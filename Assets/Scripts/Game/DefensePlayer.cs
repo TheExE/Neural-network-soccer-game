@@ -33,8 +33,6 @@ public class DefensePlayer : AttackPlayer
 
     void Update()
     {
-
-        curDistanceToHomeGoal = (homeGoal.transform.position - transform.position).sqrMagnitude;
         curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
 
         if (!colided)
@@ -43,9 +41,8 @@ public class DefensePlayer : AttackPlayer
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
                 if ((curBallHitError < bestBallHitError &&
-                    curDistToOponentAttacker < bestDistanceToOponentAttacker &&
-                    curDistanceToHomeGoal < bestDistanceToHomeGoal) ||
-                    (curBallHitError < 0.1f && curDistanceToHomeGoal < 1.5f &&
+                    curDistToOponentAttacker < bestDistanceToOponentAttacker ) ||
+                    (curBallHitError < 0.1f &&
                     curDistToOponentAttacker < 0.2f))
                 {
                     bestBallHitError = curBallHitError;
@@ -115,7 +112,7 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toOponentAttacker.y);
 
         /* Add move to home goal */
-        Vector3 homeGoalPosition = new Vector3(homeGoal.transform.position.x, homeGoal.transform.position.y);
+      /*  Vector3 homeGoalPosition = new Vector3(homeGoal.transform.position.x, homeGoal.transform.position.y);
         if (homeGoalPosition.x > 0)
         {
             homeGoalPosition.x -= 1f;
@@ -126,7 +123,7 @@ public class DefensePlayer : AttackPlayer
         }
         Vector2 toHomeGoal = (homeGoalPosition - transform.position).normalized;
         inputs.Add(toHomeGoal.x);
-        inputs.Add(toHomeGoal.y);
+        inputs.Add(toHomeGoal.y);*/
 
         /* Add ball hit direction */
         Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
@@ -149,7 +146,7 @@ public class DefensePlayer : AttackPlayer
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
 
         /* RECORD MISTAKE IN DIRECTION */
-        ballHitStrenght = 0.6f;
+        ballHitStrenght = (float)output[4];
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
