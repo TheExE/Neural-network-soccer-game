@@ -11,7 +11,6 @@ public class Neuron
     {
         this.inputCount = inputCount+1;
 
-        //+1 because of bias 
         for (int i = 0; i < inputCount+1; i++)
         {
             neuronWeights.Add(Random.Range(-1f, 1f));

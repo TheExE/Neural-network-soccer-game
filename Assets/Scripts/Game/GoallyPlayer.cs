@@ -8,7 +8,6 @@ public class GoallyPlayer : AttackPlayer
     private float curYDiffWithBall = 0;
     private float bestYDiffWithBall = float.MaxValue;
     private AttackPlayer teamAttacker;
-    private bool isTrained = false;
 
     public GoallyPlayer()
     {
@@ -31,7 +30,6 @@ public class GoallyPlayer : AttackPlayer
             transform.position.y < GameConsts.GOALLY_LINE_DOWN)
         {
             fitness--;
-            isTrained = false;
         }
 
         if (!isColided)
@@ -51,20 +49,25 @@ public class GoallyPlayer : AttackPlayer
             {
                 fitness--;
             }
+            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
+            {
+                bestYDiffWithBall = curYDiffWithBall;
+                fitness++;
+            }
+
+            /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+            {
+                bestBallHitStrenght = ballHitStrenght;
+                fitness++;
+            }
+        }
+        else
+        {
+            fitness--;
         }
 
-        if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
-        {
-            bestYDiffWithBall = curYDiffWithBall;
-            fitness++;
-        }
 
-        /* REWARD FOR BALL HIT STRENGHT */
-        if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
-        {
-            bestBallHitStrenght = ballHitStrenght;
-            fitness++;
-        }
 
     }
 
@@ -138,12 +141,6 @@ public class GoallyPlayer : AttackPlayer
             bestYDiffWithBall = float.MaxValue;
         }
     }
-
-    public bool IsTrained
-    {
-        get { return isTrained; }
-    }
-
     public bool IsColided
     {
         get { return isColided; }

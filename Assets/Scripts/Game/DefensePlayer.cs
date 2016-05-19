@@ -28,13 +28,12 @@ public class DefensePlayer : AttackPlayer
             InitPlayer();
         }
         lastPositionX = transform.position.x;
-        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
 
     void Update()
     {
         curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
-
+  
         if (!colided)
         {
             /* REWARD FOR HIT DIRECTION */
@@ -53,20 +52,18 @@ public class DefensePlayer : AttackPlayer
             {
                 fitness--;
             }
+
+            /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
+            {
+                bestBallHitStrenght = ballHitStrenght;
+                fitness++;
+            }
         }
         else
         {
             fitness--;
         }
-
-
-        /* REWARD FOR BALL HIT STRENGHT */
-        if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
-        {
-            bestBallHitStrenght = ballHitStrenght;
-            fitness++;
-        }
-
 
         HandlePlayerRotation();
     }

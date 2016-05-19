@@ -25,12 +25,8 @@ public class AttackPlayer : MonoBehaviour
     protected float bestBallHitError = float.MaxValue;
     protected float ballHitStrenght = 1;
     protected float bestBallHitStrenght = 0;
-    protected float scale = 1;
-    protected float curTime = 0;
     protected int ballHitTimes = 0;
     protected bool isColided = false;
-    protected Vector3 lastPosition = Vector3.zero;
-    protected float curColideTimer = 0f;
 
     void Start()
     {
@@ -39,19 +35,12 @@ public class AttackPlayer : MonoBehaviour
             InitPlayer();
         }
         lastPositionX = transform.position.x;
-        lastPosition = new Vector3(transform.position.x, transform.position.y);
     }
     void Update()
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
-        curColideTimer += Time.deltaTime;
 
-        if (colided)
-        {
-            fitness--;
-
-        }
-        else
+        if (!colided)
         {
             /* REWARD FOR HITING BALL IN RIGHT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
@@ -75,6 +64,10 @@ public class AttackPlayer : MonoBehaviour
                 bestBallHitStrenght = ballHitStrenght;
                 fitness++;
             }
+        }
+        else
+        {
+            fitness--;
         }
 
         HandlePlayerRotation();
@@ -131,11 +124,6 @@ public class AttackPlayer : MonoBehaviour
         if (collision.gameObject.tag == "Ball")
         {
             ballScript.Shoot(directionOfHitBall, ballHitStrenght);
-            if (ballHitTimes < 50)
-            {
-                fitness++;
-                ballHitTimes++;
-            }
             fitness++;
         }
     }
