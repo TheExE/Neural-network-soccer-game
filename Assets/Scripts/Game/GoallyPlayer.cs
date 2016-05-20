@@ -109,7 +109,7 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toAttacker.x);
         inputs.Add(toAttacker.y);
 
-        //update the brain and get feedback
+        /* Update ANN and get Output */
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);

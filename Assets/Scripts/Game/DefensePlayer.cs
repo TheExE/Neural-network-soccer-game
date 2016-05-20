@@ -20,7 +20,6 @@ public class DefensePlayer : AttackPlayer
     {
         nameType = GameConsts.DEFENSE_PLAYER;
     }
-
     void Start()
     {
         if (!isInited)
@@ -29,12 +28,11 @@ public class DefensePlayer : AttackPlayer
         }
         lastPositionX = transform.position.x;
     }
-
     void Update()
     {
         curDistToOponentAttacker = (oponentAttacker.transform.position - transform.position).sqrMagnitude;
   
-        if (!colided)
+        if (!isColided)
         {
             /* REWARD FOR HIT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
@@ -42,7 +40,7 @@ public class DefensePlayer : AttackPlayer
                 if ((curBallHitError < bestBallHitError &&
                     curDistToOponentAttacker < bestDistanceToOponentAttacker ) ||
                     (curBallHitError < 0.1f &&
-                    curDistToOponentAttacker < 0.2f))
+                    curDistToOponentAttacker < 0.3f))
                 {
                     bestBallHitError = curBallHitError;
                     fitness++;
@@ -67,7 +65,6 @@ public class DefensePlayer : AttackPlayer
 
         HandlePlayerRotation();
     }
-
     public override void InitPlayer()
     {
         if (!isInited)
@@ -122,7 +119,7 @@ public class DefensePlayer : AttackPlayer
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
-        /* Update the brain and get feedback */
+        /* Update ANN and get Output */
         List<double> output = brain.Update(inputs);
 
         rgBody.AddForce(new Vector2(((float)output[0]), ((float)output[1])), ForceMode2D.Impulse);

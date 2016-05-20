@@ -15,7 +15,6 @@ public class AttackPlayer : MonoBehaviour
     protected float fitness;
     protected DefensePlayer[] oponentDefense;
 
-    protected bool colided = false;
     protected float curDistanceToBall;
     protected float bestDistanceToBall = float.MaxValue;
     protected float lastPositionX;
@@ -40,7 +39,7 @@ public class AttackPlayer : MonoBehaviour
     {
         curDistanceToBall = (ballScript.transform.position - transform.position).sqrMagnitude;
 
-        if (!colided)
+        if (!isColided)
         {
             /* REWARD FOR HITING BALL IN RIGHT DIRECTION */
             if (!IsBallGoingToBeOutBoundAfterKick())
@@ -95,7 +94,7 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toBall.x);
         inputs.Add(toBall.y);
 
-        /* Oponents goal */
+        /* Add ball hit direction */
         Vector3 oponentGoalPos = new Vector3(oponentGoal.transform.position.x, oponentGoal.transform.position.y, 0);
         if (oponentGoalPos.x < 0)
         {
@@ -109,13 +108,14 @@ public class AttackPlayer : MonoBehaviour
         inputs.Add(toOponentGoal.x);
         inputs.Add(toOponentGoal.y);
 
-        //update the brain and get feedback
+        /* Update ANN and get Output */
         List<double> output = brain.Update(inputs);
         rgBody.AddForce(new Vector2((float)output[0], (float)output[1]), ForceMode2D.Impulse);
 
         directionOfHitBall = new Vector2((float)output[2], (float)output[3]);
         ballHitStrenght = (float)output[4];
         curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
+
         ClipPlayerToField();
     }
 
@@ -183,27 +183,27 @@ public class AttackPlayer : MonoBehaviour
 
     protected void ClipPlayerToField()
     {
-        colided = false;
+        isColided = false;
         if (transform.position.x > GameConsts.GAME_FIELD_RIGHT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_RIGHT, transform.position.y);
-            colided = true;
+            isColided = true;
         }
         else if (transform.position.x < GameConsts.GAME_FIELD_LEFT)
         {
             transform.position = new Vector2(GameConsts.GAME_FIELD_LEFT, transform.position.y);
-            colided = true;
+            isColided = true;
         }
 
         if (transform.position.y > GameConsts.GAME_FIELD_UP)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_UP);
-            colided = true;
+            isColided = true;
         }
         else if (transform.position.y < GameConsts.GAME_FIELD_DOWN)
         {
             transform.position = new Vector2(transform.position.x, GameConsts.GAME_FIELD_DOWN);
-            colided = true;
+            isColided = true;
         }
     }
     protected bool IsBallGoingToBeOutBoundAfterKick()
