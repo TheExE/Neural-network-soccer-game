@@ -270,4 +270,9 @@ public class AttackPlayer : MonoBehaviour
         get { return curDistanceToBall; }
     }
 
+    public float CurHitError
+    {
+        get { return curBallHitError; }
+    }
+
 }

@@ -6,6 +6,18 @@ using System.IO;
 
 public class TeamController : MonoBehaviour
 {
+    public struct IndexAndFitness
+    {
+        public int index;
+        public float fitness;
+
+        public IndexAndFitness(int index, float fitnes)
+        {
+            this.index = index;
+            this.fitness = fitnes;
+        }
+
+    }
     public tk2dTextMesh statText;
     public struct DistanceAndIndex
     {
@@ -22,6 +34,9 @@ public class TeamController : MonoBehaviour
     public GameObject dummyDefensePlayer;
     public GameObject dummyGoaly;
 
+    private List<string> goallyEvoOverGenerations = new List<string>();
+    private List<string> defenseEvoOverGenerations = new List<string>();
+    private List<string> attackrEvoOverGenerations = new List<string>();
     private List<DefensePlayer> defensePlayers = new List<DefensePlayer>();
     private List<GoallyPlayer> goalyPlayers = new List<GoallyPlayer>();
     private List<AttackPlayer> attackPlayers = new List<AttackPlayer>();
@@ -34,6 +49,7 @@ public class TeamController : MonoBehaviour
     private AttackPlayer attackExample;
     private DefensePlayer defenseExample;
     private GoallyPlayer goallyExample;
+    private bool shouldWriteEvoData = false;
 
     private int generationCounterA = 0;
     private int generationCounterD = 0;
@@ -203,10 +219,15 @@ public class TeamController : MonoBehaviour
         else
         {
             curTicks = 0;
+            shouldWriteEvoData = true;
 
             if (!pauseDefenseEvo)
             {
                 generationCounterD++;
+                IndexAndFitness iandF = BestDefense;
+                defenseEvoOverGenerations.Add("" + generationCounterD + ", "
+                    + iandF.fitness + ", " + defensePlayers[iandF.index].CurHitError 
+                    + ", " + defensePlayers[iandF.index].CurDistToOponentAttacker);
                 genAlgDefensePlayers.Epoch();
                 /* DEFENSE PLAYERS */
                 for (int i = 0; i < defensePlayers.Count; i++)
@@ -221,6 +242,10 @@ public class TeamController : MonoBehaviour
             if (!pauseAttackEvo)
             {
                 generationCounterA++;
+                IndexAndFitness iandF = BestAttacker;
+                defenseEvoOverGenerations.Add("" + generationCounterA + ", "
+                    + iandF.fitness + ", " + attackPlayers[iandF.index].CurHitError
+                    + ", " + attackPlayers[iandF.index].CurDistanceToBall);
                 genAlgAttackPlayers.Epoch();
                 /* ATTACK PLAYER */
                 for (int i = 0; i < attackPlayers.Count; i++)
@@ -235,6 +260,10 @@ public class TeamController : MonoBehaviour
             if (!pauseGoallyEvo)
             {
                 generationCounterG++;
+                IndexAndFitness iandF = BestAttacker;
+                defenseEvoOverGenerations.Add("" + generationCounterG + ", "
+                    + iandF.fitness + ", " + goalyPlayers[iandF.index].CurHitError
+                    + ", " + goalyPlayers[iandF.index].CurYDiffWithBall);
                 genAlgGoaly.Epoch();
                 /* GOALY PLAYERS */
                 for (int i = 0; i < goalyPlayers.Count; i++)
@@ -359,50 +388,56 @@ public class TeamController : MonoBehaviour
         get { return attackPlayers; }
     }
 
-    public float BestAttacker
+    public IndexAndFitness BestAttacker
     {
         get
         {
             float bestFitness = 0;
-            foreach (AttackPlayer a in attackPlayers)
+            int keyIndex = 0;
+            for (int i = 0; i < attackPlayers.Count; i++)
             {
-                if (a.Fitness > bestFitness)
+                if (attackPlayers[i].Fitness > bestFitness)
                 {
-                    bestFitness = a.Fitness;
+                    bestFitness = attackPlayers[i].Fitness;
+                    keyIndex = i;
                 }
             }
-            return bestFitness;
+            return new IndexAndFitness(keyIndex, bestFitness);
         }
 
     }
-    public float BestGoally
+    public IndexAndFitness BestGoally
     {
         get
         {
             float bestFitness = 0;
-            foreach (GoallyPlayer g in goalyPlayers)
+            int keyIndex = 0;
+            for (int i = 0; i < goalyPlayers.Count; i++)
             {
-                if (g.Fitness > bestFitness)
+                if (goalyPlayers[i].Fitness > bestFitness)
                 {
-                    bestFitness = g.Fitness;
+                    bestFitness = goalyPlayers[i].Fitness;
+                    keyIndex = i;
                 }
             }
-            return bestFitness;
+            return new IndexAndFitness(keyIndex, bestFitness);
         }
     }
-    public float BestDefense
+    public IndexAndFitness BestDefense
     {
         get
         {
             float bestFitness = 0;
-            foreach (DefensePlayer d in defensePlayers)
+            int keyIndex = 0;
+            for (int i = 0; i < defensePlayers.Count; i++ )
             {
-                if (d.Fitness > bestFitness)
+                if (defensePlayers[i].Fitness > bestFitness)
                 {
-                    bestFitness = d.Fitness;
+                    bestFitness = defensePlayers[i].Fitness;
+                    keyIndex = i;
                 }
             }
-            return bestFitness;
+            return new IndexAndFitness(keyIndex, bestFitness);
         }
     }
 
@@ -515,24 +550,39 @@ public class TeamController : MonoBehaviour
             }
         }
     }
-
     public bool PauseGoallyEvo
     {
         get { return pauseGoallyEvo; }
         set { pauseGoallyEvo = value; }
     }
-
     public bool PauseDefenseEvo
     {
         get { return pauseDefenseEvo; }
         set { pauseDefenseEvo = value; }
     }
-
     public bool PauseAttackEvo
     {
         get { return pauseAttackEvo; }
         set { pauseAttackEvo = value; }
     }
+    public List<string> GoallyEvolution
+    {
+        get { return goallyEvoOverGenerations; }
+    }
+    public List<string> DefenderEvolution
+    {
+        get { return defenseEvoOverGenerations; }
+    }
+    public List<string> AttackerEvolution
+    {
+        get { return attackrEvoOverGenerations; }
+    }
 
+    public bool ShouldWriteEvoData
+    {
+        get { return shouldWriteEvoData; }
+        set { shouldWriteEvoData = value; }
+    }
+    
 }
 

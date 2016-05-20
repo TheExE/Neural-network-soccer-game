@@ -164,4 +164,9 @@ public class DefensePlayer : AttackPlayer
         }
     }
 
+    public float CurDistToOponentAttacker
+    {
+        get { return curDistToOponentAttacker; }
+    }
+
 }

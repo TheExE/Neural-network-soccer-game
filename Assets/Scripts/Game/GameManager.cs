@@ -36,18 +36,39 @@ public class GameManager : MonoBehaviour
         fpstxt.text = "fps:" + Mathf.RoundToInt((1 / Time.deltaTime));
         redTeamTxt.text = "Score: " + redTeamScore;
         blueTeamTxt.text = "Score: " + blueTeamScore;
-        blueTeamFitnes.text = "A Fit: " + blueTeam.BestAttacker + '\n'
-            + " D Fit: " + blueTeam.BestDefense + '\n'
-            + " G Fit: " + blueTeam.BestGoally;
-        redTeamFitness.text = "A Fit: " + redTeam.BestAttacker + '\n'
-            + " D Fit: " + redTeam.BestDefense + '\n'
-            + " G Fit: " + redTeam.BestGoally;
+        blueTeamFitnes.text = "A Fit: " + blueTeam.BestAttacker.fitness + '\n'
+            + " D Fit: " + blueTeam.BestDefense.fitness + '\n'
+            + " G Fit: " + blueTeam.BestGoally.fitness;
+        redTeamFitness.text = "A Fit: " + redTeam.BestAttacker.fitness + '\n'
+            + " D Fit: " + redTeam.BestDefense.fitness + '\n'
+            + " G Fit: " + redTeam.BestGoally.fitness;
 
         EvolutionPauseChecker();
         CheckSaveStats();
         CheckDrawDummys();
+        SaveEvolutionData();
     }
 
+    private void SaveEvolutionData()
+    {
+        if(redTeam.ShouldWriteEvoData)
+        {
+            File.WriteAllLines("RedTeamGoally.txt", redTeam.GoallyEvolution.ToArray());
+            File.WriteAllLines("RedTeamDefense.txt", redTeam.DefenderEvolution.ToArray());
+            File.WriteAllLines("RedTeamAttacker.txt", redTeam.AttackerEvolution.ToArray());
+            redTeam.ShouldWriteEvoData = false;
+        }
+        
+
+        if(blueTeam.ShouldWriteEvoData)
+        {
+            File.WriteAllLines("BlueTeamGoally.txt", blueTeam.GoallyEvolution.ToArray());
+            File.WriteAllLines("BlueTeamDefense.txt", blueTeam.DefenderEvolution.ToArray());
+            File.WriteAllLines("BlueTeamAttacker.txt", blueTeam.AttackerEvolution.ToArray());
+            blueTeam.ShouldWriteEvoData = false;
+        }
+      
+    }
     private void EvolutionPauseChecker()
     {
         /* PAUSE ATTACKER EVO */

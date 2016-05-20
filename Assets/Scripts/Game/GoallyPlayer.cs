@@ -24,7 +24,7 @@ public class GoallyPlayer : AttackPlayer
 
     void Update()
     {
-        curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
+        curYDiffWithBall = Mathf.Abs(ballScript.transform.position.y - transform.position.y);
 
         if (transform.position.y > GameConsts.GOALLY_LINE_UP ||
             transform.position.y < GameConsts.GOALLY_LINE_DOWN)
@@ -66,9 +66,6 @@ public class GoallyPlayer : AttackPlayer
         {
             fitness--;
         }
-
-
-
     }
 
     public override void InitPlayer()
@@ -144,6 +141,11 @@ public class GoallyPlayer : AttackPlayer
     public bool IsColided
     {
         get { return isColided; }
+    }
+
+    public float CurYDiffWithBall
+    {
+        get { return curYDiffWithBall; }
     }
 
 }
