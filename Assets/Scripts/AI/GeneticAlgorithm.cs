@@ -8,11 +8,6 @@ public class GeneticAlgorithm
     private List<int> splitPoints = new List<int>();
     private int populationSize;
     private int chromosomeLenght;
-    private double totalFitness;
-    private double bestFitness = 0;
-    private double worstFitness;
-
-    private int fittestGenome;
     private double mutationRate;
     private double crossOverRate;
 
@@ -23,10 +18,6 @@ public class GeneticAlgorithm
         this.mutationRate = mutationRate;
         this.crossOverRate = crossOverRate;
         this.chromosomeLenght = weightCount;
-        this.totalFitness = 0;
-        this.fittestGenome = 0;
-        this.bestFitness = 0;
-        this.worstFitness = int.MaxValue;
         this.splitPoints.AddRange(splitPoints);
 
 
@@ -100,45 +91,9 @@ public class GeneticAlgorithm
             counter++;
         }
     }
-    private void CalculateBestWorstAverageTotal()
-    {
-        totalFitness = 0;
-
-        double highestSoFar = 0;
-        double lowestSoFar = double.MaxValue;
-
-        for (int i = 0; i < population.Count; i++)
-        {
-            /* Best fitness */
-            if (population[i].Fitness > highestSoFar)
-            {
-                highestSoFar = population[i].Fitness;
-                fittestGenome = i;
-                bestFitness = highestSoFar;
-            }
-
-            /* Worst fitness */
-            if (population[i].Fitness < lowestSoFar)
-            {
-                lowestSoFar = population[i].Fitness;
-
-                worstFitness = lowestSoFar;
-            }
-
-            totalFitness += population[i].Fitness;
-        }
-    }
-    private void Reset()
-    {
-        totalFitness = 0;
-        bestFitness = 0;
-        worstFitness = double.MaxValue;
-    }
     public void Epoch()
     {
-        Reset();
         population.Sort(Genome.Comparison);
-        CalculateBestWorstAverageTotal();
 
         /* TEMP list for new pop */
         List<Genome> newPopulation = new List<Genome>();
@@ -198,9 +153,5 @@ public class GeneticAlgorithm
     {
         get { return population; }
         set { population = value; }
-    }
-    public double BestFitness
-    {
-        get { return bestFitness; }
     }
 }
