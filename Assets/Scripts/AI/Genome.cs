@@ -35,7 +35,6 @@ public class Genome
     {
         return g1.fitness < g2.fitness;
     }
-
     public static bool operator >(Genome g1, Genome g2)
     {
         return g2.fitness < g1.fitness;

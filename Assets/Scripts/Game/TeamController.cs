@@ -218,6 +218,15 @@ public class TeamController : MonoBehaviour
         //Generation passed create new population
         else
         {
+            int curScore = 0;
+            if(gameObject.name.StartsWith("B"))
+            {
+                curScore = GameManager.BlueTeamScore;
+            }
+            else
+            {
+                curScore = GameManager.RedTeamScore;
+            }
             curTicks = 0;
             shouldWriteEvoData = true;
 
@@ -225,9 +234,9 @@ public class TeamController : MonoBehaviour
             {
                 generationCounterD++;
                 IndexAndFitness iandF = BestDefense;
-                defenseEvoOverGenerations.Add("" + generationCounterD + ", "
-                    + iandF.fitness + ", " + defensePlayers[iandF.index].CurHitError 
-                    + ", " + defensePlayers[iandF.index].CurDistToOponentAttacker);
+                defenseEvoOverGenerations.Add("" + generationCounterD + ","
+                    + iandF.fitness + "," + defensePlayers[iandF.index].CurHitError 
+                    + "," + defensePlayers[iandF.index].CurDistToOponentAttacker + "," + curScore);
                 genAlgDefensePlayers.Epoch();
                 /* DEFENSE PLAYERS */
                 for (int i = 0; i < defensePlayers.Count; i++)
@@ -243,9 +252,9 @@ public class TeamController : MonoBehaviour
             {
                 generationCounterA++;
                 IndexAndFitness iandF = BestAttacker;
-                defenseEvoOverGenerations.Add("" + generationCounterA + ", "
-                    + iandF.fitness + ", " + attackPlayers[iandF.index].CurHitError
-                    + ", " + attackPlayers[iandF.index].CurDistanceToBall);
+                attackrEvoOverGenerations.Add("" + generationCounterA + ","
+                    + iandF.fitness + "," + attackPlayers[iandF.index].CurHitError
+                    + "," + attackPlayers[iandF.index].CurDistanceToBall + "," + curScore);
                 genAlgAttackPlayers.Epoch();
                 /* ATTACK PLAYER */
                 for (int i = 0; i < attackPlayers.Count; i++)
@@ -261,9 +270,9 @@ public class TeamController : MonoBehaviour
             {
                 generationCounterG++;
                 IndexAndFitness iandF = BestAttacker;
-                defenseEvoOverGenerations.Add("" + generationCounterG + ", "
-                    + iandF.fitness + ", " + goalyPlayers[iandF.index].CurHitError
-                    + ", " + goalyPlayers[iandF.index].CurYDiffWithBall);
+                goallyEvoOverGenerations.Add("" + generationCounterG + ","
+                    + iandF.fitness + "," + goalyPlayers[iandF.index].CurHitError
+                    + "," + goalyPlayers[iandF.index].CurYDiffWithBall + "," + curScore);
                 genAlgGoaly.Epoch();
                 /* GOALY PLAYERS */
                 for (int i = 0; i < goalyPlayers.Count; i++)

@@ -38,7 +38,7 @@ public class GoallyPlayer : AttackPlayer
             if (!IsBallGoingToBeOutBoundAfterKick())
             {
                 if ((curBallHitError < bestBallHitError && curYDiffWithBall < bestYDiffWithBall) ||
-                    (curYDiffWithBall < 0.2f && curBallHitError < 0.1f))
+                    (curYDiffWithBall < 0.3f && curBallHitError < 0.1f))
                 {
                     bestBallHitError = curBallHitError;
                     bestYDiffWithBall = curYDiffWithBall;
@@ -48,11 +48,6 @@ public class GoallyPlayer : AttackPlayer
             else
             {
                 fitness--;
-            }
-            if (curYDiffWithBall < bestYDiffWithBall || curYDiffWithBall < 0.1f)
-            {
-                bestYDiffWithBall = curYDiffWithBall;
-                fitness++;
             }
 
             /* REWARD FOR BALL HIT STRENGHT */
@@ -102,9 +97,9 @@ public class GoallyPlayer : AttackPlayer
         inputs.Add(toBall.y);
 
         /* Add ball hit direction */
-        Vector2 toAttacker = (teamAttacker.transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toAttacker.x);
-        inputs.Add(toAttacker.y);
+        Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
         /* Update ANN and get Output */
         List<double> output = brain.Update(inputs);
@@ -112,7 +107,7 @@ public class GoallyPlayer : AttackPlayer
         rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
         directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
         ballHitStrenght = (float)output[3];
-        curBallHitError = (directionOfHitBall - toAttacker).sqrMagnitude;
+        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
         ClipPlayerToField();
     }
 

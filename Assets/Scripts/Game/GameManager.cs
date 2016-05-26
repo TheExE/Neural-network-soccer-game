@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     private void SaveEvolutionData()
     {
-        if(redTeam.ShouldWriteEvoData)
+       if(redTeam.ShouldWriteEvoData)
         {
             File.WriteAllLines("RedTeamGoally.txt", redTeam.GoallyEvolution.ToArray());
             File.WriteAllLines("RedTeamDefense.txt", redTeam.DefenderEvolution.ToArray());
@@ -67,7 +67,6 @@ public class GameManager : MonoBehaviour
             File.WriteAllLines("BlueTeamAttacker.txt", blueTeam.AttackerEvolution.ToArray());
             blueTeam.ShouldWriteEvoData = false;
         }
-      
     }
     private void EvolutionPauseChecker()
     {
