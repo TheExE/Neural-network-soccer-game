@@ -9,8 +9,8 @@ public class GameConsts
     public const int GOALLY_PLAYER_COUNT = 100;
     public const float BALL_HIT_STRENGHT_SCALE = 20f;
 
-    public const float GAME_FIELD_LEFT = -3.05f;
-    public const float GAME_FIELD_RIGHT = 3.05f;
+    public const float GAME_FIELD_LEFT = -7.58f;
+    public const float GAME_FIELD_RIGHT = 6.89f;
     public const float GAME_FIELD_UP = 2.88f;
     public const float GAME_FIELD_DOWN = -2.88f;
     public const float GOAL_UP = 0.85f;
