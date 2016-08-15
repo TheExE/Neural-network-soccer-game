@@ -1,27 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class TeamController : MonoBehaviour
 {
-    public struct ValueAndIndex
+    public struct IndexAndFitness
     {
-        public float value;
+        public int index;
+        public float fitness;
+
+        public IndexAndFitness(int index, float fitnes)
+        {
+            this.index = index;
+            this.fitness = fitnes;
+        }
+
+    }
+    public tk2dTextMesh statText;
+    public struct DistanceAndIndex
+    {
+        public float distance;
         public int index;
 
-        public ValueAndIndex(float value, int index)
+        public DistanceAndIndex(float distance, int index)
         {
-            this.value = value;
+            this.distance = distance;
             this.index = index;
         }
-    };
-
+    }
     public GameObject dummyAttacker;
     public GameObject dummyDefensePlayer;
     public GameObject dummyGoaly;
 
+    private List<string> goallyEvoOverGenerations = new List<string>();
+    private List<string> defenseEvoOverGenerations = new List<string>();
+    private List<string> attackrEvoOverGenerations = new List<string>();
     private List<DefensePlayer> defensePlayers = new List<DefensePlayer>();
-    private List<GoallyPlayer > goalyPlayers = new List<GoallyPlayer>();
+    private List<GoallyPlayer> goalyPlayers = new List<GoallyPlayer>();
     private List<AttackPlayer> attackPlayers = new List<AttackPlayer>();
     private List<Genome> attackPlayersPop = new List<Genome>();
     private List<Genome> defensePlayerPop = new List<Genome>();
@@ -29,21 +46,85 @@ public class TeamController : MonoBehaviour
     private GeneticAlgorithm genAlgAttackPlayers;
     private GeneticAlgorithm genAlgDefensePlayers;
     private GeneticAlgorithm genAlgGoaly;
-   
-    private int generationCounter = 0;
-    private int curTicks = 0;
-    private tk2dTextMesh statText;
+    private AttackPlayer attackExample;
+    private DefensePlayer defenseExample;
+    private GoallyPlayer goallyExample;
+    private bool shouldWriteEvoData = false;
+
+    private int generationCounterA = 0;
+    private int generationCounterD = 0;
+    private int generationCounterG = 0;
+
+    private bool pauseGoallyEvo = false;
+    private bool pauseDefenseEvo = false;
+    private bool pauseAttackEvo = false;
+
     private List<Vector2> startPosition = new List<Vector2>();
+    private int curTicks = 0;
+    private string teamName;
 
     void Start()
     {
-        statText = GetComponentInChildren<tk2dTextMesh>();
-        InitMainTeam();
-        FillTeamWithDummyPlayers();
-        InitGeneticAlgorithms();
+        if (gameObject.name.StartsWith("Red"))
+        {
+            teamName = "Red";
+        }
+        else
+        {
+            teamName = "Blue";
+        }
+        var att = GetComponentsInChildren<AttackPlayer>();
+        foreach (AttackPlayer a in att)
+        {
+            if (a.NameType == GameConsts.ATTACK_PLAYER)
+            {
+                attackExample = a;
+                break;
+            }
+        }
+        defenseExample = GetComponentInChildren<DefensePlayer>();
+        goallyExample = GetComponentInChildren<GoallyPlayer>();
+
+        try
+        {
+            LoadStats();
+        }
+        catch (Exception e)
+        {
+            InitMainTeam();
+            FillTeamWithDummyPlayers();
+            InitGeneticAlgorithms();
+
+        }
         InitStartingPositionForReset();
+        WarmUp();
     }
 
+    private void WarmUp()
+    {
+        int counter = 0;
+        while (counter < 500)
+        {
+            /* DEFENSE PLAYERS */
+            for (int i = 0; i < defensePlayers.Count; i++)
+            {
+                defensePlayers[i].UpdatePlayerBrains();
+            }
+
+            /* ATTACK PLAYERS */
+            for (int i = 0; i < attackPlayers.Count; i++)
+            {
+                attackPlayers[i].UpdatePlayerBrains();
+            }
+
+            /* GOALY PLAYERS */
+            for (int i = 0; i < goalyPlayers.Count; i++)
+            {
+                goalyPlayers[i].UpdatePlayerBrains();
+            }
+            counter++;
+        }
+    }
     private void InitGeneticAlgorithms()
     {
         /* INIT GENETIC ALGORITHM */
@@ -56,139 +137,177 @@ public class TeamController : MonoBehaviour
 
         for (int i = 0; i < defensePlayers.Count; i++)
         {
-           
+
             defensePlayers[i].PutWeights(genAlgDefensePlayers.Population[i].Weights);
         }
-        for(int i = 0; i < attackPlayers.Count; i++)
+        for (int i = 0; i < attackPlayers.Count; i++)
         {
             attackPlayers[i].PutWeights(genAlgAttackPlayers.Population[i].Weights);
         }
-        for(int i = 0; i < goalyPlayers.Count; i++)
+        for (int i = 0; i < goalyPlayers.Count; i++)
         {
             goalyPlayers[i].PutWeights(genAlgGoaly.Population[i].Weights);
         }
     }
     private void InitStartingPositionForReset()
     {
-       for(int i = 0; i < defensePlayers.Count; i++)
-       {
+        for (int i = 0; i < defensePlayers.Count; i++)
+        {
             startPosition.Add(new Vector2(defensePlayers[i].transform.position.x, defensePlayers[i].transform.position.y));
-       }
-       for(int i =0; i < attackPlayers.Count; i++)
-       {
+        }
+        for (int i = 0; i < attackPlayers.Count; i++)
+        {
             startPosition.Add(new Vector2(attackPlayers[i].transform.position.x, attackPlayers[i].transform.position.y));
-       }
-       for (int i = 0; i < goalyPlayers.Count; i++)
-       {
+        }
+        for (int i = 0; i < goalyPlayers.Count; i++)
+        {
             startPosition.Add(new Vector2(goalyPlayers[i].transform.position.x, goalyPlayers[i].transform.position.y));
-       }
+        }
     }
 
     void Update()
     {
-        double bestFiness = 0;
-        foreach(AttackPlayer att in attackPlayers)
-        {
-            if(att.Fitness > bestFiness)
-            {
-                bestFiness = att.Fitness;
-            }
-        }
-        statText.text = "Cur gen: " + generationCounter + 
-            " Attacker Fitness: " + Mathf.Round((float)bestFiness);
+        statText.text = teamName + " gen A: " + generationCounterA + '\n'
+                        + " " + teamName + " gen D: " + generationCounterD + '\n'
+                        + "" + teamName + " gen G: " + generationCounterG;
+
+        UpdateTeam();
     }
-    public void UpdateTeam()
+
+    private void UpdateTeam()
     {
         curTicks++;
-        if (curTicks < NeuralNetworkConst.MAX_TICKS || generationCounter >= GameConsts.MAX_GENERATIONS)
+        if (curTicks < NeuralNetworkConst.MAX_TICKS)
         {
             /* DEFENSE PLAYERS */
             for (int i = 0; i < defensePlayers.Count; i++)
             {
                 defensePlayers[i].UpdatePlayerBrains();
-                genAlgDefensePlayers.
-                    Population[i].Fitness = defensePlayers[i].Fitness;
+                if (!pauseDefenseEvo)
+                {
+                    genAlgDefensePlayers.
+                        Population[i].Fitness = defensePlayers[i].Fitness;
+                }
             }
 
             /* ATTACK PLAYERS */
             for (int i = 0; i < attackPlayers.Count; i++)
             {
                 attackPlayers[i].UpdatePlayerBrains();
-                genAlgAttackPlayers.
-                    Population[i].Fitness = attackPlayers[i].Fitness;
+                if (!pauseAttackEvo)
+                {
+                    genAlgAttackPlayers.
+                        Population[i].Fitness = attackPlayers[i].Fitness;
+
+                }
             }
 
             /* GOALY PLAYERS */
             for (int i = 0; i < goalyPlayers.Count; i++)
             {
                 goalyPlayers[i].UpdatePlayerBrains();
-                genAlgGoaly.
-                    Population[i].Fitness = goalyPlayers[i].Fitness;
+
+                if (!pauseGoallyEvo)
+                {
+                    genAlgGoaly.
+                        Population[i].Fitness = goalyPlayers[i].Fitness;
+
+                }
             }
         }
         //Generation passed create new population
         else
         {
-            generationCounter++;
+            int curScore = 0;
+            if(gameObject.name.StartsWith("B"))
+            {
+                curScore = GameManager.BlueTeamScore;
+            }
+            else
+            {
+                curScore = GameManager.RedTeamScore;
+            }
             curTicks = 0;
+            shouldWriteEvoData = true;
 
-            genAlgDefensePlayers.Epoch();
-            genAlgGoaly.Epoch();
-            genAlgAttackPlayers.Epoch();
-
-            /* DEFENSE PLAYERS */
-            for (int i = 0; i < defensePlayers.Count; i++)
+            if (!pauseDefenseEvo)
             {
-                defensePlayers[i].
-                    PutWeights(genAlgDefensePlayers.
-                    Population[i].Weights);
-                defensePlayers[i].Reset();
+                generationCounterD++;
+                IndexAndFitness iandF = BestDefense;
+                defenseEvoOverGenerations.Add("" + generationCounterD + ","
+                    + iandF.fitness + "," + defensePlayers[iandF.index].CurHitError 
+                    + "," + defensePlayers[iandF.index].CurDistToOponentAttacker + "," + curScore);
+                genAlgDefensePlayers.Epoch();
+                /* DEFENSE PLAYERS */
+                for (int i = 0; i < defensePlayers.Count; i++)
+                {
+                    defensePlayers[i].
+                        PutWeights(genAlgDefensePlayers.
+                        Population[i].Weights);
+                    defensePlayers[i].Reset(false);
+                }
             }
 
-            /* ATTACK PLAYER */
-            for (int i = 0; i < attackPlayers.Count; i++)
+            if (!pauseAttackEvo)
             {
-                attackPlayers[i].
-                    PutWeights(genAlgAttackPlayers.
-                    Population[i].Weights);
-                attackPlayers[i].Reset();
-            }
-          
-            /* GOALY PLAYERS */
-            for (int i = 0; i < goalyPlayers.Count; i++)
-            {
-                goalyPlayers[i].
-                    PutWeights(genAlgGoaly.
-                    Population[i].Weights);
-                goalyPlayers[i].Reset();
+                generationCounterA++;
+                IndexAndFitness iandF = BestAttacker;
+                attackrEvoOverGenerations.Add("" + generationCounterA + ","
+                    + iandF.fitness + "," + attackPlayers[iandF.index].CurHitError
+                    + "," + attackPlayers[iandF.index].CurDistanceToBall + "," + curScore);
+                genAlgAttackPlayers.Epoch();
+                /* ATTACK PLAYER */
+                for (int i = 0; i < attackPlayers.Count; i++)
+                {
+                    attackPlayers[i].
+                        PutWeights(genAlgAttackPlayers.
+                        Population[i].Weights);
+                    attackPlayers[i].Reset(false);
+                }
             }
 
+            if (!pauseGoallyEvo)
+            {
+                generationCounterG++;
+                IndexAndFitness iandF = BestAttacker;
+                goallyEvoOverGenerations.Add("" + generationCounterG + ","
+                    + iandF.fitness + "," + goalyPlayers[iandF.index].CurHitError
+                    + "," + goalyPlayers[iandF.index].CurYDiffWithBall + "," + curScore);
+                genAlgGoaly.Epoch();
+                /* GOALY PLAYERS */
+                for (int i = 0; i < goalyPlayers.Count; i++)
+                {
+                    goalyPlayers[i].
+                        PutWeights(genAlgGoaly.
+                        Population[i].Weights);
+                    goalyPlayers[i].Reset(false);
+                }
+            }
         }
     }
-
     public void Reset()
     {
         /* DEFENSE PLAYERS */
-        for(int i = 0; i < defensePlayers.Count; i++)
+        for (int i = 0; i < defensePlayers.Count; i++)
         {
             defensePlayers[i].transform.position = new Vector2(startPosition[i].x, startPosition[i].y);
-            defensePlayers[i].Reset();
+            defensePlayers[i].Reset(true);
         }
         /* ATTACK PLAYERS */
         for (int i = 0; i < attackPlayers.Count; i++)
         {
             attackPlayers[i].transform.position = new Vector2(startPosition[defensePlayers.Count + i].x,
                 startPosition[defensePlayers.Count + i].y);
-            attackPlayers[i].Reset();
+            attackPlayers[i].Reset(true);
         }
 
         /* GOALY PLAYERS */
         for (int i = 0; i < goalyPlayers.Count; i++)
         {
-            goalyPlayers[i].transform.position = 
-                new Vector2(startPosition[defensePlayers.Count+attackPlayers.Count+i].x,
+            goalyPlayers[i].transform.position =
+                new Vector2(startPosition[defensePlayers.Count + attackPlayers.Count + i].x,
                 startPosition[defensePlayers.Count + attackPlayers.Count + i].y);
-            goalyPlayers[i].Reset();
+            goalyPlayers[i].Reset(true);
         }
     }
     public List<GoallyPlayer> Goally
@@ -205,7 +324,7 @@ public class TeamController : MonoBehaviour
             {
                 case GameConsts.ATTACK_PLAYER:
                     attackPlayers.Add(att);
-                    attackPlayers[attackPlayers.Count-1].InitPlayer();
+                    attackPlayers[attackPlayers.Count - 1].InitPlayer();
                     break;
 
                 case GameConsts.DEFENSE_PLAYER:
@@ -229,12 +348,15 @@ public class TeamController : MonoBehaviour
         {
             var gO = Instantiate(dummyDefensePlayer) as GameObject;
             gO.transform.parent = transform;
+            gO.transform.position = new Vector2(defenseExample.transform.position.x, defenseExample.transform.position.y);
             DefensePlayer defPlayer = gO.GetComponent<DefensePlayer>();
-            defPlayer.oponentTeam = defensePlayers[0].oponentTeam;
-            defPlayer.oponentGoal = defensePlayers[0].oponentGoal;
-            defPlayer.homeGoal = defensePlayers[0].homeGoal;
-            defPlayer.attackerPlayer = defensePlayers[0].attackerPlayer;
+            defPlayer.oponentTeam = defenseExample.oponentTeam;
+            defPlayer.oponentGoal = defenseExample.oponentGoal;
+            defPlayer.homeGoal = defenseExample.homeGoal;
+            defPlayer.attackerPlayer = attackExample;
             defPlayer.InitPlayer();
+            defPlayer.TeamGoally = goallyExample;
+            defPlayer.OponentsAttacker = defenseExample.OponentsAttacker;
             defensePlayers.Add(defPlayer);
         }
 
@@ -243,22 +365,25 @@ public class TeamController : MonoBehaviour
         {
             var gO = Instantiate(dummyAttacker) as GameObject;
             gO.transform.parent = transform;
+            gO.transform.position = new Vector2(attackExample.transform.position.x, attackExample.transform.position.x);
             AttackPlayer attPlayer = gO.GetComponent<AttackPlayer>();
-            attPlayer.oponentGoal = attackPlayers[0].oponentGoal;
-            attPlayer.oponentTeam = attackPlayers[0].oponentTeam;
+            attPlayer.oponentGoal = attackExample.oponentGoal;
+            attPlayer.oponentTeam = attackExample.oponentTeam;
             attPlayer.InitPlayer();
             attackPlayers.Add(attPlayer);
         }
-        
+
         /* GOALY PLAYERS */
         while (goalyPlayers.Count < GameConsts.GOALLY_PLAYER_COUNT)
         {
             var gO = Instantiate(dummyGoaly) as GameObject;
             gO.transform.parent = transform;
+            gO.transform.position = new Vector2(goallyExample.transform.position.x, goallyExample.transform.position.y);
             GoallyPlayer goaly = gO.GetComponent<GoallyPlayer>();
-            goaly.oponentGoal = goalyPlayers[0].oponentGoal;
-            goaly.oponentTeam = goalyPlayers[0].oponentTeam;
-            goaly.goalToSave = goalyPlayers[0].goalToSave;
+            goaly.oponentGoal = goallyExample.oponentGoal;
+            goaly.oponentTeam = goallyExample.oponentTeam;
+            goaly.goalToSave = goallyExample.goalToSave;
+            goaly.TeamAttacker = goallyExample.TeamAttacker;
             goaly.InitPlayer();
             goalyPlayers.Add(goaly);
         }
@@ -267,44 +392,206 @@ public class TeamController : MonoBehaviour
     {
         get { return defensePlayers; }
     }
-    public List<AttackPlayer> Attacker
+    public List<AttackPlayer> Attackers
     {
         get { return attackPlayers; }
     }
+
+    public IndexAndFitness BestAttacker
+    {
+        get
+        {
+            float bestFitness = 0;
+            int keyIndex = 0;
+            for (int i = 0; i < attackPlayers.Count; i++)
+            {
+                if (attackPlayers[i].Fitness > bestFitness)
+                {
+                    bestFitness = attackPlayers[i].Fitness;
+                    keyIndex = i;
+                }
+            }
+            return new IndexAndFitness(keyIndex, bestFitness);
+        }
+
+    }
+    public IndexAndFitness BestGoally
+    {
+        get
+        {
+            float bestFitness = 0;
+            int keyIndex = 0;
+            for (int i = 0; i < goalyPlayers.Count; i++)
+            {
+                if (goalyPlayers[i].Fitness > bestFitness)
+                {
+                    bestFitness = goalyPlayers[i].Fitness;
+                    keyIndex = i;
+                }
+            }
+            return new IndexAndFitness(keyIndex, bestFitness);
+        }
+    }
+    public IndexAndFitness BestDefense
+    {
+        get
+        {
+            float bestFitness = 0;
+            int keyIndex = 0;
+            for (int i = 0; i < defensePlayers.Count; i++ )
+            {
+                if (defensePlayers[i].Fitness > bestFitness)
+                {
+                    bestFitness = defensePlayers[i].Fitness;
+                    keyIndex = i;
+                }
+            }
+            return new IndexAndFitness(keyIndex, bestFitness);
+        }
+    }
+
     public void IncreaseTeamsFitness(float amount)
     {
-        /* DEFENSE PLAYERS */
-        for (int i = 0; i < defensePlayers.Count; i++)
+        AttackPlayer[] allplayers = GetComponentsInChildren<AttackPlayer>();
+        foreach (AttackPlayer a in allplayers)
         {
-            defensePlayers[i].Fitness += amount;
-        }
-        /* ATTACK PLAYERS */
-        for (int i = 0; i < attackPlayers.Count; i++)
-        {
-            attackPlayers[i].Fitness += amount;
-        }
-
-        /* GOALY PLAYERS */
-        for (int i = 0; i < goalyPlayers.Count; i++)
-        {
-            goalyPlayers[i].Fitness += amount;
+            a.Fitness += amount;
         }
     }
 
-    public ValueAndIndex BestAttackerSqrtMagnitudeToBall()
+    public AttackPlayer Attacker
     {
-        int index = -1;
-        float bestDistanceSoFar = float.MaxValue;
-        for(int i = 0; i < attackPlayers.Count; i++)
+        get { return attackExample; }
+    }
+
+    public GoallyPlayer GoallyEx
+    {
+        get { return goallyExample; }
+    }
+
+    public void SaveState()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        MemoryStream mAttackers = new MemoryStream();
+        MemoryStream mDefense = new MemoryStream();
+        MemoryStream mGoally = new MemoryStream();
+        MemoryStream mAttackerGen = new MemoryStream();
+        MemoryStream mDefenseGen = new MemoryStream();
+        MemoryStream mGoallyGen = new MemoryStream();
+
+        bf.Serialize(mAttackers, attackPlayers);
+        bf.Serialize(mDefense, defensePlayers);
+        bf.Serialize(mGoally, goalyPlayers);
+        bf.Serialize(mAttackerGen, genAlgAttackPlayers);
+        bf.Serialize(mDefenseGen, genAlgDefensePlayers);
+        bf.Serialize(mGoallyGen, genAlgGoaly);
+
+        mAttackers.WriteTo(File.Create(GameConsts.SAVE_A));
+        mAttackerGen.WriteTo(File.Create(GameConsts.SAVE_AG));
+        mDefense.WriteTo(File.Create(GameConsts.SAVE_D));
+        mDefenseGen.WriteTo(File.Create(GameConsts.SAVE_DG));
+        mGoally.WriteTo(File.Create(GameConsts.SAVE_G));
+        mGoallyGen.WriteTo(File.Create(GameConsts.SAVE_GG));
+    }
+    private void LoadStats()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        MemoryStream mAttackers = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_A));
+        MemoryStream mDefense = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_D));
+        MemoryStream mGoally = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_G));
+        MemoryStream mAttackerGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_AG));
+        MemoryStream mDefenseGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_DG));
+        MemoryStream mGoallyGen = new MemoryStream(File.ReadAllBytes(GameConsts.SAVE_GG));
+
+        attackPlayers = (List<AttackPlayer>)bf.Deserialize(mAttackers);
+        defensePlayers = (List<DefensePlayer>)bf.Deserialize(mDefense);
+        goalyPlayers = (List<GoallyPlayer>)bf.Deserialize(mGoally);
+        genAlgAttackPlayers = (GeneticAlgorithm)bf.Deserialize(mAttackerGen);
+        genAlgDefensePlayers = (GeneticAlgorithm)bf.Deserialize(mDefenseGen);
+        genAlgGoaly = (GeneticAlgorithm)bf.Deserialize(mGoallyGen);
+
+    }
+    public void TurnOnDummySprites()
+    {
+        foreach (AttackPlayer a in attackPlayers)
         {
-            if(attackPlayers[i].CurDistanceToBall < bestDistanceSoFar)
+            if (a.gameObject.name.StartsWith("Dum"))
             {
-                bestDistanceSoFar = attackPlayers[i].CurDistanceToBall;
-                index = i;
+                a.GetComponent<MeshRenderer>().enabled = true;
             }
         }
-
-        return new ValueAndIndex(bestDistanceSoFar, index);
+        foreach (DefensePlayer a in defensePlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        foreach (GoallyPlayer a in goalyPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
     }
+    public void TurnOffDummySprites()
+    {
+        foreach (AttackPlayer a in attackPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+        foreach (DefensePlayer a in defensePlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+        foreach (GoallyPlayer a in goalyPlayers)
+        {
+            if (a.gameObject.name.StartsWith("Dum"))
+            {
+                a.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+    }
+    public bool PauseGoallyEvo
+    {
+        get { return pauseGoallyEvo; }
+        set { pauseGoallyEvo = value; }
+    }
+    public bool PauseDefenseEvo
+    {
+        get { return pauseDefenseEvo; }
+        set { pauseDefenseEvo = value; }
+    }
+    public bool PauseAttackEvo
+    {
+        get { return pauseAttackEvo; }
+        set { pauseAttackEvo = value; }
+    }
+    public List<string> GoallyEvolution
+    {
+        get { return goallyEvoOverGenerations; }
+    }
+    public List<string> DefenderEvolution
+    {
+        get { return defenseEvoOverGenerations; }
+    }
+    public List<string> AttackerEvolution
+    {
+        get { return attackrEvoOverGenerations; }
+    }
+
+    public bool ShouldWriteEvoData
+    {
+        get { return shouldWriteEvoData; }
+        set { shouldWriteEvoData = value; }
+    }
+    
 }
 

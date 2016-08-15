@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[SerializeField]
 public class NeuronLayer
 {
     private int neuronCount;
@@ -16,7 +17,6 @@ public class NeuronLayer
             layerOfNeurons.Add(new Neuron(neuronInputCount));
         }
     }
-
 
     public int NeuronCount
     {

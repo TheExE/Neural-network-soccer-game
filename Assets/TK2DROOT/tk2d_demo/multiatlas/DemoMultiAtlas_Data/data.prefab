@@ -5,7 +5,7 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 3
+  serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1002 &100001
 EditorExtensionImpl:
   serializedVersion: 6
@@ -28,8 +28,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!1002 &400001
 EditorExtensionImpl:
   serializedVersion: 6
@@ -41,32 +43,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d546f34a90531a14eaba82a43b05b86b, type: 1}
+  m_Script: {fileID: 11500000, guid: d546f34a90531a14eaba82a43b05b86b, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   version: 3
   materialIdsValid: 1
   needMaterialInstance: 0
   spriteDefinitions:
   - name: explosion_44FR/0
     boundsData:
-    - {x: -.0078125, y: -.0156249963, z: 0}
-    - {x: .121875003, y: .143750012, z: 0}
+    - {x: -0.0078125, y: -0.015624996, z: 0}
+    - {x: 0.121875, y: 0.14375001, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0687500015, y: -.0874999985, z: 0}
-    - {x: .0531250015, y: -.0874999985, z: 0}
-    - {x: -.0687500015, y: .056250006, z: 0}
-    - {x: .0531250015, y: .056250006, z: 0}
+    - {x: -0.06875, y: -0.0875, z: 0}
+    - {x: 0.053125, y: -0.0875, z: 0}
+    - {x: -0.06875, y: 0.056250006, z: 0}
+    - {x: 0.053125, y: 0.056250006, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .789066434, y: .00781640597}
-    - {x: .789066434, y: .160152346}
-    - {x: .968746066, y: .00781640597}
-    - {x: .968746066, y: .160152346}
+    - {x: 0.78906643, y: 0.007816406}
+    - {x: 0.78906643, y: 0.16015235}
+    - {x: 0.96874607, y: 0.007816406}
+    - {x: 0.96874607, y: 0.16015235}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -80,6 +88,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -90,24 +99,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/1
     boundsData:
-    - {x: -.00624999963, y: -.0171875041, z: 0}
-    - {x: .112499997, y: .134374991, z: 0}
+    - {x: -0.0062499996, y: -0.017187504, z: 0}
+    - {x: 0.1125, y: 0.13437499, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0625, y: -.0843750015, z: 0}
-    - {x: .0500000007, y: -.0843750015, z: 0}
-    - {x: -.0625, y: .0499999933, z: 0}
-    - {x: .0500000007, y: .0499999933, z: 0}
+    - {x: -0.0625, y: -0.084375, z: 0}
+    - {x: 0.05, y: -0.084375, z: 0}
+    - {x: -0.0625, y: 0.049999993, z: 0}
+    - {x: 0.05, y: 0.049999993, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .789066434, y: .175785154}
-    - {x: .929683566, y: .175785154}
-    - {x: .789066434, y: .343746096}
-    - {x: .929683566, y: .343746096}
+    - {x: 0.78906643, y: 0.17578515}
+    - {x: 0.92968357, y: 0.17578515}
+    - {x: 0.78906643, y: 0.3437461}
+    - {x: 0.92968357, y: 0.3437461}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -121,6 +135,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -131,24 +146,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/2
     boundsData:
-    - {x: 0, y: -.043750003, z: 0}
-    - {x: .181250006, y: .224999994, z: 0}
+    - {x: 0, y: -0.043750003, z: 0}
+    - {x: 0.18125, y: 0.225, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.090625003, y: -.15625, z: 0}
-    - {x: .090625003, y: -.15625, z: 0}
-    - {x: -.090625003, y: .068749994, z: 0}
-    - {x: .090625003, y: .068749994, z: 0}
+    - {x: -0.090625, y: -0.15625, z: 0}
+    - {x: 0.090625, y: -0.15625, z: 0}
+    - {x: -0.090625, y: 0.068749994, z: 0}
+    - {x: 0.090625, y: 0.068749994, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .695316434, y: .00781640597}
-    - {x: .695316434, y: .234371096}
-    - {x: .976558566, y: .00781640597}
-    - {x: .976558566, y: .234371096}
+    - {x: 0.69531643, y: 0.007816406}
+    - {x: 0.69531643, y: 0.2343711}
+    - {x: 0.97655857, y: 0.007816406}
+    - {x: 0.97655857, y: 0.2343711}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -162,6 +182,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -172,24 +193,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/3
     boundsData:
-    - {x: -.00156250224, y: -.0312500037, z: 0}
-    - {x: .171875, y: .25, z: 0}
+    - {x: -0.0015625022, y: -0.031250004, z: 0}
+    - {x: 0.171875, y: 0.25, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.087500006, y: -.15625, z: 0}
-    - {x: .0843750015, y: -.15625, z: 0}
-    - {x: -.087500006, y: .0937499925, z: 0}
-    - {x: .0843750015, y: .0937499925, z: 0}
+    - {x: -0.087500006, y: -0.15625, z: 0}
+    - {x: 0.084375, y: -0.15625, z: 0}
+    - {x: -0.087500006, y: 0.09374999, z: 0}
+    - {x: 0.084375, y: 0.09374999, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .777347684, y: .00781640597}
-    - {x: .992183566, y: .00781640597}
-    - {x: .777347684, y: .320308596}
-    - {x: .992183566, y: .320308596}
+    - {x: 0.7773477, y: 0.007816406}
+    - {x: 0.99218357, y: 0.007816406}
+    - {x: 0.7773477, y: 0.3203086}
+    - {x: 0.99218357, y: 0.3203086}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -203,6 +229,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -213,24 +240,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/4
     boundsData:
-    - {x: -.00312500075, y: -.0312500037, z: 0}
-    - {x: .175000012, y: .25, z: 0}
+    - {x: -0.0031250007, y: -0.031250004, z: 0}
+    - {x: 0.17500001, y: 0.25, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.090625003, y: -.15625, z: 0}
-    - {x: .0843750015, y: -.15625, z: 0}
-    - {x: -.090625003, y: .0937499925, z: 0}
-    - {x: .0843750015, y: .0937499925, z: 0}
+    - {x: -0.090625, y: -0.15625, z: 0}
+    - {x: 0.084375, y: -0.15625, z: 0}
+    - {x: -0.090625, y: 0.09374999, z: 0}
+    - {x: 0.084375, y: 0.09374999, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .765628934, y: .632816434}
-    - {x: .984371066, y: .632816434}
-    - {x: .765628934, y: .945308566}
-    - {x: .984371066, y: .945308566}
+    - {x: 0.76562893, y: 0.63281643}
+    - {x: 0.98437107, y: 0.63281643}
+    - {x: 0.76562893, y: 0.94530857}
+    - {x: 0.98437107, y: 0.94530857}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -244,6 +276,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -254,24 +287,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/5
     boundsData:
-    - {x: -.0109375007, y: -.0187500045, z: 0}
-    - {x: .184375018, y: .268750012, z: 0}
+    - {x: -0.010937501, y: -0.018750004, z: 0}
+    - {x: 0.18437502, y: 0.26875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.153125003, z: 0}
-    - {x: .0812500045, y: -.153125003, z: 0}
-    - {x: -.103125006, y: .115624994, z: 0}
-    - {x: .0812500045, y: .115624994, z: 0}
+    - {x: -0.103125006, y: -0.153125, z: 0}
+    - {x: 0.081250004, y: -0.153125, z: 0}
+    - {x: -0.103125006, y: 0.115624994, z: 0}
+    - {x: 0.081250004, y: 0.115624994, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .656253934, y: .761722684}
-    - {x: .656253934, y: .992183566}
-    - {x: .992183566, y: .761722684}
-    - {x: .992183566, y: .992183566}
+    - {x: 0.65625393, y: 0.7617227}
+    - {x: 0.65625393, y: 0.99218357}
+    - {x: 0.99218357, y: 0.7617227}
+    - {x: 0.99218357, y: 0.99218357}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -285,6 +323,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -295,24 +334,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/6
     boundsData:
-    - {x: -.00625000149, y: -.0140625015, z: 0}
-    - {x: .193750009, y: .278124988, z: 0}
+    - {x: -0.0062500015, y: -0.0140625015, z: 0}
+    - {x: 0.19375001, y: 0.278125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.153125003, z: 0}
-    - {x: .090625003, y: -.153125003, z: 0}
-    - {x: -.103125006, y: .125, z: 0}
-    - {x: .090625003, y: .125, z: 0}
+    - {x: -0.103125006, y: -0.153125, z: 0}
+    - {x: 0.090625, y: -0.153125, z: 0}
+    - {x: -0.103125006, y: 0.125, z: 0}
+    - {x: 0.090625, y: 0.125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .277347654, y: .382816404}
-    - {x: .277347654, y: .624996066}
-    - {x: .624996066, y: .382816404}
-    - {x: .624996066, y: .624996066}
+    - {x: 0.27734765, y: 0.3828164}
+    - {x: 0.27734765, y: 0.62499607}
+    - {x: 0.62499607, y: 0.3828164}
+    - {x: 0.62499607, y: 0.62499607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -326,6 +370,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -336,24 +381,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/7
     boundsData:
-    - {x: -.00468749553, y: -.012500003, z: 0}
-    - {x: .203125015, y: .28125, z: 0}
+    - {x: -0.0046874955, y: -0.012500003, z: 0}
+    - {x: 0.20312501, y: 0.28125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.153125003, z: 0}
-    - {x: .0968750119, y: -.153125003, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .0968750119, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.153125, z: 0}
+    - {x: 0.09687501, y: -0.153125, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.09687501, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .535160184, y: .394535154}
-    - {x: .789058566, y: .394535154}
-    - {x: .535160184, y: .746089816}
-    - {x: .789058566, y: .746089816}
+    - {x: 0.5351602, y: 0.39453515}
+    - {x: 0.78905857, y: 0.39453515}
+    - {x: 0.5351602, y: 0.7460898}
+    - {x: 0.78905857, y: 0.7460898}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -367,6 +417,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -377,24 +428,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/8
     boundsData:
-    - {x: -.00468749553, y: -.0109375045, z: 0}
-    - {x: .203125015, y: .278124988, z: 0}
+    - {x: -0.0046874955, y: -0.0109375045, z: 0}
+    - {x: 0.20312501, y: 0.278125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.150000006, z: 0}
-    - {x: .0968750119, y: -.150000006, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .0968750119, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.15, z: 0}
+    - {x: 0.09687501, y: -0.15, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.09687501, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .00781640597}
-    - {x: .261714846, y: .00781640597}
-    - {x: .00781640597, y: .355464846}
-    - {x: .261714846, y: .355464846}
+    - {x: 0.007816406, y: 0.007816406}
+    - {x: 0.26171485, y: 0.007816406}
+    - {x: 0.007816406, y: 0.35546485}
+    - {x: 0.26171485, y: 0.35546485}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -408,6 +464,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -418,24 +475,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/9
     boundsData:
-    - {x: -.00468749553, y: -.0109375045, z: 0}
-    - {x: .203125015, y: .278124988, z: 0}
+    - {x: -0.0046874955, y: -0.0109375045, z: 0}
+    - {x: 0.20312501, y: 0.278125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.150000006, z: 0}
-    - {x: .0968750119, y: -.150000006, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .0968750119, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.15, z: 0}
+    - {x: 0.09687501, y: -0.15, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.09687501, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .371097654}
-    - {x: .261714846, y: .371097654}
-    - {x: .00781640597, y: .718746066}
-    - {x: .261714846, y: .718746066}
+    - {x: 0.007816406, y: 0.37109765}
+    - {x: 0.26171485, y: 0.37109765}
+    - {x: 0.007816406, y: 0.71874607}
+    - {x: 0.26171485, y: 0.71874607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -449,6 +511,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -459,24 +522,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/10
     boundsData:
-    - {x: -.00312500075, y: -.00937499851, z: 0}
-    - {x: .206250012, y: .274999976, z: 0}
+    - {x: -0.0031250007, y: -0.0093749985, z: 0}
+    - {x: 0.20625001, y: 0.27499998, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.146874994, z: 0}
-    - {x: .100000001, y: -.146874994, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .100000001, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.146875, z: 0}
+    - {x: 0.1, y: -0.146875, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.1, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .656253934}
-    - {x: .00781640597, y: .914058566}
-    - {x: .351558596, y: .656253934}
-    - {x: .351558596, y: .914058566}
+    - {x: 0.007816406, y: 0.65625393}
+    - {x: 0.007816406, y: 0.91405857}
+    - {x: 0.3515586, y: 0.65625393}
+    - {x: 0.3515586, y: 0.91405857}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -490,6 +558,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -500,24 +569,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/11
     boundsData:
-    - {x: -.00312500075, y: -.00937499851, z: 0}
-    - {x: .206250012, y: .274999976, z: 0}
+    - {x: -0.0031250007, y: -0.0093749985, z: 0}
+    - {x: 0.20625001, y: 0.27499998, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.146874994, z: 0}
-    - {x: .100000001, y: -.146874994, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .100000001, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.146875, z: 0}
+    - {x: 0.1, y: -0.146875, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.1, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .679691434, y: .273441404}
-    - {x: .937496066, y: .273441404}
-    - {x: .679691434, y: .617183566}
-    - {x: .937496066, y: .617183566}
+    - {x: 0.67969143, y: 0.2734414}
+    - {x: 0.93749607, y: 0.2734414}
+    - {x: 0.67969143, y: 0.61718357}
+    - {x: 0.93749607, y: 0.61718357}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -531,6 +605,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -541,24 +616,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/12
     boundsData:
-    - {x: -.00312500075, y: -.020312503, z: 0}
-    - {x: .206250012, y: .296875, z: 0}
+    - {x: -0.0031250007, y: -0.020312503, z: 0}
+    - {x: 0.20625001, y: 0.296875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.168750003, z: 0}
-    - {x: .100000001, y: -.168750003, z: 0}
-    - {x: -.106250003, y: .128124997, z: 0}
-    - {x: .100000001, y: .128124997, z: 0}
+    - {x: -0.10625, y: -0.16875, z: 0}
+    - {x: 0.1, y: -0.16875, z: 0}
+    - {x: -0.10625, y: 0.128125, z: 0}
+    - {x: 0.1, y: 0.128125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .00781640597}
-    - {x: .265621096, y: .00781640597}
-    - {x: .00781640597, y: .378902346}
-    - {x: .265621096, y: .378902346}
+    - {x: 0.007816406, y: 0.007816406}
+    - {x: 0.2656211, y: 0.007816406}
+    - {x: 0.007816406, y: 0.37890235}
+    - {x: 0.2656211, y: 0.37890235}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -572,6 +652,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -582,24 +663,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/13
     boundsData:
-    - {x: -.00312500447, y: -.0187500045, z: 0}
-    - {x: .212500006, y: .300000012, z: 0}
+    - {x: -0.0031250045, y: -0.018750004, z: 0}
+    - {x: 0.2125, y: 0.3, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.109375007, y: -.168750003, z: 0}
-    - {x: .103124999, y: -.168750003, z: 0}
-    - {x: -.109375007, y: .131249994, z: 0}
-    - {x: .103124999, y: .131249994, z: 0}
+    - {x: -0.10937501, y: -0.16875, z: 0}
+    - {x: 0.103125, y: -0.16875, z: 0}
+    - {x: -0.10937501, y: 0.13125, z: 0}
+    - {x: 0.103125, y: 0.13125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .675785184}
-    - {x: .00781640597, y: .941402316}
-    - {x: .382808596, y: .675785184}
-    - {x: .382808596, y: .941402316}
+    - {x: 0.007816406, y: 0.6757852}
+    - {x: 0.007816406, y: 0.9414023}
+    - {x: 0.3828086, y: 0.6757852}
+    - {x: 0.3828086, y: 0.9414023}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -613,6 +699,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -623,24 +710,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/14
     boundsData:
-    - {x: -.00312500447, y: -.017187506, z: 0}
-    - {x: .212500006, y: .303124994, z: 0}
+    - {x: -0.0031250045, y: -0.017187506, z: 0}
+    - {x: 0.2125, y: 0.303125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.109375007, y: -.168750003, z: 0}
-    - {x: .103124999, y: -.168750003, z: 0}
-    - {x: -.109375007, y: .134374991, z: 0}
-    - {x: .103124999, y: .134374991, z: 0}
+    - {x: -0.10937501, y: -0.16875, z: 0}
+    - {x: 0.103125, y: -0.16875, z: 0}
+    - {x: -0.10937501, y: 0.13437499, z: 0}
+    - {x: 0.103125, y: 0.13437499, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .00781640597}
-    - {x: .273433596, y: .00781640597}
-    - {x: .00781640597, y: .386714846}
-    - {x: .273433596, y: .386714846}
+    - {x: 0.007816406, y: 0.007816406}
+    - {x: 0.2734336, y: 0.007816406}
+    - {x: 0.007816406, y: 0.38671485}
+    - {x: 0.2734336, y: 0.38671485}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -654,6 +746,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -664,24 +757,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/15
     boundsData:
-    - {x: -.00624999776, y: -.0156250075, z: 0}
-    - {x: .206250012, y: .306249976, z: 0}
+    - {x: -0.0062499978, y: -0.015625007, z: 0}
+    - {x: 0.20625001, y: 0.30624998, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.109375007, y: -.168750003, z: 0}
-    - {x: .0968750119, y: -.168750003, z: 0}
-    - {x: -.109375007, y: .137499988, z: 0}
-    - {x: .0968750119, y: .137499988, z: 0}
+    - {x: -0.10937501, y: -0.16875, z: 0}
+    - {x: 0.09687501, y: -0.16875, z: 0}
+    - {x: -0.10937501, y: 0.13749999, z: 0}
+    - {x: 0.09687501, y: 0.13749999, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .683597684, y: .277347654}
-    - {x: .941402316, y: .277347654}
-    - {x: .683597684, y: .660152316}
-    - {x: .941402316, y: .660152316}
+    - {x: 0.6835977, y: 0.27734765}
+    - {x: 0.9414023, y: 0.27734765}
+    - {x: 0.6835977, y: 0.6601523}
+    - {x: 0.9414023, y: 0.6601523}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -695,6 +793,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -705,24 +804,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/16
     boundsData:
-    - {x: -.00312499702, y: -.0156250075, z: 0}
-    - {x: .200000018, y: .306249976, z: 0}
+    - {x: -0.003124997, y: -0.015625007, z: 0}
+    - {x: 0.20000002, y: 0.30624998, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.168750003, z: 0}
-    - {x: .0968750119, y: -.168750003, z: 0}
-    - {x: -.103125006, y: .137499988, z: 0}
-    - {x: .0968750119, y: .137499988, z: 0}
+    - {x: -0.103125006, y: -0.16875, z: 0}
+    - {x: 0.09687501, y: -0.16875, z: 0}
+    - {x: -0.103125006, y: 0.13749999, z: 0}
+    - {x: 0.09687501, y: 0.13749999, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .414066404, y: .273441404}
-    - {x: .664058566, y: .273441404}
-    - {x: .414066404, y: .656246066}
-    - {x: .664058566, y: .656246066}
+    - {x: 0.4140664, y: 0.2734414}
+    - {x: 0.66405857, y: 0.2734414}
+    - {x: 0.4140664, y: 0.65624607}
+    - {x: 0.66405857, y: 0.65624607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -736,6 +840,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -746,24 +851,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/17
     boundsData:
-    - {x: -.00468749553, y: -.0124999955, z: 0}
-    - {x: .203125015, y: .3125, z: 0}
+    - {x: -0.0046874955, y: -0.0124999955, z: 0}
+    - {x: 0.20312501, y: 0.3125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.168750003, z: 0}
-    - {x: .0968750119, y: -.168750003, z: 0}
-    - {x: -.106250003, y: .143750012, z: 0}
-    - {x: .0968750119, y: .143750012, z: 0}
+    - {x: -0.10625, y: -0.16875, z: 0}
+    - {x: 0.09687501, y: -0.16875, z: 0}
+    - {x: -0.10625, y: 0.14375001, z: 0}
+    - {x: 0.09687501, y: 0.14375001, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .289066404, y: .00781640597}
-    - {x: .289066404, y: .261714846}
-    - {x: .679683566, y: .00781640597}
-    - {x: .679683566, y: .261714846}
+    - {x: 0.2890664, y: 0.007816406}
+    - {x: 0.2890664, y: 0.26171485}
+    - {x: 0.67968357, y: 0.007816406}
+    - {x: 0.67968357, y: 0.26171485}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -777,6 +887,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -787,24 +898,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/18
     boundsData:
-    - {x: -.00468749553, y: -.00937499851, z: 0}
-    - {x: .203125015, y: .3125, z: 0}
+    - {x: -0.0046874955, y: -0.0093749985, z: 0}
+    - {x: 0.20312501, y: 0.3125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.165625006, z: 0}
-    - {x: .0968750119, y: -.165625006, z: 0}
-    - {x: -.106250003, y: .146875009, z: 0}
-    - {x: .0968750119, y: .146875009, z: 0}
+    - {x: -0.10625, y: -0.165625, z: 0}
+    - {x: 0.09687501, y: -0.165625, z: 0}
+    - {x: -0.10625, y: 0.14687501, z: 0}
+    - {x: 0.09687501, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .414066404, y: .277347654}
-    - {x: .667964816, y: .277347654}
-    - {x: .414066404, y: .667964816}
-    - {x: .667964816, y: .667964816}
+    - {x: 0.4140664, y: 0.27734765}
+    - {x: 0.6679648, y: 0.27734765}
+    - {x: 0.4140664, y: 0.6679648}
+    - {x: 0.6679648, y: 0.6679648}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -818,6 +934,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -828,24 +945,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/19
     boundsData:
-    - {x: -.00312500075, y: -.00937499851, z: 0}
-    - {x: .206250012, y: .3125, z: 0}
+    - {x: -0.0031250007, y: -0.0093749985, z: 0}
+    - {x: 0.20625001, y: 0.3125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.165625006, z: 0}
-    - {x: .100000001, y: -.165625006, z: 0}
-    - {x: -.106250003, y: .146875009, z: 0}
-    - {x: .100000001, y: .146875009, z: 0}
+    - {x: -0.10625, y: -0.165625, z: 0}
+    - {x: 0.1, y: -0.165625, z: 0}
+    - {x: -0.10625, y: 0.14687501, z: 0}
+    - {x: 0.1, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .402347654}
-    - {x: .00781640597, y: .660152316}
-    - {x: .398433596, y: .402347654}
-    - {x: .398433596, y: .660152316}
+    - {x: 0.007816406, y: 0.40234765}
+    - {x: 0.007816406, y: 0.6601523}
+    - {x: 0.3984336, y: 0.40234765}
+    - {x: 0.3984336, y: 0.6601523}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -859,6 +981,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -869,24 +992,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/20
     boundsData:
-    - {x: -.00468749553, y: -.00937499851, z: 0}
-    - {x: .203125015, y: .3125, z: 0}
+    - {x: -0.0046874955, y: -0.0093749985, z: 0}
+    - {x: 0.20312501, y: 0.3125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.165625006, z: 0}
-    - {x: .0968750119, y: -.165625006, z: 0}
-    - {x: -.106250003, y: .146875009, z: 0}
-    - {x: .0968750119, y: .146875009, z: 0}
+    - {x: -0.10625, y: -0.165625, z: 0}
+    - {x: 0.09687501, y: -0.165625, z: 0}
+    - {x: -0.10625, y: 0.14687501, z: 0}
+    - {x: 0.09687501, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .398441404, y: .683597684}
-    - {x: .398441404, y: .937496066}
-    - {x: .789058566, y: .683597684}
-    - {x: .789058566, y: .937496066}
+    - {x: 0.3984414, y: 0.6835977}
+    - {x: 0.3984414, y: 0.93749607}
+    - {x: 0.78905857, y: 0.6835977}
+    - {x: 0.78905857, y: 0.93749607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -900,6 +1028,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -910,24 +1039,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/21
     boundsData:
-    - {x: -.00468749925, y: -.00624999404, z: 0}
-    - {x: .196875006, y: .3125, z: 0}
+    - {x: -0.0046874993, y: -0.006249994, z: 0}
+    - {x: 0.196875, y: 0.3125, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.162499994, z: 0}
-    - {x: .0937500075, y: -.162499994, z: 0}
-    - {x: -.103125006, y: .150000006, z: 0}
-    - {x: .0937500075, y: .150000006, z: 0}
+    - {x: -0.103125006, y: -0.1625, z: 0}
+    - {x: 0.09375001, y: -0.1625, z: 0}
+    - {x: -0.103125006, y: 0.15, z: 0}
+    - {x: 0.09375001, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .394535154}
-    - {x: .00781640597, y: .640621066}
-    - {x: .398433596, y: .394535154}
-    - {x: .398433596, y: .640621066}
+    - {x: 0.007816406, y: 0.39453515}
+    - {x: 0.007816406, y: 0.64062107}
+    - {x: 0.3984336, y: 0.39453515}
+    - {x: 0.3984336, y: 0.64062107}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -941,6 +1075,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -951,24 +1086,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/22
     boundsData:
-    - {x: -.00624999776, y: -.00468749553, z: 0}
-    - {x: .200000018, y: .309374988, z: 0}
+    - {x: -0.0062499978, y: -0.0046874955, z: 0}
+    - {x: 0.20000002, y: 0.309375, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.106250003, y: -.159374997, z: 0}
-    - {x: .0937500075, y: -.159374997, z: 0}
-    - {x: -.106250003, y: .150000006, z: 0}
-    - {x: .0937500075, y: .150000006, z: 0}
+    - {x: -0.10625, y: -0.159375, z: 0}
+    - {x: 0.09375001, y: -0.159375, z: 0}
+    - {x: -0.10625, y: 0.15, z: 0}
+    - {x: 0.09375001, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .281253904, y: .00781640597}
-    - {x: .281253904, y: .257808596}
-    - {x: .667964816, y: .00781640597}
-    - {x: .667964816, y: .257808596}
+    - {x: 0.2812539, y: 0.007816406}
+    - {x: 0.2812539, y: 0.2578086}
+    - {x: 0.6679648, y: 0.007816406}
+    - {x: 0.6679648, y: 0.2578086}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -982,6 +1122,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -992,24 +1133,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/23
     boundsData:
-    - {x: -.00468749925, y: -.00624999404, z: 0}
-    - {x: .196875006, y: .306250006, z: 0}
+    - {x: -0.0046874993, y: -0.006249994, z: 0}
+    - {x: 0.196875, y: 0.30625, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.159374997, z: 0}
-    - {x: .0937500075, y: -.159374997, z: 0}
-    - {x: -.103125006, y: .146875009, z: 0}
-    - {x: .0937500075, y: .146875009, z: 0}
+    - {x: -0.103125006, y: -0.159375, z: 0}
+    - {x: 0.09375001, y: -0.159375, z: 0}
+    - {x: -0.103125006, y: 0.14687501, z: 0}
+    - {x: 0.09375001, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .00781640597}
-    - {x: .253902346, y: .00781640597}
-    - {x: .00781640597, y: .390621096}
-    - {x: .253902346, y: .390621096}
+    - {x: 0.007816406, y: 0.007816406}
+    - {x: 0.25390235, y: 0.007816406}
+    - {x: 0.007816406, y: 0.3906211}
+    - {x: 0.25390235, y: 0.3906211}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1023,6 +1169,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1033,24 +1180,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/24
     boundsData:
-    - {x: -.00312499702, y: -.00312499702, z: 0}
-    - {x: .200000018, y: .306250006, z: 0}
+    - {x: -0.003124997, y: -0.003124997, z: 0}
+    - {x: 0.20000002, y: 0.30625, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.15625, z: 0}
-    - {x: .0968750119, y: -.15625, z: 0}
-    - {x: -.103125006, y: .150000006, z: 0}
-    - {x: .0968750119, y: .150000006, z: 0}
+    - {x: -0.103125006, y: -0.15625, z: 0}
+    - {x: 0.09687501, y: -0.15625, z: 0}
+    - {x: -0.103125006, y: 0.15, z: 0}
+    - {x: 0.09687501, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .367191404, y: .671878934}
-    - {x: .367191404, y: .921871066}
-    - {x: .749996066, y: .671878934}
-    - {x: .749996066, y: .921871066}
+    - {x: 0.3671914, y: 0.67187893}
+    - {x: 0.3671914, y: 0.92187107}
+    - {x: 0.74999607, y: 0.67187893}
+    - {x: 0.74999607, y: 0.92187107}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -1064,6 +1216,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1074,24 +1227,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/25
     boundsData:
-    - {x: -.00312499702, y: -.00312499702, z: 0}
-    - {x: .200000018, y: .300000012, z: 0}
+    - {x: -0.003124997, y: -0.003124997, z: 0}
+    - {x: 0.20000002, y: 0.3, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.103125006, y: -.153125003, z: 0}
-    - {x: .0968750119, y: -.153125003, z: 0}
-    - {x: -.103125006, y: .146875009, z: 0}
-    - {x: .0968750119, y: .146875009, z: 0}
+    - {x: -0.103125006, y: -0.153125, z: 0}
+    - {x: 0.09687501, y: -0.153125, z: 0}
+    - {x: -0.103125006, y: 0.14687501, z: 0}
+    - {x: 0.09687501, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .406253904}
-    - {x: .257808596, y: .406253904}
-    - {x: .00781640597, y: .781246066}
-    - {x: .257808596, y: .781246066}
+    - {x: 0.007816406, y: 0.4062539}
+    - {x: 0.2578086, y: 0.4062539}
+    - {x: 0.007816406, y: 0.78124607}
+    - {x: 0.2578086, y: 0.78124607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1105,6 +1263,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1115,24 +1274,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/26
     boundsData:
-    - {x: -.00156249478, y: -.00156249851, z: 0}
-    - {x: .196875006, y: .296875, z: 0}
+    - {x: -0.0015624948, y: -0.0015624985, z: 0}
+    - {x: 0.196875, y: 0.296875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.100000001, y: -.150000006, z: 0}
-    - {x: .0968750119, y: -.150000006, z: 0}
-    - {x: -.100000001, y: .146875009, z: 0}
-    - {x: .0968750119, y: .146875009, z: 0}
+    - {x: -0.1, y: -0.15, z: 0}
+    - {x: 0.09687501, y: -0.15, z: 0}
+    - {x: -0.1, y: 0.14687501, z: 0}
+    - {x: 0.09687501, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .269535154, y: .00781640597}
-    - {x: .515621066, y: .00781640597}
-    - {x: .269535154, y: .378902346}
-    - {x: .515621066, y: .378902346}
+    - {x: 0.26953515, y: 0.007816406}
+    - {x: 0.51562107, y: 0.007816406}
+    - {x: 0.26953515, y: 0.37890235}
+    - {x: 0.51562107, y: 0.37890235}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1146,6 +1310,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1156,24 +1321,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/27
     boundsData:
-    - {x: -.00156249478, y: .00156250596, z: 0}
-    - {x: .196875006, y: .296875, z: 0}
+    - {x: -0.0015624948, y: 0.001562506, z: 0}
+    - {x: 0.196875, y: 0.296875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.100000001, y: -.146874994, z: 0}
-    - {x: .0968750119, y: -.146874994, z: 0}
-    - {x: -.100000001, y: .150000006, z: 0}
-    - {x: .0968750119, y: .150000006, z: 0}
+    - {x: -0.1, y: -0.146875, z: 0}
+    - {x: 0.09687501, y: -0.146875, z: 0}
+    - {x: -0.1, y: 0.15, z: 0}
+    - {x: 0.09687501, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .273441404, y: .394535154}
-    - {x: .519527316, y: .394535154}
-    - {x: .273441404, y: .765621066}
-    - {x: .519527316, y: .765621066}
+    - {x: 0.2734414, y: 0.39453515}
+    - {x: 0.5195273, y: 0.39453515}
+    - {x: 0.2734414, y: 0.76562107}
+    - {x: 0.5195273, y: 0.76562107}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1187,6 +1357,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1197,24 +1368,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/28
     boundsData:
-    - {x: -.00312499702, y: .00156250596, z: 0}
-    - {x: .193750009, y: .296875, z: 0}
+    - {x: -0.003124997, y: 0.001562506, z: 0}
+    - {x: 0.19375001, y: 0.296875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.100000001, y: -.146874994, z: 0}
-    - {x: .0937500075, y: -.146874994, z: 0}
-    - {x: -.100000001, y: .150000006, z: 0}
-    - {x: .0937500075, y: .150000006, z: 0}
+    - {x: -0.1, y: -0.146875, z: 0}
+    - {x: 0.09375001, y: -0.146875, z: 0}
+    - {x: -0.1, y: 0.15, z: 0}
+    - {x: 0.09375001, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .531253934, y: .00781640597}
-    - {x: .773433566, y: .00781640597}
-    - {x: .531253934, y: .378902346}
-    - {x: .773433566, y: .378902346}
+    - {x: 0.53125393, y: 0.007816406}
+    - {x: 0.77343357, y: 0.007816406}
+    - {x: 0.53125393, y: 0.37890235}
+    - {x: 0.77343357, y: 0.37890235}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1228,6 +1404,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1238,24 +1415,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/29
     boundsData:
-    - {x: -.00468749925, y: .00156250596, z: 0}
-    - {x: .190625012, y: .284375012, z: 0}
+    - {x: -0.0046874993, y: 0.001562506, z: 0}
+    - {x: 0.19062501, y: 0.284375, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.100000001, y: -.140625, z: 0}
-    - {x: .090625003, y: -.140625, z: 0}
-    - {x: -.100000001, y: .143750012, z: 0}
-    - {x: .090625003, y: .143750012, z: 0}
+    - {x: -0.1, y: -0.140625, z: 0}
+    - {x: 0.090625, y: -0.140625, z: 0}
+    - {x: -0.1, y: 0.14375001, z: 0}
+    - {x: 0.090625, y: 0.14375001, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .734378934}
-    - {x: .00781640597, y: .972652316}
-    - {x: .363277346, y: .734378934}
-    - {x: .363277346, y: .972652316}
+    - {x: 0.007816406, y: 0.73437893}
+    - {x: 0.007816406, y: 0.9726523}
+    - {x: 0.36327735, y: 0.73437893}
+    - {x: 0.36327735, y: 0.9726523}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -1269,6 +1451,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1279,24 +1462,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/30
     boundsData:
-    - {x: -.00312500075, y: .00312500447, z: 0}
-    - {x: .1875, y: .287500024, z: 0}
+    - {x: -0.0031250007, y: 0.0031250045, z: 0}
+    - {x: 0.1875, y: 0.28750002, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0968750045, y: -.140625, z: 0}
-    - {x: .090625003, y: -.140625, z: 0}
-    - {x: -.0968750045, y: .146875009, z: 0}
-    - {x: .090625003, y: .146875009, z: 0}
+    - {x: -0.096875004, y: -0.140625, z: 0}
+    - {x: 0.090625, y: -0.140625, z: 0}
+    - {x: -0.096875004, y: 0.14687501, z: 0}
+    - {x: 0.090625, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .277347654, y: .00781640597}
-    - {x: .511714816, y: .00781640597}
-    - {x: .277347654, y: .367183596}
-    - {x: .511714816, y: .367183596}
+    - {x: 0.27734765, y: 0.007816406}
+    - {x: 0.5117148, y: 0.007816406}
+    - {x: 0.27734765, y: 0.3671836}
+    - {x: 0.5117148, y: 0.3671836}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -1310,6 +1498,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1320,24 +1509,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/31
     boundsData:
-    - {x: -.00312500075, y: .00468750298, z: 0}
-    - {x: .1875, y: .284375012, z: 0}
+    - {x: -0.0031250007, y: 0.004687503, z: 0}
+    - {x: 0.1875, y: 0.284375, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0968750045, y: -.137500003, z: 0}
-    - {x: .090625003, y: -.137500003, z: 0}
-    - {x: -.0968750045, y: .146875009, z: 0}
-    - {x: .090625003, y: .146875009, z: 0}
+    - {x: -0.096875004, y: -0.1375, z: 0}
+    - {x: 0.090625, y: -0.1375, z: 0}
+    - {x: -0.096875004, y: 0.14687501, z: 0}
+    - {x: 0.090625, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .527347684, y: .00781640597}
-    - {x: .761714816, y: .00781640597}
-    - {x: .527347684, y: .363277346}
-    - {x: .761714816, y: .363277346}
+    - {x: 0.5273477, y: 0.007816406}
+    - {x: 0.7617148, y: 0.007816406}
+    - {x: 0.5273477, y: 0.36327735}
+    - {x: 0.7617148, y: 0.36327735}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -1351,6 +1545,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1361,24 +1556,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/32
     boundsData:
-    - {x: -.00312500075, y: .0437500067, z: 0}
-    - {x: .1875, y: .200000018, z: 0}
+    - {x: -0.0031250007, y: 0.043750007, z: 0}
+    - {x: 0.1875, y: 0.20000002, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0968750045, y: -.0562499985, z: 0}
-    - {x: .090625003, y: -.0562499985, z: 0}
-    - {x: -.0968750045, y: .143750012, z: 0}
-    - {x: .090625003, y: .143750012, z: 0}
+    - {x: -0.096875004, y: -0.05625, z: 0}
+    - {x: 0.090625, y: -0.05625, z: 0}
+    - {x: -0.096875004, y: 0.14375001, z: 0}
+    - {x: 0.090625, y: 0.14375001, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .683597684, y: .00781640597}
-    - {x: .683597684, y: .242183596}
-    - {x: .933589816, y: .00781640597}
-    - {x: .933589816, y: .242183596}
+    - {x: 0.6835977, y: 0.007816406}
+    - {x: 0.6835977, y: 0.2421836}
+    - {x: 0.9335898, y: 0.007816406}
+    - {x: 0.9335898, y: 0.2421836}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c57dd7dda028a3a42967f275c725424f, type: 2}
     materialId: 1
@@ -1392,6 +1592,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1402,24 +1603,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/33
     boundsData:
-    - {x: -.00312500075, y: .0625000075, z: 0}
-    - {x: .1875, y: .168750003, z: 0}
+    - {x: -0.0031250007, y: 0.06250001, z: 0}
+    - {x: 0.1875, y: 0.16875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0968750045, y: -.0218749996, z: 0}
-    - {x: .090625003, y: -.0218749996, z: 0}
-    - {x: -.0968750045, y: .146875009, z: 0}
-    - {x: .090625003, y: .146875009, z: 0}
+    - {x: -0.096875004, y: -0.021875, z: 0}
+    - {x: 0.090625, y: -0.021875, z: 0}
+    - {x: -0.096875004, y: 0.14687501, z: 0}
+    - {x: 0.090625, y: 0.14687501, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .406253904, y: .781253934}
-    - {x: .640621066, y: .781253934}
-    - {x: .406253904, y: .992183566}
-    - {x: .640621066, y: .992183566}
+    - {x: 0.4062539, y: 0.78125393}
+    - {x: 0.64062107, y: 0.78125393}
+    - {x: 0.4062539, y: 0.99218357}
+    - {x: 0.64062107, y: 0.99218357}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1433,6 +1639,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1443,24 +1650,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/34
     boundsData:
-    - {x: -.00312500075, y: .0656250045, z: 0}
-    - {x: .1875, y: .168750003, z: 0}
+    - {x: -0.0031250007, y: 0.065625004, z: 0}
+    - {x: 0.1875, y: 0.16875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0968750045, y: -.0187500026, z: 0}
-    - {x: .090625003, y: -.0187500026, z: 0}
-    - {x: -.0968750045, y: .150000006, z: 0}
-    - {x: .090625003, y: .150000006, z: 0}
+    - {x: -0.096875004, y: -0.018750003, z: 0}
+    - {x: 0.090625, y: -0.018750003, z: 0}
+    - {x: -0.096875004, y: 0.15, z: 0}
+    - {x: 0.090625, y: 0.15, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .777347684, y: .335941404}
-    - {x: .777347684, y: .570308566}
-    - {x: .988277316, y: .335941404}
-    - {x: .988277316, y: .570308566}
+    - {x: 0.7773477, y: 0.3359414}
+    - {x: 0.7773477, y: 0.57030857}
+    - {x: 0.9882773, y: 0.3359414}
+    - {x: 0.9882773, y: 0.57030857}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -1474,6 +1686,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1484,24 +1697,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/35
     boundsData:
-    - {x: .00156249851, y: .0687500015, z: 0}
-    - {x: .165625006, y: .168750003, z: 0}
+    - {x: 0.0015624985, y: 0.06875, z: 0}
+    - {x: 0.165625, y: 0.16875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0812500045, y: -.0156249953, z: 0}
-    - {x: .0843750015, y: -.0156249953, z: 0}
-    - {x: -.0812500045, y: .153125003, z: 0}
-    - {x: .0843750015, y: .153125003, z: 0}
+    - {x: -0.081250004, y: -0.015624995, z: 0}
+    - {x: 0.084375, y: -0.015624995, z: 0}
+    - {x: -0.081250004, y: 0.153125, z: 0}
+    - {x: 0.084375, y: 0.153125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .640628934, y: .585941434}
-    - {x: .640628934, y: .792964816}
-    - {x: .851558566, y: .585941434}
-    - {x: .851558566, y: .792964816}
+    - {x: 0.64062893, y: 0.58594143}
+    - {x: 0.64062893, y: 0.7929648}
+    - {x: 0.85155857, y: 0.58594143}
+    - {x: 0.85155857, y: 0.7929648}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
     materialId: 3
@@ -1515,6 +1733,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1525,24 +1744,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/36
     boundsData:
-    - {x: .0078125, y: .0718749985, z: 0}
-    - {x: .153125003, y: .162500009, z: 0}
+    - {x: 0.0078125, y: 0.071875, z: 0}
+    - {x: 0.153125, y: 0.16250001, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0687500015, y: -.0093750013, z: 0}
-    - {x: .0843750015, y: -.0093750013, z: 0}
-    - {x: -.0687500015, y: .153125003, z: 0}
-    - {x: .0843750015, y: .153125003, z: 0}
+    - {x: -0.06875, y: -0.009375001, z: 0}
+    - {x: 0.084375, y: -0.009375001, z: 0}
+    - {x: -0.06875, y: 0.153125, z: 0}
+    - {x: 0.084375, y: 0.153125, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .00781640597, y: .796878934}
-    - {x: .00781640597, y: .988277316}
-    - {x: .210933596, y: .796878934}
-    - {x: .210933596, y: .988277316}
+    - {x: 0.007816406, y: 0.79687893}
+    - {x: 0.007816406, y: 0.9882773}
+    - {x: 0.2109336, y: 0.79687893}
+    - {x: 0.2109336, y: 0.9882773}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1556,6 +1780,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1566,24 +1791,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/37
     boundsData:
-    - {x: .00624999776, y: .0562500022, z: 0}
-    - {x: .15625, y: .131250009, z: 0}
+    - {x: 0.0062499978, y: 0.056250002, z: 0}
+    - {x: 0.15625, y: 0.13125001, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.071875006, y: -.0093750013, z: 0}
-    - {x: .0843750015, y: -.0093750013, z: 0}
-    - {x: -.071875006, y: .121875003, z: 0}
-    - {x: .0843750015, y: .121875003, z: 0}
+    - {x: -0.071875006, y: -0.009375001, z: 0}
+    - {x: 0.084375, y: -0.009375001, z: 0}
+    - {x: -0.071875006, y: 0.121875, z: 0}
+    - {x: 0.084375, y: 0.121875, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .226566404, y: .796878934}
-    - {x: .226566404, y: .992183566}
-    - {x: .390621096, y: .796878934}
-    - {x: .390621096, y: .992183566}
+    - {x: 0.2265664, y: 0.79687893}
+    - {x: 0.2265664, y: 0.99218357}
+    - {x: 0.3906211, y: 0.79687893}
+    - {x: 0.3906211, y: 0.99218357}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1597,6 +1827,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1607,24 +1838,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/38
     boundsData:
-    - {x: .0078125, y: .0546874963, z: 0}
-    - {x: .159375012, y: .121874996, z: 0}
+    - {x: 0.0078125, y: 0.054687496, z: 0}
+    - {x: 0.15937501, y: 0.121874996, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.071875006, y: -.00625000428, z: 0}
-    - {x: .087500006, y: -.00625000428, z: 0}
-    - {x: -.071875006, y: .115624994, z: 0}
-    - {x: .087500006, y: .115624994, z: 0}
+    - {x: -0.071875006, y: -0.0062500043, z: 0}
+    - {x: 0.087500006, y: -0.0062500043, z: 0}
+    - {x: -0.071875006, y: 0.115624994, z: 0}
+    - {x: 0.087500006, y: 0.115624994, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .804691434, y: .675785184}
-    - {x: .804691434, y: .874996066}
-    - {x: .957027316, y: .675785184}
-    - {x: .957027316, y: .874996066}
+    - {x: 0.80469143, y: 0.6757852}
+    - {x: 0.80469143, y: 0.87499607}
+    - {x: 0.9570273, y: 0.6757852}
+    - {x: 0.9570273, y: 0.87499607}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -1638,6 +1874,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1648,24 +1885,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/39
     boundsData:
-    - {x: .0265624989, y: .0578125045, z: 0}
-    - {x: .115625009, y: .121875003, z: 0}
+    - {x: 0.026562499, y: 0.057812504, z: 0}
+    - {x: 0.11562501, y: 0.121875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0312500037, y: -.00312499702, z: 0}
-    - {x: .0843750015, y: -.00312499702, z: 0}
-    - {x: -.0312500037, y: .118750006, z: 0}
-    - {x: .0843750015, y: .118750006, z: 0}
+    - {x: -0.031250004, y: -0.003124997, z: 0}
+    - {x: 0.084375, y: -0.003124997, z: 0}
+    - {x: -0.031250004, y: 0.118750006, z: 0}
+    - {x: 0.084375, y: 0.118750006, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .804691434, y: .359378904}
-    - {x: .804691434, y: .503902316}
-    - {x: .957027316, y: .359378904}
-    - {x: .957027316, y: .503902316}
+    - {x: 0.80469143, y: 0.3593789}
+    - {x: 0.80469143, y: 0.5039023}
+    - {x: 0.9570273, y: 0.3593789}
+    - {x: 0.9570273, y: 0.5039023}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1679,6 +1921,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1689,24 +1932,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/40
     boundsData:
-    - {x: .0296875015, y: .0578125045, z: 0}
-    - {x: .115625009, y: .121875003, z: 0}
+    - {x: 0.029687501, y: 0.057812504, z: 0}
+    - {x: 0.11562501, y: 0.121875, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.0281250011, y: -.00312499702, z: 0}
-    - {x: .087500006, y: -.00312499702, z: 0}
-    - {x: -.0281250011, y: .118750006, z: 0}
-    - {x: .087500006, y: .118750006, z: 0}
+    - {x: -0.028125001, y: -0.003124997, z: 0}
+    - {x: 0.087500006, y: -0.003124997, z: 0}
+    - {x: -0.028125001, y: 0.118750006, z: 0}
+    - {x: 0.087500006, y: 0.118750006, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .804691434, y: .519535184}
-    - {x: .804691434, y: .664058566}
-    - {x: .957027316, y: .519535184}
-    - {x: .957027316, y: .664058566}
+    - {x: 0.80469143, y: 0.5195352}
+    - {x: 0.80469143, y: 0.66405857}
+    - {x: 0.9570273, y: 0.5195352}
+    - {x: 0.9570273, y: 0.66405857}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
     materialId: 2
@@ -1720,6 +1968,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1730,24 +1979,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/41
     boundsData:
-    - {x: -.00312500168, y: .1171875, z: 0}
-    - {x: .00625000335, y: .00312501192, z: 0}
+    - {x: -0.0031250017, y: 0.1171875, z: 0}
+    - {x: 0.0062500034, y: 0.003125012, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
-    - {x: -.00625000335, y: .115624994, z: 0}
-    - {x: 0, y: .115624994, z: 0}
-    - {x: -.00625000335, y: .118750006, z: 0}
-    - {x: 0, y: .118750006, z: 0}
+    - {x: -0.0062500034, y: 0.115624994, z: 0}
+    - {x: 0, y: 0.115624994, z: 0}
+    - {x: -0.0062500034, y: 0.118750006, z: 0}
+    - {x: 0, y: 0.118750006, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .289066404, y: .277347654}
-    - {x: .296871096, y: .277347654}
-    - {x: .289066404, y: .281246096}
-    - {x: .296871096, y: .281246096}
+    - {x: 0.2890664, y: 0.27734765}
+    - {x: 0.2968711, y: 0.27734765}
+    - {x: 0.2890664, y: 0.2812461}
+    - {x: 0.2968711, y: 0.2812461}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -1761,6 +2015,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1771,24 +2026,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/42
     boundsData:
-    - {x: .00156250084, y: .00156249851, z: 0}
-    - {x: .00312500168, y: .00312499702, z: 0}
+    - {x: 0.0015625008, y: 0.0015624985, z: 0}
+    - {x: 0.0031250017, y: 0.003124997, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
     - {x: 0, y: 0, z: 0}
-    - {x: .00312500168, y: 0, z: 0}
-    - {x: 0, y: .00312499702, z: 0}
-    - {x: .00312500168, y: .00312499702, z: 0}
+    - {x: 0.0031250017, y: 0, z: 0}
+    - {x: 0, y: 0.003124997, z: 0}
+    - {x: 0.0031250017, y: 0.003124997, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .312503904, y: .277347654}
-    - {x: .300777346, y: .277347654}
-    - {x: .312503904, y: .265621096}
-    - {x: .300777346, y: .265621096}
+    - {x: 0.3125039, y: 0.27734765}
+    - {x: 0.30077735, y: 0.27734765}
+    - {x: 0.3125039, y: 0.2656211}
+    - {x: 0.30077735, y: 0.2656211}
+    normalizedUvs:
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -1802,6 +2062,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1812,24 +2073,29 @@ MonoBehaviour:
     attachPoints: []
   - name: explosion_44FR/43
     boundsData:
-    - {x: .00156250084, y: .00156249851, z: 0}
-    - {x: .00312500168, y: .00312499702, z: 0}
+    - {x: 0.0015625008, y: 0.0015624985, z: 0}
+    - {x: 0.0031250017, y: 0.003124997, z: 0}
     untrimmedBoundsData:
     - {x: 0, y: 0, z: 0}
-    - {x: .225000009, y: .34375, z: 0}
-    texelSize: {x: .00312500005, y: .00312500005}
+    - {x: 0.22500001, y: 0.34375, z: 0}
+    texelSize: {x: 0.003125, y: 0.003125}
     positions:
     - {x: 0, y: 0, z: 0}
-    - {x: .00312500168, y: 0, z: 0}
-    - {x: 0, y: .00312499702, z: 0}
-    - {x: .00312500168, y: .00312499702, z: 0}
+    - {x: 0.0031250017, y: 0, z: 0}
+    - {x: 0, y: 0.003124997, z: 0}
+    - {x: 0.0031250017, y: 0.003124997, z: 0}
     normals: []
     tangents: []
     uvs:
-    - {x: .312503904, y: .277347654}
-    - {x: .300777346, y: .277347654}
-    - {x: .312503904, y: .265621096}
-    - {x: .300777346, y: .265621096}
+    - {x: 0.3125039, y: 0.27734765}
+    - {x: 0.30077735, y: 0.27734765}
+    - {x: 0.3125039, y: 0.2656211}
+    - {x: 0.30077735, y: 0.2656211}
+    normalizedUvs:
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: be7e535ced7e5e6429a8d04c2496f423, type: 2}
     materialId: 0
@@ -1843,6 +2109,7 @@ MonoBehaviour:
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
+    customColliders: []
     colliderVertices: []
     colliderIndicesFwd: 
     colliderIndicesBack: 
@@ -1859,11 +2126,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 896eb8962d2295b4d939ad2d9e277a3f, type: 2}
   - {fileID: 2100000, guid: 5a9c40ea0fae93a4cb80d38f4c2a684e, type: 2}
   textures:
-  - {fileID: 2800000, guid: cd6fbfbe8894ff04f9643675be26a573, type: 1}
-  - {fileID: 2800000, guid: 781c2c74baf34e643bf7fdc51b2276ea, type: 1}
-  - {fileID: 2800000, guid: a57fd406b36fc6d44b38c2a82b620ccc, type: 1}
-  - {fileID: 2800000, guid: 83ed0f7a30dec5040bc629f357183e4a, type: 1}
+  - {fileID: 2800000, guid: cd6fbfbe8894ff04f9643675be26a573, type: 3}
+  - {fileID: 2800000, guid: 781c2c74baf34e643bf7fdc51b2276ea, type: 3}
+  - {fileID: 2800000, guid: a57fd406b36fc6d44b38c2a82b620ccc, type: 3}
+  - {fileID: 2800000, guid: 83ed0f7a30dec5040bc629f357183e4a, type: 3}
   pngTextures: []
+  materialPngTextureId: 00000000010000000200000003000000
   textureFilterMode: 1
   textureMipMaps: 0
   allowMultipleAtlases: 1
@@ -1873,7 +2141,7 @@ MonoBehaviour:
   loadable: 0
   invOrthoSize: 1
   halfTargetHeight: 320
-  buildKey: 1664031444
+  buildKey: 700795924
   dataGuid: e40f26e01721f87448061d44beed20dd
   managedSpriteCollection: 0
   hasPlatformData: 0
@@ -1893,7 +2161,6 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
-  m_IsExploded: 1
 --- !u!1002 &100100001
 EditorExtensionImpl:
   serializedVersion: 6

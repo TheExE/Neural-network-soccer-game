@@ -59,10 +59,10 @@ MonoBehaviour:
     normals: []
     tangents: []
     uvs:
-    - {x: 0.0009770507, y: 0.5903325}
-    - {x: 0.107909665, y: 0.5903325}
-    - {x: 0.0009770507, y: 0.7006831}
-    - {x: 0.107909665, y: 0.7006831}
+    - {x: 0.21972705, y: 0.867188}
+    - {x: 0.32665968, y: 0.867188}
+    - {x: 0.21972705, y: 0.9775386}
+    - {x: 0.32665968, y: 0.9775386}
     normalizedUvs:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
@@ -90,26 +90,26 @@ MonoBehaviour:
     polygonCollider2D: []
     edgeCollider2D: []
     attachPoints: []
-  - name: grass
+  - name: gamefield
     boundsData:
-    - {x: 0.0050001144, y: -0.0050001144, z: 0}
-    - {x: 19.05, y: 8.53, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 16, y: 12, z: 0}
     untrimmedBoundsData:
-    - {x: 0.0050001144, y: -0.0050001144, z: 0}
-    - {x: 19.05, y: 8.53, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 16, y: 12, z: 0}
     texelSize: {x: 0.01, y: 0.01}
     positions:
-    - {x: -9.5199995, y: -4.27, z: 0}
-    - {x: 9.53, y: -4.27, z: 0}
-    - {x: -9.5199995, y: 4.2599998, z: 0}
-    - {x: 9.53, y: 4.2599998, z: 0}
+    - {x: -8, y: -6, z: 0}
+    - {x: 8, y: -6, z: 0}
+    - {x: -8, y: 6, z: 0}
+    - {x: 8, y: 6, z: 0}
     normals: []
     tangents: []
     uvs:
     - {x: 0.0009770507, y: 0.0009770507}
-    - {x: 0.93115187, y: 0.0009770507}
-    - {x: 0.0009770507, y: 0.41748}
-    - {x: 0.93115187, y: 0.41748}
+    - {x: 0.7822261, y: 0.0009770507}
+    - {x: 0.0009770507, y: 0.5869136}
+    - {x: 0.7822261, y: 0.5869136}
     normalizedUvs:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
@@ -118,7 +118,7 @@ MonoBehaviour:
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c2969411bb5ee8a4db1e11abbf94596f, type: 2}
     materialId: 0
-    sourceTextureGUID: a5fafada0dac45c47a834811c012f7a5
+    sourceTextureGUID: e72f5fb458595a24e9531777c9667e79
     extractRegion: 0
     regionX: 0
     regionY: 0
@@ -153,10 +153,10 @@ MonoBehaviour:
     normals: []
     tangents: []
     uvs:
-    - {x: 0.93310595, y: 0.0009770507}
-    - {x: 0.93408155, y: 0.0009770507}
-    - {x: 0.93310595, y: 0.0019526368}
-    - {x: 0.93408155, y: 0.0019526368}
+    - {x: 0.9550786, y: 0.0009770507}
+    - {x: 0.9560542, y: 0.0009770507}
+    - {x: 0.9550786, y: 0.0019526368}
+    - {x: 0.9560542, y: 0.0019526368}
     normalizedUvs:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
@@ -200,14 +200,14 @@ MonoBehaviour:
     normals: []
     tangents: []
     uvs:
-    - {x: 0.0009770507, y: 0.41943407}
-    - {x: 0.0009770507, y: 0.5883784}
-    - {x: 0.8652339, y: 0.41943407}
-    - {x: 0.8652339, y: 0.5883784}
+    - {x: 0.78418016, y: 0.0009770507}
+    - {x: 0.9531245, y: 0.0009770507}
+    - {x: 0.78418016, y: 0.8652339}
+    - {x: 0.9531245, y: 0.8652339}
     normalizedUvs:
     - {x: 0, y: 0}
-    - {x: 0, y: 1}
     - {x: 1, y: 0}
+    - {x: 0, y: 1}
     - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c2969411bb5ee8a4db1e11abbf94596f, type: 2}
@@ -218,7 +218,7 @@ MonoBehaviour:
     regionY: 0
     regionW: 0
     regionH: 0
-    flipped: 1
+    flipped: 0
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
@@ -247,14 +247,14 @@ MonoBehaviour:
     normals: []
     tangents: []
     uvs:
-    - {x: 0.867188, y: 0.41943407}
-    - {x: 0.867188, y: 0.63623}
-    - {x: 0.95800734, y: 0.41943407}
-    - {x: 0.95800734, y: 0.63623}
+    - {x: 0.0009770507, y: 0.867188}
+    - {x: 0.21777295, y: 0.867188}
+    - {x: 0.0009770507, y: 0.95800734}
+    - {x: 0.21777295, y: 0.95800734}
     normalizedUvs:
     - {x: 0, y: 0}
-    - {x: 0, y: 1}
     - {x: 1, y: 0}
+    - {x: 0, y: 1}
     - {x: 1, y: 1}
     indices: 000000000300000001000000020000000300000000000000
     material: {fileID: 2100000, guid: c2969411bb5ee8a4db1e11abbf94596f, type: 2}
@@ -265,7 +265,7 @@ MonoBehaviour:
     regionY: 0
     regionW: 0
     regionH: 0
-    flipped: 1
+    flipped: 0
     complexGeometry: 0
     physicsEngine: 0
     colliderType: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   loadable: 0
   invOrthoSize: 2
   halfTargetHeight: 50
-  buildKey: 1698888848
+  buildKey: 896539957
   dataGuid: 4c90a4917d1c6c94088d6794c28db0d5
   managedSpriteCollection: 0
   hasPlatformData: 0

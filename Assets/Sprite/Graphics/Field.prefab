@@ -64,7 +64,7 @@ MonoBehaviour:
   atlasWidth: 2048
   atlasHeight: 2048
   forceSquareAtlas: 0
-  atlasWastage: 42.937874
+  atlasWastage: 35.89969
   allowMultipleAtlases: 0
   removeDuplicates: 1
   textureParams:
@@ -109,11 +109,11 @@ MonoBehaviour:
     colliderSmoothSphereCollisions: 0
     colliderColor: 0
     attachPoints: []
-  - name: grass
+  - name: gamefield
     disableTrimming: 0
     additive: 0
     scale: {x: 1, y: 1, z: 1}
-    texture: {fileID: 2800000, guid: a5fafada0dac45c47a834811c012f7a5, type: 3}
+    texture: {fileID: 2800000, guid: e72f5fb458595a24e9531777c9667e79, type: 3}
     materialId: 0
     anchor: 4
     anchorX: 0

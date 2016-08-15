@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[SerializeField]
 public class GeneticAlgorithm
 {
     private List<Genome> population = new List<Genome>();
     private List<int> splitPoints = new List<int>();
     private int populationSize;
     private int chromosomeLenght;
-    private double totalFitness;
-    private double bestFitness = 0;
-    private double worstFitness;
-
-    private int fittestGenome;
     private double mutationRate;
     private double crossOverRate;
 
@@ -22,14 +18,10 @@ public class GeneticAlgorithm
         this.mutationRate = mutationRate;
         this.crossOverRate = crossOverRate;
         this.chromosomeLenght = weightCount;
-        this.totalFitness = 0;
-        this.fittestGenome = 0;
-        this.bestFitness = 0;
-        this.worstFitness = int.MaxValue;
         this.splitPoints.AddRange(splitPoints);
 
 
-        /* INITIALIZE POPULATION WITH RANDOM WEIGHTS */
+        /* Create random pop */
         for (int i = 0; i < populationSize; i++)
         {
             population.Add(new Genome());
@@ -51,19 +43,17 @@ public class GeneticAlgorithm
         else
         {
 
-            /* Determine two crossover points */
+            /* Find crossover points */
             int index1 = Random.Range(0, splitPoints.Count - 2);
             int index2 = Random.Range(index1 + 1, splitPoints.Count - 1);
 
             int crossPoint1 = splitPoints[index1];
             int crossPoint2 = splitPoints[index2];
 
-            /* Create the offspring */
             for (int i = 0; i < chromosomeLenght; i++)
             {
                 if (i < crossPoint1 || i >= crossPoint2)
                 {
-                    /* Keep the same genes if outside of crossover points */
                     offspr1.Add(individ1[i]);
                     offspr2.Add(individ2[i]);
                 }
@@ -79,24 +69,19 @@ public class GeneticAlgorithm
 
     private void Mutate(List<double> chromo)
     {
-        /* Traverse the chromosome and mutate each weight dependent
-           on the mutation rate */
         for (int i = 0; i < chromosomeLenght; i++)
         {
-            /* Does this weight gets changed */
             if (Random.value < mutationRate)
             {
-                /* Add or subtract a small value to the weight */
+                /* Substract or add some small value */
                 chromo[i] += (Random.Range(-1f, 1f) * NeuralNetworkConst.MAX_PERTURBATION);
             }
         }
     }
-
     private void GrabNBest(int bestCount, int copyCount, List<Genome> pop)
     {
         int counter = 1;
-        /* Add n best players to the new population */
-        while (counter <= bestCount)
+        while (counter >= bestCount)
         {
             for (int i = 0; i < copyCount; i++)
             {
@@ -106,124 +91,67 @@ public class GeneticAlgorithm
             counter++;
         }
     }
-
-    private void CalculateBestWorstAverageTotal()
-    {
-        totalFitness = 0;
-        double highestSoFar = 0;
-        double lowestSoFar = double.MaxValue;
-
-        for (int i = 0; i < population.Count; i++)
-        {
-            /* Find best fitness */
-            if (population[i].Fitness > highestSoFar)
-            {
-                highestSoFar = population[i].Fitness;
-                fittestGenome = i;
-                bestFitness = highestSoFar;
-            }
-
-            /* Find worst fitness */
-            if (population[i].Fitness < lowestSoFar)
-            {
-                lowestSoFar = population[i].Fitness;
-
-                worstFitness = lowestSoFar;
-            }
-
-            totalFitness += population[i].Fitness;
-        }
-    }
-
-    private void Reset()
-    {
-        totalFitness = 0;
-        bestFitness = 0;
-        worstFitness = double.MaxValue;
-    }
-
     public void Epoch()
     {
-        Reset();
-
-        /* Calculate best, worst, average and total fitness */
-        CalculateBestWorstAverageTotal();
-
-        /* Sort the population */
         population.Sort(Genome.Comparison);
 
-        /* Create a temporary vector to store new chromosones */
+        /* TEMP list for new pop */
         List<Genome> newPopulation = new List<Genome>();
 
-        /*Now to add a little elitism we shall add in some copies of the
-          fittest genomes */
         if ((NeuralNetworkConst.NUMBER_OF_ELITE_COPYS * NeuralNetworkConst.NUMBER_OF_ELITE % 2) == 0)
         {
             GrabNBest(NeuralNetworkConst.NUMBER_OF_ELITE, NeuralNetworkConst.NUMBER_OF_ELITE_COPYS, newPopulation);
         }
-
-
-        /* Now we enter the GA loop */
+        
+        /* Fill the population */
         while (newPopulation.Count < populationSize)
         {
-            /* Grab two chromosones */
-            Genome individ1 = TournamentSelection(NeuralNetworkConst.
-                TOURNAMENT_COMPETITIORS);
-            Genome individ2 = TournamentSelection(NeuralNetworkConst.
-                TOURNAMENT_COMPETITIORS);
+            /* Get winners */
+            Genome individ1 = TournamentSelection(NeuralNetworkConst
+                .TOURNAMENT_COMPETITIORS);
+            Genome individ2 = TournamentSelection(NeuralNetworkConst
+                .TOURNAMENT_COMPETITIORS);
 
-            /* Create some offspring via crossover */
+            /* Crossover */
             List<double> offspr1 = new List<double>();
             List<double> offspr2 = new List<double>();
-
             CrossoverAtSplitPoints(individ1.Weights, individ2.Weights, offspr1, offspr2);
 
+            /* Mutate */
             Mutate(offspr1);
             Mutate(offspr2);
 
-            /* Add to new populations */
+            /* Add to new pop */
             newPopulation.Add(new Genome(offspr1, 0));
             newPopulation.Add(new Genome(offspr2, 0));
         }
 
-        /* When finished then delete old population and
-        add newPopulation */
+
+        /* Clear old Population and add the new one */
         population.Clear();
         population.AddRange(newPopulation);
     }
-
     Genome TournamentSelection(int n)
     {
-        double bestFitnessSoFar = -999999;
-
+        double bestfitness = double.MaxValue *(-1);
         int chosenOne = 0;
 
-        /* Select N members from the population at random testing against 
-           the best found so far */
         for (int i = 0; i < n; i++)
         {
             int thisTry = Random.Range(0, populationSize-1);
 
-            if (population[thisTry].Fitness > bestFitnessSoFar)
+            if (population[thisTry].Fitness > bestfitness)
             {
                 chosenOne = thisTry;
-                bestFitnessSoFar = population[thisTry].Fitness;
+                bestfitness = population[thisTry].Fitness;
             }
         }
 
-        /* Return the champion */
         return population[chosenOne];
     }
-
-
     public List<Genome> Population
     {
         get { return population; }
         set { population = value; }
-    }
-
-    public double BestFitness
-    {
-        get { return bestFitness; }
     }
 }

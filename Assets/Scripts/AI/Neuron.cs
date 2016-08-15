@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[SerializeField]
 public class Neuron
 {
     private int inputCount;
@@ -8,9 +9,8 @@ public class Neuron
 
     public Neuron(int inputCount)
     {
-        this.inputCount = inputCount;
+        this.inputCount = inputCount+1;
 
-        //+1 because of bias 
         for (int i = 0; i < inputCount+1; i++)
         {
             neuronWeights.Add(Random.Range(-1f, 1f));

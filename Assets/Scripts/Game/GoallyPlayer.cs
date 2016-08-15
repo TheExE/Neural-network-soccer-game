@@ -7,19 +7,16 @@ public class GoallyPlayer : AttackPlayer
 
     private float curYDiffWithBall = 0;
     private float bestYDiffWithBall = float.MaxValue;
-    private float curYDiffWithGoalCenter = 0;
-    private float bestYDiffWithGoalCenter = float.MaxValue;
-    private int chosenDefensePlayer = 0;
-    private DefensePlayer[] teamDefense;
+    private AttackPlayer teamAttacker;
 
     public GoallyPlayer()
     {
         nameType = GameConsts.GOALLY_PLAYER;
     }
-    
+
     void Start()
     {
-        if(!isInited)
+        if (!isInited)
         {
             InitPlayer();
         }
@@ -27,42 +24,60 @@ public class GoallyPlayer : AttackPlayer
 
     void Update()
     {
-        curTime += Time.deltaTime;
-        if(curTime > 2f && !isColided)
+        curYDiffWithBall = Mathf.Abs(ballScript.transform.position.y - transform.position.y);
+
+        if (transform.position.y > GameConsts.GOALLY_LINE_UP ||
+            transform.position.y < GameConsts.GOALLY_LINE_DOWN)
         {
-            curTime = 0;
-            curYDiffWithBall = ballScript.transform.position.y - transform.position.y;
-            curYDiffWithGoalCenter = goalToSave.transform.position.y - transform.position.y;
+            fitness--;
+        }
 
-            if (curYDiffWithBall < bestYDiffWithBall)
+        if (!isColided)
+        {
+            /* REWARD FOR HIT DIRECTION */
+            if (!IsBallGoingToBeOutBoundAfterKick())
             {
-                bestYDiffWithBall = curYDiffWithBall;
-                fitness++;
+                if ((curBallHitError < bestBallHitError && curYDiffWithBall < bestYDiffWithBall) ||
+                    (curYDiffWithBall < 0.3f && curBallHitError < 0.1f))
+                {
+                    bestBallHitError = curBallHitError;
+                    bestYDiffWithBall = curYDiffWithBall;
+                    fitness++;
+                }
+            }
+            else
+            {
+                fitness--;
             }
 
-            if (curYDiffWithGoalCenter < bestYDiffWithGoalCenter)
+            /* REWARD FOR BALL HIT STRENGHT */
+            if (ballHitStrenght > bestBallHitStrenght && ballHitStrenght < 1)
             {
-                bestYDiffWithGoalCenter = curYDiffWithGoalCenter;
-                fitness++;
-            }
-
-            /* REWARD FOR LESSER ERROR IN DIRECTION */
-            if (curBallHitDirectionError < bestBallHitDirectionError)
-            {
-                bestBallHitDirectionError = curBallHitDirectionError;
+                bestBallHitStrenght = ballHitStrenght;
                 fitness++;
             }
         }
-
-        isColided = false;
+        else
+        {
+            fitness--;
+        }
     }
 
     public override void InitPlayer()
     {
-        if(!isInited)
+        if (!isInited)
         {
             id++;
-            teamDefense = transform.parent.gameObject.GetComponentsInChildren<DefensePlayer>();
+            var attackers = transform.parent.gameObject.GetComponentsInChildren<AttackPlayer>();
+            foreach(AttackPlayer a in attackers)
+            {
+                if(a.NameType == GameConsts.ATTACK_PLAYER)
+                {
+                    teamAttacker = a;
+                    break;
+                }
+            }
+            rgBody = GetComponent<Rigidbody2D>();
             ballScript = FindObjectOfType<BallScript>();
             brain = new NeuralNetwork(NeuralNetworkConst.GOLY_INPUT_COUNT, NeuralNetworkConst.GOLY_OUTPUT_COUNT,
                 NeuralNetworkConst.GOLY_HID_LAYER_COUNT, NeuralNetworkConst.GOLY_NEURONS_PER_HID_LAY);
@@ -81,61 +96,51 @@ public class GoallyPlayer : AttackPlayer
         Vector2 toBall = (ballScript.transform.position - transform.position).normalized;
         inputs.Add(toBall.y);
 
-        /* Add y distance from goal middle */
-         Vector2 toGoalCenter = (goalToSave.transform.position - transform.position).normalized;
-         inputs.Add(toGoalCenter.y);
-
-
         /* Add ball hit direction */
-        Vector2 toDefensePlayer = (teamDefense[GetClosestDefensePlayerIdx()]
-            .transform.position - ballScript.transform.position).normalized;
-        inputs.Add(toDefensePlayer.x);
-        inputs.Add(toDefensePlayer.y);
+        Vector2 toOponentGoal = (oponentGoal.transform.position - ballScript.transform.position).normalized;
+        inputs.Add(toOponentGoal.x);
+        inputs.Add(toOponentGoal.y);
 
-        //update the brain and get feedback
+        /* Update ANN and get Output */
         List<double> output = brain.Update(inputs);
 
-        transform.position = new Vector2(transform.position.x,
-            transform.position.y + (GetScaledOutput(output[0]) * Time.deltaTime));
-        directionOfHitBall = new Vector2(GetScaledOutput(output[1]) * 2, GetScaledOutput(output[2]) * 2);
-
-        /* RECORD MISTAKE IN DIRECTION */
-        curBallHitDirectionError = (toDefensePlayer - directionOfHitBall).sqrMagnitude;
-        ballHitStrenght = GetScaledOutput(output[3]);
-
-        CheckCollision();
+        rgBody.AddForce(new Vector2(0f, ((float)output[0])), ForceMode2D.Impulse);
+        directionOfHitBall = new Vector2((float)output[1], (float)output[2]);
+        ballHitStrenght = (float)output[3];
+        curBallHitError = (directionOfHitBall - toOponentGoal).sqrMagnitude;
+        ClipPlayerToField();
     }
-    private float GetDistanceToClosesDefensePlayer()
+
+    new public void OnTriggerEnter2D(Collider2D collision)
     {
-        float bestDistance = float.MaxValue;
-        foreach(DefensePlayer def in teamDefense)
-        {
-            float curDistance = (def.transform.position - transform.position).sqrMagnitude;
-            if (curDistance < bestDistance)
-            {
-                bestDistance = curDistance;
-            }
-        }
-
-        return bestDistance;
+        base.OnTriggerEnter2D(collision);
     }
-
-    private int GetClosestDefensePlayerIdx()
+    new public void OnTriggerStay2D(Collider2D collision)
     {
-        float bestDistance = float.MaxValue;
-        int keyIdx = -1;
-        int index = 0;
-        foreach (DefensePlayer def in teamDefense)
-        {
-            float curDistance = (def.transform.position - transform.position).sqrMagnitude;
-            if (curDistance < bestDistance)
-            {
-                bestDistance = curDistance;
-                keyIdx = index;
-            }
-            index++;
-        }
-
-        return keyIdx;
+        base.OnTriggerEnter2D(collision);
     }
+    public AttackPlayer TeamAttacker
+    {
+        get { return teamAttacker; }
+        set { teamAttacker = value; }
+    }
+    new public void Reset(bool isBallInNet)
+    {
+        base.Reset(isBallInNet);
+        if (!isBallInNet)
+        {
+            curYDiffWithBall = float.MaxValue;
+            bestYDiffWithBall = float.MaxValue;
+        }
+    }
+    public bool IsColided
+    {
+        get { return isColided; }
+    }
+
+    public float CurYDiffWithBall
+    {
+        get { return curYDiffWithBall; }
+    }
+
 }
